@@ -8,7 +8,7 @@
 
     @vite(['resources/assets/css/styles.min.css'])
 
-    <link rel="shortcut icon" type="image/png" href="{{ vite::asset('resources/assets/images/logos/favicon.png')}}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png')}}" />
 </head>
 
 <body>
@@ -23,7 +23,7 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{ vite::asset('resources/assets/images/logos/dark-logo.svg')}}" width="180" alt="">
+                                    <img src="{{ asset('images/logos/dark-logo.svg')}}" width="180" alt="">
                                 </a>
                                 <p class="text-center">Your Social Campaigns</p>
                                 <form>

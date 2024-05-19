@@ -8,7 +8,7 @@
 
     @vite(['resources/assets/css/styles.min.css'])
 
-    <link rel="shortcut icon" type="image/png" href="{{ vite::asset('resources/assets/images/logos/favicon.png')}}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png')}}" />
 </head>
 
 <body>
@@ -21,7 +21,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="{{ vite::asset('resources/assets/images/logos/dark-logo.svg')}}" width="180" alt="" />
+                        <img src="{{ asset('images/logos/dark-logo.svg')}}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -135,7 +135,7 @@
                                     target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
                             </div>
                             <div class="unlimited-access-img">
-                                <img src="{{ vite::asset('resources/assets/images/backgrounds/rocket.png')}}" alt="" class="img-fluid">
+                                <img src="{{ asset('images/backgrounds/rocket.png')}}" alt="" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ vite::asset('resources/assets/images/profile/user-1.jpg')}}" alt="" width="35"
+                                    <img src="{{ asset('images/profile/user-1.jpg')}}" alt="" width="35"
                                         height="35" class="rounded-circle">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
@@ -492,7 +492,7 @@
                     <div class="col-sm-6 col-xl-3">
                         <div class="card overflow-hidden rounded-2">
                             <div class="position-relative">
-                                <a href="javascript:void(0)"><img src="{{ vite::asset('resources/assets/images/products/s4.jpg')}}"
+                                <a href="javascript:void(0)"><img src="{{ asset('images/products/s4.jpg')}}"
                                         class="card-img-top rounded-0" alt="..."></a>
                                 <a href="javascript:void(0)"
                                     class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
@@ -523,7 +523,7 @@
                     <div class="col-sm-6 col-xl-3">
                         <div class="card overflow-hidden rounded-2">
                             <div class="position-relative">
-                                <a href="javascript:void(0)"><img src="{{ vite::asset('resources/assets/images/products/s5.jpg')}}"
+                                <a href="javascript:void(0)"><img src="{{ asset('images/products/s5.jpg')}}"
                                         class="card-img-top rounded-0" alt="..."></a>
                                 <a href="javascript:void(0)"
                                     class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
@@ -554,7 +554,7 @@
                     <div class="col-sm-6 col-xl-3">
                         <div class="card overflow-hidden rounded-2">
                             <div class="position-relative">
-                                <a href="javascript:void(0)"><img src="{{ vite::asset('resources/assets/images/products/s7.jpg')}}"
+                                <a href="javascript:void(0)"><img src="{{ asset('images/products/s7.jpg')}}"
                                         class="card-img-top rounded-0" alt="..."></a>
                                 <a href="javascript:void(0)"
                                     class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
@@ -585,7 +585,7 @@
                     <div class="col-sm-6 col-xl-3">
                         <div class="card overflow-hidden rounded-2">
                             <div class="position-relative">
-                                <a href="javascript:void(0)"><img src="{{ vite::asset('resources/assets/images/products/s11.jpg')}}"
+                                <a href="javascript:void(0)"><img src="{{ asset('images/products/s11.jpg')}}"
                                         class="card-img-top rounded-0" alt="..."></a>
                                 <a href="javascript:void(0)"
                                     class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3"
