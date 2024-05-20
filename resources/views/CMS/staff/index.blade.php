@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <h5 class="card-title fw-semibold mb-4">users</h5>
-            <a type="button" class="btn btn-primary m-1" href="{{ route('staffs.create') }}">Add</a>
+            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('staffs.create') }}">Add</a>
         </div>
         <div id="calendar"></div>
         @push('scripts')
@@ -26,13 +26,13 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Active</th>
-                    <th>Created Date</th>
-                    <th>Updated Date</th>
+                    <th>{{ __('common.name') }}</th>
+                    <th>{{ __('common.mobile') }}</th>
+                    <th>{{ __('common.email') }}</th>
+                    <th>{{ __('common.role') }}</th>
+                    <th>{{ __('common.status') }}</th>
+                    <th>{{ __('common.created_date') }}</th>
+                    <th>{{ __('common.updated_date') }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -49,8 +49,8 @@
                         <td>{{ \Carbon\Carbon::parse($user->updated_at)->toDayDateTimeString() }}</td>
                         <td>
                             <button type="button" class="btn btn-primary m-1"
-                                onclick="window.location.href='{{ route('staffs.show', ['staff' => $user->id]) }}'">
-                                View
+                                onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->id]) }}'">
+                                {{ __('common.view') }}
                             </button>
                         </td>
                     </tr>

@@ -14,7 +14,7 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($locale)
     {
         $reservations = Reservations::with(['status', 'type'])
             ->orderBy('start_date', 'desc')
@@ -91,7 +91,8 @@ class ReservationController extends Controller
             'updated_by'  => Auth::user()->id,
         ]);
 
-        return redirect()->route('reservations.index')->with('success', 'Reservation created successfully.');
+        return redirect(avenue_route('reservations.index'))->with('success', 'Reservation created successfully.');
+
     }
 
     /**

@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col">
             <h5 class="card-title fw-semibold mb-4">Reservations</h5>
-            <a type="button" class="btn btn-primary m-1" href="{{ route('reservations.create') }}">Add</a>
+            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('reservations.create') }}">Add</a>
         </div>
         <div id="calendar"></div>
         @push('scripts')
@@ -26,8 +26,8 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Mobile</th>
+                    <th>{{ __('common.name') }}</th>
+                    <th>{{ __('common.mobile') }}</th>
                     <th>Type</th>
                     <th>Price</th>
                     <th>Status</th>
@@ -54,7 +54,7 @@
                             <div class="row">{{  \Carbon\Carbon::parse($reservation->end_date)->toDayDateTimeString() }}</td></div>
                         <td>{{ $reservation->photographer }}</td>
                         <td>
-                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ route('reservations.show', ['reservation' => $reservation->id]) }}'">
+                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->id]) }}'">
                                 View
                             </button>
                             

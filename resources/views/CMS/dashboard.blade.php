@@ -39,7 +39,7 @@
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
-                                <span class="hide-menu">Dashboard</span>
+                                <span class="hide-menu">{{ __('common.dashboard') }}</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">
@@ -47,19 +47,19 @@
                             <span class="hide-menu">UI COMPONENTS</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('reservations.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('reservations.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>
-                                <span class="hide-menu">Reservations</span>
+                                <span class="hide-menu">{{ __('common.reservations') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ route('staffs.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('staffs.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user"></i>
                                 </span>
-                                <span class="hide-menu">Staff</span>
+                                <span class="hide-menu">{{ __('common.staffs') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -180,14 +180,14 @@
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="{{ route('logout') }}"
+                                        <a href="{{ avenue_route('logout') }}"
                                             class="btn btn-outline-primary mx-3 mt-2 d-block"
                                             onclick="event.preventDefault();
                                                           document.getElementById('logout-form').submit();">
                                                           {{ __('Logout') }}
                                         </a>
      
-                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                         <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST" class="d-none">
                                              @csrf
                                          </form>
                                     </div>

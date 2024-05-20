@@ -72,7 +72,7 @@
                 </div>
             </div>
             <div class="mt-3">
-                <a type="button" class="btn btn-secondary" href="{{ route('reservations.index') }}">Back</a>
+                <a type="button" class="btn btn-secondary" href="{{ avenue_route('reservations.index') }}">Back</a>
             </div>
     </div>
 @endsection

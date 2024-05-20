@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class StaffController extends Controller
 {
-    public function index(){
+    public function index($locale){
         $users = User::paginate(10);
         return view('CMS.staff.index', compact('users'));
     }
@@ -31,8 +31,8 @@ class StaffController extends Controller
     {
         $request->validate([
             'name'=>'required|string|max:50',
-            'mobile'=>'required|string|max:25',
-            'email'=>'required',
+            'mobile'=>'required|string|max:25|unique:users',
+            'email'=>'required|string|email|max:255|unique:users',
             'role_id'=>'required|integer',
             'is_active'=>'required|integer',
             'password'=>'required|string|min:8|confirmed',
@@ -47,7 +47,8 @@ class StaffController extends Controller
             'password' => Hash::make($request->get('password')),
         ]);
 
-        return redirect()->route('staffs.index')->with('success', 'Staff created successfully.');
+        return redirect(avenue_route('staffs.index'))->with('success', 'Staff created successfully.');
+
 
     }
 
