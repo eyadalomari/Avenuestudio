@@ -19,3 +19,8 @@ Auth::routes();
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
+
+Route::middleware('auth')->resource('reservations', App\Http\Controllers\ReservationController::class);
+Route::middleware('auth')->resource('staffs', App\Http\Controllers\StaffController::class);
+
+

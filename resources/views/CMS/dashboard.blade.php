@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     @vite(['resources/assets/css/styles.min.css'])
 
@@ -21,7 +21,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="{{ asset('images/logos/dark-logo.svg')}}" width="180" alt="" />
+                        <img src="{{ asset('images/avenue.png')}}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -47,19 +47,19 @@
                             <span class="hide-menu">UI COMPONENTS</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('reservations.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>
-                                <span class="hide-menu">Buttons</span>
+                                <span class="hide-menu">Reservations</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ route('staffs.index') }}" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-alert-circle"></i>
+                                    <i class="ti ti-user"></i>
                                 </span>
-                                <span class="hide-menu">Alerts</span>
+                                <span class="hide-menu">Staff</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -127,18 +127,6 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <div class="d-flex">
-                            <div class="unlimited-access-title me-3">
-                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Upgrade to pro</h6>
-                                <a href="https://adminmart.com/product/modernize-bootstrap-5-admin-template/"
-                                    target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
-                            </div>
-                            <div class="unlimited-access-img">
-                                <img src="{{ asset('images/backgrounds/rocket.png')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -166,14 +154,14 @@
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/"
-                                target="_blank" class="btn btn-primary">Download Free</a>
                             <li class="nav-item dropdown">
-                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
+                                <a class="nav-link" href="" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="fn fn-s">{{ Auth::user()->name }}</span>
                                     <img src="{{ asset('images/profile/user-1.jpg')}}" alt="" width="35"
                                         height="35" class="rounded-circle">
                                 </a>
+                                
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                     aria-labelledby="drop2">
                                     <div class="message-body">
@@ -192,8 +180,16 @@
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./authentication-login.html"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="{{ route('logout') }}"
+                                            class="btn btn-outline-primary mx-3 mt-2 d-block"
+                                            onclick="event.preventDefault();
+                                                          document.getElementById('logout-form').submit();">
+                                                          {{ __('Logout') }}
+                                        </a>
+     
+                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                             @csrf
+                                         </form>
                                     </div>
                                 </div>
                             </li>
@@ -203,40 +199,7 @@
             </header>
             <!--  Header End -->
             <div class="container-fluid">
-                <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Buttons</h5>
-                            <div class="card">
-                                <div class="card-body p-4">
-                                    <button type="button" class="btn btn-primary m-1">Primary</button>
-                                    <button type="button" class="btn btn-secondary m-1">Secondary</button>
-                                    <button type="button" class="btn btn-success m-1">Success</button>
-                                    <button type="button" class="btn btn-danger m-1">Danger</button>
-                                    <button type="button" class="btn btn-warning m-1">Warning</button>
-                                    <button type="button" class="btn btn-info m-1">Info</button>
-                                    <button type="button" class="btn btn-light m-1">Light</button>
-                                    <button type="button" class="btn btn-dark m-1">Dark</button>
-                                    <button type="button" class="btn btn-link m-1">Link</button>
-                                </div>
-                            </div>
-                            <h5 class="card-title fw-semibold mb-4">Outline buttons</h5>
-                            <div class="card mb-0">
-                                <div class="card-body p-4">
-                                    <button type="button" class="btn btn-outline-primary m-1">Primary</button>
-                                    <button type="button" class="btn btn-outline-secondary m-1">Secondary</button>
-                                    <button type="button" class="btn btn-outline-success m-1">Success</button>
-                                    <button type="button" class="btn btn-outline-danger m-1">Danger</button>
-                                    <button type="button" class="btn btn-outline-warning m-1">Warning</button>
-                                    <button type="button" class="btn btn-outline-info m-1">Info</button>
-                                    <button type="button" class="btn btn-outline-light m-1">Light</button>
-                                    <button type="button" class="btn btn-outline-dark m-1">Dark</button>
-                                    <button type="button" class="btn btn-outline-link m-1">Link</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @yield('content')
             </div>
         </div>
     </div>
