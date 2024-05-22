@@ -49,12 +49,12 @@
                         <td>{{ dateTimeFormatter($user->updated_at) }}</td>
                         <td>
                             <button type="button" class="btn btn-primary m-1"
-                                onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->id]) }}'">
+                                onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->user_id]) }}'">
                                 {{ __('common.view') }}
                             </button>
-                            @if ($user->id != 1)
+                            @if ($user->user_id != 1)
                                 <button type="button" class="btn btn-primary m-1"
-                                    onclick="window.location.href='{{ avenue_route('staffs.edit', ['staff' => $user->id]) }}'">
+                                    onclick="window.location.href='{{ avenue_route('staffs.edit', ['staff' => $user->user_id]) }}'">
                                     {{ __('common.edit') }}
                                 </button>
                             @endif

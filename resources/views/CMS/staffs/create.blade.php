@@ -6,7 +6,7 @@
         <form action="{{ avenue_route('staffs.store') }}" method="POST">
             @csrf
             @if (!empty($user))
-                <input type="hidden" name="id" value="{{ $user->id }}">
+                <input type="hidden" name="user_id" value="{{ $user->id }}">
             @endif
             <div class="form-group row mt-5">
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>

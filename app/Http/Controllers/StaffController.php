@@ -13,7 +13,7 @@ class StaffController extends Controller
     public function index()
     {
         $users = User::paginate(10);
-        return view('CMS.staff.index', compact('users'));
+        return view('CMS.staffs.index', compact('users'));
     }
 
     /**
@@ -21,9 +21,15 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $roles = Roles::all();
+        $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
-        return view('CMS.staff.create', compact('roles'));
+        $roles = Roles::leftJoin('roles_labels', function ($join) use ($language_id) {
+            $join->on('roles.role_id', '=', 'roles_labels.role_id')
+                ->where('roles_labels.language_id', '=', $language_id);
+        })
+            ->select('roles.*', 'roles_labels.*');
+
+        return view('CMS.staffs.create', compact('roles'));
     }
 
     /**
@@ -31,20 +37,21 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        if(!empty($request->id) && $request->id == 1){
+        if (!empty($request->id) && $request->id == 1) {
             return redirect(avenue_route('staffs.index'));
         }
-        
+
         $request->validate([
             'name' => 'required|string|max:50',
-            'mobile' => ['required','string','max:25',Rule::unique('users')->ignore($request->id)],
-            'email' => ['required','string','email','max:255',Rule::unique('users')->ignore($request->id)],
+            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->user_id)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user_id)],
             'role_id' => 'required|integer',
             'is_active' => 'required|integer',
             'password' => $request->id ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
         ]);
-        if (empty($request->id)) {
-            User::create([
+        if ($request->has('user_id')) {
+            $user = User::findOrFail($request->user_id);
+            $user->update([
                 'name' => $request->get('name'),
                 'mobile' => $request->get('mobile'),
                 'email' => $request->get('email'),
@@ -53,8 +60,7 @@ class StaffController extends Controller
                 'password' => Hash::make($request->get('password')),
             ]);
         } else {
-            $user = User::findOrFail($request->id);
-            $user->update([
+            User::create([
                 'name' => $request->get('name'),
                 'mobile' => $request->get('mobile'),
                 'email' => $request->get('email'),
@@ -74,7 +80,7 @@ class StaffController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('CMS.staff.view', compact('user'));
+        return view('CMS.staffs.view', compact('user'));
     }
 
     /**
@@ -82,29 +88,20 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        if(!empty($id) && $id == 1){
+        if (!empty($id) && $id == 1) {
             return redirect(avenue_route('staffs.index'));
         }
 
-        $roles = Roles::all();
+        $language_id = app()->getLocale() == 'en' ? 1 : 2;
+
+        $roles = Roles::leftJoin('roles_labels', function ($join) use ($language_id) {
+            $join->on('roles.role_id', '=', 'roles_labels.role_id')
+                ->where('roles_labels.language_id', '=', $language_id);
+        })
+            ->select('roles.*', 'roles_labels.*');
+
         $user = User::findOrFail($id);
 
-        return view('CMS.staff.create', compact('roles', 'user'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return view('CMS.staffs.create', compact('roles', 'user'));
     }
 }

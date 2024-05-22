@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reservations extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'reservation_id';
 
     protected $fillable = [
         'name',
@@ -28,11 +29,11 @@ class Reservations extends Model
     
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Statuses::class);
     }
 
     public function type()
     {
-        return $this->belongsTo(Type::class);
+        return $this->belongsTo(Types::class);
     }
 }

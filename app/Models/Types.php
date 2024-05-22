@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Roles extends Model
+class Types extends Model
 {
     use HasFactory;
-    
-    protected $primaryKey = 'role_id';
-    public $timestamps = false;
 
+    protected $primaryKey = 'type_id';
+    public $timestamps = false;
+    
     protected $fillable = [
         'code',
         'sort'
@@ -19,11 +19,11 @@ class Roles extends Model
 
     public function reservations()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Reservations::class);
     }
 
     public function labels()
     {
-        return $this->hasMany(RolesLabel::class, 'role_id', 'role_id');
+        return $this->hasMany(TypesLabel::class, 'type_id', 'type_id');
     }
 }

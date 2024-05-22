@@ -10,7 +10,7 @@
         <form action="{{ avenue_route('reservations.store') }}" method="POST">
             @csrf
             @if (!empty($reservation))
-                <input type="hidden" name="id" value="{{ $reservation->id }}">
+                <input type="hidden" name="reservation_id" value="{{ $reservation->reservation_id }}">
             @endif
             <div class="form-group row mt-5">
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>
@@ -39,9 +39,9 @@
                     <select class="form-control @error('type_id') is-invalid @enderror" id="type_id" name="type_id">
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($types as $type)
-                            <option value="{{ $type->id }}"
-                                {{ old('type_id', $reservation->type_id ?? '') == $type->id ? 'selected' : '' }}>
-                                {{ $type->code }}</option>
+                            <option value="{{ $type->type_id }}"
+                                {{ old('type_id', $reservation->type_id ?? '') == $type->type_id ? 'selected' : '' }}>
+                                {{ $type->name }}</option>
                         @endforeach
                     </select>
                     @error('type_id')
@@ -54,10 +54,10 @@
                         <option value="">--{{ __('common.select') }}--</option>
                         <option value="indoor"
                             {{ old('location_type', $reservation->location_type ?? '') == 'indoor' ? 'selected' : '' }}>
-                            Indoor</option>
+                            {{ __('common.indoor') }}</option>
                         <option value="outdoor"
                             {{ old('location_type', $reservation->location_type ?? '') == 'outdoor' ? 'selected' : '' }}>
-                            Outdoor</option>
+                            {{ __('common.outdoor') }}</option>
                     </select>
                     @error('location_type')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
@@ -92,8 +92,8 @@
                         name="photographer">
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}"
-                                {{ old('photographer', $reservation->photographer ?? '') == $user->id ? 'selected' : '' }}>
+                            <option value="{{ $user->user_id }}"
+                                {{ old('photographer', $reservation->photographer ?? '') == $user->user_id ? 'selected' : '' }}>
                                 {{ $user->name }}</option>
                         @endforeach
                     </select>
@@ -108,8 +108,8 @@
                     <select class="form-control @error('status_id') is-invalid @enderror" id="status_id" name="status_id">
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($statuses as $status)
-                            <option value="{{ $status->id }}"
-                                {{ old('status_id', $reservation->status_id ?? '') == $status->id ? 'selected' : '' }}>
+                            <option value="{{ $status->status_id }}"
+                                {{ old('status_id', $reservation->status_id ?? '') == $status->status_id ? 'selected' : '' }}>
                                 {{ __('common.' . $status->code) }}</option>
                         @endforeach
                     </select>

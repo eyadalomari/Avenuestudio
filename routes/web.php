@@ -24,6 +24,10 @@ Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], funct
 
     Route::resource('reservations', App\Http\Controllers\ReservationController::class)->parameter('id', 'id');
     Route::resource('staffs', App\Http\Controllers\StaffController::class);
+
+    Route::resource('roles', App\Http\Controllers\RolesController::class);
+    Route::resource('types', App\Http\Controllers\TypesController::class);
+    Route::resource('statuses', App\Http\Controllers\StatusesController::class);
 });
 
 Route::get('/', function () {

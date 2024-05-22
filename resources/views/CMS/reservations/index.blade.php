@@ -7,8 +7,6 @@
             <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('reservations.create') }}">{{ __('common.add') }}</a>
         </div>
  
-        
-
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -41,10 +39,10 @@
                             <div class="row">{{ dateTimeFormatter($reservation->end_date) }}</div>
                         <td>{{ $reservation->photographer }}</td>
                         <td>
-                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->id]) }}'">
+                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->reservation_id]) }}'">
                                 {{ __('common.view') }}
                             </button>
-                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.edit', ['reservation' => $reservation->id]) }}'">
+                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.edit', ['reservation' => $reservation->reservation_id]) }}'">
                                 {{ __('common.edit') }}
                             </button>
                         </td>

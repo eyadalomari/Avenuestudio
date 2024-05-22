@@ -25,28 +25,33 @@ class DatabaseSeeder extends Seeder
 
         Reservations::factory()->count(35)->create();
 
-        DB::table('status')->insert([
-            ['code' => 'active', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['code' => 'completed', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['code' => 'canceled', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['code' => 'deleted', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ]);
+        // DB::table('statuses')->insert([
+        //     ['code' => 'active', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        //     ['code' => 'completed', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        //     ['code' => 'canceled', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        //     ['code' => 'deleted', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        // ]);
 
         // Insert type records
-        DB::table('type')->insert([
-            ['code' => 'graduates', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['code' => 'couples', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-        ]);
+        // DB::table('types')->insert([
+        //     ['code' => 'graduates', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        //     ['code' => 'couples', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+        // ]);
 
-        DB::table('roles')->insert([
-            ['id' => 1, 'code' => 'admin'],
-            ['id' => 2, 'code' => 'photographer'],
-            ['id' => 2, 'code' => 'social_media'],
-            ['id' => 2, 'code' => 'receptionist'],
-        ]);
+        // DB::table('roles')->insert([
+        //     ['role_id' => 1, 'code' => 'admin'],
+        //     ['role_id' => 2, 'code' => 'photographer'],
+        //     ['role_id' => 2, 'code' => 'social_media'],
+        //     ['role_id' => 2, 'code' => 'receptionist'],
+        // ]);
 
         DB::table('users')->insert([
             ['name' => 'Admin', 'mobile' => '0795473804', 'email' => 'admin@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => Hash::make('Demo@123')]
+        ]);
+
+        DB::table('languages')->insert([
+            ['language_id' => 1, 'name' => 'English'],
+            ['language_id' => 2, 'name' => 'Arabic'],
         ]);
 
         // Update reservations table
