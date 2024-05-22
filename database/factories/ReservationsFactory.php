@@ -20,13 +20,13 @@ class ReservationsFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'mobile' => $this->faker->phoneNumber,
-            'type_id' => $this->faker->randomDigit,
+            'mobile' => $this->faker->e164PhoneNumber,
+            'type_id' => $this->faker->randomElement([1, 2]),
             'location_type' => $this->faker->randomElement(['indoor', 'outdoor']),
             'price' => $this->faker->randomFloat(2, 0, 1000),
             'price_remaining' => $this->faker->randomFloat(2, 0, 1000),
             'photographer' => $this->faker->randomDigit,
-            'status_id' => $this->faker->randomDigit,
+            'status_id' => $this->faker->randomElement([1, 2, 3, 4]),
             'has_video' => $this->faker->boolean,
             'start_date' => $this->faker->dateTime,
             'end_date' => $this->faker->dateTime,

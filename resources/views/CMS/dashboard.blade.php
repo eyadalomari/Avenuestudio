@@ -8,7 +8,7 @@
 
     @vite(['resources/assets/css/styles.min.css'])
 
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png')}}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
 </head>
 
 <body>
@@ -21,7 +21,7 @@
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
                     <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="{{ asset('images/avenue.png')}}" width="180" alt="" />
+                        <img src="{{ asset('images/avenue.png') }}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -30,24 +30,25 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
-                        <li class="nav-small-cap">
+                        {{-- <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Home</span>
-                        </li>
+                        </li> --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('home') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
                                 <span class="hide-menu">{{ __('common.dashboard') }}</span>
                             </a>
                         </li>
-                        <li class="nav-small-cap">
+                        {{-- <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">UI COMPONENTS</span>
-                        </li>
+                        </li> --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ avenue_route('reservations.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('reservations.index') }}"
+                                aria-expanded="false">
                                 <span>
                                     <i class="ti ti-article"></i>
                                 </span>
@@ -62,7 +63,7 @@
                                 <span class="hide-menu">{{ __('common.staffs') }}</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
+                        {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
@@ -125,7 +126,7 @@
                                 </span>
                                 <span class="hide-menu">Sample Page</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </nav>
                 <!-- End Sidebar navigation -->
@@ -154,14 +155,23 @@
                     </ul>
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                            @if (app()->getLocale() == 'en')
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}">العربية</a>
+                                </li>
+                            @else
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">English</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="" id="drop2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link" href="" id="drop2" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     <span class="fn fn-s">{{ Auth::user()->name }}</span>
-                                    <img src="{{ asset('images/profile/user-1.jpg')}}" alt="" width="35"
+                                    <img src="{{ asset('images/profile/user-1.jpg') }}" alt="" width="35"
                                         height="35" class="rounded-circle">
                                 </a>
-                                
+
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                     aria-labelledby="drop2">
                                     <div class="message-body">
@@ -184,12 +194,13 @@
                                             class="btn btn-outline-primary mx-3 mt-2 d-block"
                                             onclick="event.preventDefault();
                                                           document.getElementById('logout-form').submit();">
-                                                          {{ __('Logout') }}
+                                            {{ __('Logout') }}
                                         </a>
-     
-                                         <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST" class="d-none">
-                                             @csrf
-                                         </form>
+
+                                        <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </div>
                             </li>

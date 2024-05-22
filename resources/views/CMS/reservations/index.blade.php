@@ -3,24 +3,11 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <h5 class="card-title fw-semibold mb-4">Reservations</h5>
-            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('reservations.create') }}">Add</a>
+            <h5 class="card-title fw-semibold mb-4">{{ __('common.reservations') }}</h5>
+            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('reservations.create') }}">{{ __('common.add') }}</a>
         </div>
-        <div id="calendar"></div>
-        @push('scripts')
-        <script> 
-            document.addEventListener('DOMContentLoaded', function () {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                    initialView: 'timeGridWeek',
-                    slotMinTime: '8:00:00',
-                    slotMaxTime: '19:00:00',
-                    events: @json($events??[]),
-                });
-                calendar.render();
-            });
-        </script>
-    @endpush
+ 
+        
 
         <table class="table table-striped">
             <thead>
@@ -28,12 +15,12 @@
                     <th>#</th>
                     <th>{{ __('common.name') }}</th>
                     <th>{{ __('common.mobile') }}</th>
-                    <th>Type</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Has Video</th>
-                    <th>Date & Time</th>
-                    <th>photographer</th>
+                    <th>{{ __('common.type') }}</th>
+                    <th>{{ __('common.price') }}</th>
+                    <th>{{ __('common.status') }}</th>
+                    <th>{{ __('common.has_video') }}</th>
+                    <th>{{ __('common.date_time') }}</th>
+                    <th>{{ __('common.photographer') }}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -43,21 +30,23 @@
                         <td>{{ $reservation->id }}</td>
                         <td>{{ $reservation->name }}</td>
                         <td>{{ $reservation->mobile }}</td>
-                        <td>{{ !empty($reservation->type) ? $reservation->type->code : 'N/A' }}
-                            ({{ $reservation->location_type }})
+                        <td>{{ !empty($reservation->type) ? __('common.'.$reservation->type->code) : 'N/A' }}
+                            ({{ __('common.'.$reservation->location_type) }})
                         </td>
                         <td>{{ $reservation->price }}</td>
-                        <td>{{ !empty($reservation->status) ? $reservation->status->code : 'N/A' }}</td>
-                        <td>{{ $reservation->has_video ? 'Yes' : 'No' }}</td>
+                        <td>{{ !empty($reservation->status) ? __('common.'.$reservation->status->code) : 'N/A' }}</td>
+                        <td>{{ $reservation->has_video ? __('common.active') : __('common.in_active') }}</td>
                         <td>
-                            <div class="row">{{ \Carbon\Carbon::parse($reservation->start_date)->toDayDateTimeString()}}</div>
-                            <div class="row">{{  \Carbon\Carbon::parse($reservation->end_date)->toDayDateTimeString() }}</td></div>
+                            <div class="row">{{ dateTimeFormatter($reservation->start_date) }}</div>
+                            <div class="row">{{ dateTimeFormatter($reservation->end_date) }}</div>
                         <td>{{ $reservation->photographer }}</td>
                         <td>
                             <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->id]) }}'">
-                                View
+                                {{ __('common.view') }}
                             </button>
-                            
+                            <button type="button" class="btn btn-primary m-1" onclick="window.location.href='{{ avenue_route('reservations.edit', ['reservation' => $reservation->id]) }}'">
+                                {{ __('common.edit') }}
+                            </button>
                         </td>
                     </tr>
                 @endforeach

@@ -39,11 +39,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('roles')->insert([
-            ['id' => 1, 'code' => 'admin']
+            ['id' => 1, 'code' => 'admin'],
+            ['id' => 2, 'code' => 'photographer'],
+            ['id' => 2, 'code' => 'social_media'],
+            ['id' => 2, 'code' => 'receptionist'],
         ]);
 
         DB::table('users')->insert([
-            ['name' => 'Admin', 'email' => 'admin@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => Hash::make('Demo@123')]
+            ['name' => 'Admin', 'mobile' => '0795473804', 'email' => 'admin@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => Hash::make('Demo@123')]
         ]);
 
         // Update reservations table

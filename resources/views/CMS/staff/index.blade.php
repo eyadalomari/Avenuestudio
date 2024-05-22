@@ -3,8 +3,8 @@
 @section('content')
     <div class="row">
         <div class="col">
-            <h5 class="card-title fw-semibold mb-4">users</h5>
-            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('staffs.create') }}">Add</a>
+            <h5 class="card-title fw-semibold mb-4">{{ __('common.staffs') }}</h5>
+            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('staffs.create') }}">{{ __('common.add') }}</a>
         </div>
         <div id="calendar"></div>
         @push('scripts')
@@ -43,15 +43,21 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->mobile }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->role->code ?? 'N/A' }}</td>
-                        <td>{{ $user->is_active == 1 ? 'Yes' : 'No' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($user->created_at)->toDayDateTimeString() }}</td>
-                        <td>{{ \Carbon\Carbon::parse($user->updated_at)->toDayDateTimeString() }}</td>
+                        <td>{{ !empty($user->role) ? __('common.' . $user->role->code) : 'N/A' }}</td>
+                        <td>{{ $user->is_active == 1 ? __('common.active') : __('common.in_active') }}</td>
+                        <td>{{ dateTimeFormatter($user->created_at) }}</td>
+                        <td>{{ dateTimeFormatter($user->updated_at) }}</td>
                         <td>
                             <button type="button" class="btn btn-primary m-1"
                                 onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->id]) }}'">
                                 {{ __('common.view') }}
                             </button>
+                            @if ($user->id != 1)
+                                <button type="button" class="btn btn-primary m-1"
+                                    onclick="window.location.href='{{ avenue_route('staffs.edit', ['staff' => $user->id]) }}'">
+                                    {{ __('common.edit') }}
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
