@@ -21,13 +21,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $language_id = app()->getLocale() == 'en' ? 1 : 2;
-
-        $roles = Roles::leftJoin('roles_labels', function ($join) use ($language_id) {
-            $join->on('roles.role_id', '=', 'roles_labels.role_id')
-                ->where('roles_labels.language_id', '=', $language_id);
-        })
-            ->select('roles.*', 'roles_labels.*');
+        $roles = (new Roles())->getRoles(false);
 
         return view('CMS.staffs.create', compact('roles'));
     }
@@ -37,17 +31,17 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        if (!empty($request->id) && $request->id == 1) {
+        if ($request->has('user_id') && $request->user_id == 1) {
             return redirect(avenue_route('staffs.index'));
         }
 
         $request->validate([
             'name' => 'required|string|max:50',
-            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->user_id)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user_id)],
+            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->user_id, 'user_id')],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user_id, 'user_id')],
             'role_id' => 'required|integer',
             'is_active' => 'required|integer',
-            'password' => $request->id ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
+            'password' => $request->has('user_id') ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
         ]);
         if ($request->has('user_id')) {
             $user = User::findOrFail($request->user_id);
@@ -94,11 +88,7 @@ class StaffController extends Controller
 
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
-        $roles = Roles::leftJoin('roles_labels', function ($join) use ($language_id) {
-            $join->on('roles.role_id', '=', 'roles_labels.role_id')
-                ->where('roles_labels.language_id', '=', $language_id);
-        })
-            ->select('roles.*', 'roles_labels.*');
+        $roles = (new Roles())->getRoles(false);
 
         $user = User::findOrFail($id);
 

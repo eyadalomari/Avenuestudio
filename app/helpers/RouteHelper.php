@@ -19,3 +19,28 @@ if (!function_exists('dateTimeFormatter')) {
         return \Carbon\Carbon::parse($date)->locale(app()->getLocale())->isoFormat($format);
     }
 }
+
+if (!function_exists('dateFormatter')) {
+    function dateFormatter($date)
+    {
+        $format = 'dddd, MMMM Do YYYY';
+        if(app()->getLocale() == 'ar'){
+            $format = 'dddd, D MMMM YYYY';
+        }
+        return \Carbon\Carbon::parse($date)->locale(app()->getLocale())->isoFormat($format);
+    }
+}
+
+if (!function_exists('timeFormatter')) {
+    function timeFormatter($date)
+    {
+        return \Carbon\Carbon::parse($date)->locale(app()->getLocale())->isoFormat('h:mm A');
+    }
+}
+
+if (!function_exists('currencyFormatter')) {
+    function currencyFormatter($price)
+    {
+        return number_format($price, 2).(app()->getLocale() == 'ar'?' د.أ':' JD');
+    }
+}

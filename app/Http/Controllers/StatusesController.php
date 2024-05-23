@@ -13,13 +13,7 @@ class StatusesController extends Controller
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-
-        $statuses = Statuses::leftJoin('statuses_labels', function($join) use ($language_id) {
-            $join->on('statuses.status_id', '=', 'statuses_labels.status_id')
-                 ->where('statuses_labels.language_id', '=', $language_id);
-        })
-        ->select('statuses.*', 'statuses_labels.*') // Adjust the select clause as needed
-        ->paginate(10);
+        $statuses = (new Statuses())->getStatuses();
         
         return view('CMS.statuses.index', compact('statuses', 'language_id'));
     }

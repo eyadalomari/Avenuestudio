@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    
     protected $primaryKey = 'user_id';
 
     /**
@@ -49,6 +50,11 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(Roles::class);
+        return $this->belongsTo(Roles::class, 'role_id', 'role_id');
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservations::class, 'user_id', 'photographer');
     }
 }

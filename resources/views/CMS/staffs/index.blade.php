@@ -45,8 +45,8 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ !empty($user->role) ? __('common.' . $user->role->code) : 'N/A' }}</td>
                         <td>{{ $user->is_active == 1 ? __('common.active') : __('common.in_active') }}</td>
-                        <td>{{ dateTimeFormatter($user->created_at) }}</td>
-                        <td>{{ dateTimeFormatter($user->updated_at) }}</td>
+                        <td>{{ ($user->created_at) }}</td>
+                        <td>{{ ($user->updated_at) }}</td>
                         <td>
                             <button type="button" class="btn btn-primary m-1"
                                 onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->user_id]) }}'">

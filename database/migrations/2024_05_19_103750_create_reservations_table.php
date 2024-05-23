@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
@@ -23,8 +22,9 @@ return new class extends Migration
             $table->integer('photographer')->unsigned()->nullable(false)->default(0);
             $table->integer('status_id')->unsigned()->default(0);
             $table->boolean('has_video')->nullable(false)->default(false);
-            $table->dateTime('start_date')->nullable(false);
-            $table->dateTime('end_date')->nullable(false);
+            $table->date('date')->nullable(false);
+            $table->time('start')->nullable(false);
+            $table->time('end')->nullable(false);
             $table->text('note')->nullable(true);
             $table->integer('added_by')->unsigned()->nullable(false)->default(0);
             $table->integer('updated_by')->unsigned()->nullable(false)->default(0);

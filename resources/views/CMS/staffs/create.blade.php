@@ -6,7 +6,7 @@
         <form action="{{ avenue_route('staffs.store') }}" method="POST">
             @csrf
             @if (!empty($user))
-                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                <input type="hidden" name="user_id" value="{{ $user->user_id }}">
             @endif
             <div class="form-group row mt-5">
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>
@@ -65,8 +65,8 @@
                     <select class="form-control @error('role_id') is-invalid @enderror" id="role_id" name="role_id">
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->id }}"
-                                {{ old('role_id', $user->role_id ?? '') == $role->id ? 'selected' : '' }}>
+                            <option value="{{ $role->role_id }}"
+                                {{ old('role_id', $user->role_id ?? '') == $role->role_id ? 'selected' : '' }}>
                                 {{ __('common.' . $role->code) }}</option>
                         @endforeach
                     </select>

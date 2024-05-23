@@ -13,13 +13,7 @@ class TypesController extends Controller
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-
-        $types = Types::leftJoin('types_labels', function($join) use ($language_id) {
-            $join->on('types.type_id', '=', 'types_labels.type_id')
-                 ->where('types_labels.language_id', '=', $language_id);
-        })
-        ->select('types.*', 'types_labels.*') // Adjust the select clause as needed
-        ->paginate(10);
+        $types = (new Types())->getTypes();
         
         return view('CMS.types.index', compact('types', 'language_id'));
     }

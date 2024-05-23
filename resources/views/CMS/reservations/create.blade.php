@@ -137,22 +137,31 @@
                 </div>
             </div>
             <div class="form-group row mt-3">
-                <div class="col-2"><label for="start_date">{{ __('common.start_date') }}:</label></div>
+                <div class="col-2"><label for="date">{{ __('common.date') }}:</label></div>
                 <div class="col-10">
-                    <input type="datetime-local" class="form-control @error('start_date') is-invalid @enderror"
-                        id="start_date" name="start_date"
-                        value="{{ old('start_date', $reservation->start_date ?? '') }}">
-                    @error('start_date')
+                    <input type="date" class="form-control @error('date') is-invalid @enderror" id="date"
+                        name="date" value="{{ old('date', $reservation->date ?? '') }}">
+                    @error('date')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
             <div class="form-group row mt-3">
-                <div class="col-2"><label for="end_date">{{ __('common.end_date') }}:</label></div>
+                <div class="col-2"><label for="start">{{ __('common.start') }}:</label></div>
                 <div class="col-10">
-                    <input type="datetime-local" class="form-control @error('end_date') is-invalid @enderror"
-                        id="end_date" name="end_date" value="{{ old('end_date', $reservation->end_date ?? '') }}">
-                    @error('end_date')
+                    <input type="time" class="form-control @error('start') is-invalid @enderror" id="start"
+                        name="start" step="60" value="{{ old('start', $reservation->start ?? '') }}">
+                    @error('start')
+                        <div class="invalid-feedback" style="display: block">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row mt-3">
+                <div class="col-2"><label for="end">{{ __('common.end') }}:</label></div>
+                <div class="col-10">
+                    <input type="time" class="form-control @error('end') is-invalid @enderror" id="end"
+                        name="end" step="60" value="{{ old('end', $reservation->end ?? '') }}">
+                    @error('end')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
                 </div>
@@ -173,3 +182,25 @@
         </form>
     </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var startInput = document.getElementById('start');
+        startInput.value = startInput.value.substring(0, 5);
+
+        startInput.addEventListener('change', function() {
+            if (startInput.value.length > 5) {
+                startInput.value = startInput.value.substring(0, 5);
+            }
+        });
+
+        var endInput = document.getElementById('end');
+        endInput.value = endInput.value.substring(0, 5);
+
+        endInput.addEventListener('change', function() {
+            if (endInput.value.length > 5) {
+                endInput.value = endInput.value.substring(0, 5);
+            }
+        });
+    });
+</script>

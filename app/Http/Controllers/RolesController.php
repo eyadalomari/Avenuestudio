@@ -13,15 +13,10 @@ class RolesController extends Controller
 {
     public function index()
     {
+        
+        $roles = (new Roles())->getRoles();
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
-        $roles = Roles::leftJoin('roles_labels', function($join) use ($language_id) {
-            $join->on('roles.role_id', '=', 'roles_labels.role_id')
-                 ->where('roles_labels.language_id', '=', $language_id);
-        })
-        ->select('roles.*', 'roles_labels.*') // Adjust the select clause as needed
-        ->paginate(10);
-        
         return view('CMS.roles.index', compact('roles', 'language_id'));
     }
 
