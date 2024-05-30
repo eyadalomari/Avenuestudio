@@ -22,6 +22,11 @@ class Roles extends Model
         return $this->hasMany(User::class, 'role_id', 'role_id');
     }
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'role_id', 'role_id');
+    }
+
     public function labels()
     {
         return $this->hasMany(RolesLabel::class, 'role_id', 'role_id');

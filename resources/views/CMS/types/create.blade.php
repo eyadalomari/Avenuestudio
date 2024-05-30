@@ -14,7 +14,7 @@
                     <div class="col-2"><label for="name">{{ __('common.'.strtolower($language->name).'_name') }}:</label></div>
                     <div class="col-10">
                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="name_{{ $language->language_id }}"
-                            name="name[{{ $language->language_id }}]" placeholder="Enter {{ $language->name }} name" value="{{ old('name['.$language->language_id.']', $type->labels[$language->language_id]->name ?? '') }}">
+                            name="name[{{ $language->language_id }}]" placeholder="{{ __('common.enter_'.strtolower($language->name).'_name') }}" value="{{ old('name['.$language->language_id.']', $type->labels[$language->language_id]->name ?? '') }}">
                         @error('name')
                             <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                         @enderror
@@ -26,7 +26,7 @@
                 <div class="col-2"><label for="code">{{ __('common.code') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('code') is-invalid @enderror" id="code"
-                        name="code" placeholder="Enter Code" value="{{ old('code', $type->code ?? '') }}">
+                        name="code" placeholder="{{ __('common.enter_code') }}" value="{{ old('code', $type->code ?? '') }}">
                     @error('code')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -36,7 +36,7 @@
                 <div class="col-2"><label for="sort">{{ __('common.sort') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('sort') is-invalid @enderror" id="sort"
-                        name="sort" placeholder="Enter Sort" value="{{ old('sort', $type->sort ?? '') }}">
+                        name="sort" placeholder="{{ __('common.enter_sort') }}" value="{{ old('sort', $type->sort ?? '') }}">
                     @error('sort')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror

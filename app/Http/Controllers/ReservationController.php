@@ -14,11 +14,16 @@ class ReservationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reservations = (new Reservations())->getReservations();
+        $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
 
-        return view('CMS.reservations.index', compact('reservations'));
+        $reservations = (new Reservations())->getReservations(true, $filters);
+        $statuses = (new Statuses())->getStatuses(false);
+        $types = (new Types())->getTypes(false);
+        $users = (new User())->getUsersRole('photographer');
+
+        return view('CMS.reservations.index', compact('reservations', 'statuses', 'types', 'users'));
     }
 
     /**
@@ -28,7 +33,7 @@ class ReservationController extends Controller
     {
         $statuses = (new Statuses())->getStatuses(false);
         $types = (new Types())->getTypes(false);
-        $users = User::all();
+        $users = (new User())->getUsersRole('photographer');
 
         return view('CMS.reservations.create', compact('types', 'statuses', 'users'));
     }
@@ -118,7 +123,7 @@ class ReservationController extends Controller
     {
         $statuses = (new Statuses())->getStatuses(false);
         $types = (new Types())->getTypes(false);
-        $users = User::all();
+        $users = (new User())->getUsersRole('photographer');
 
         $reservation = Reservations::with(['status', 'type'])->findOrFail($id);
 

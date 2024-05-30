@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Reservations extends Model
 {
@@ -45,40 +46,65 @@ class Reservations extends Model
 
     public function getStartAttribute($value)
     {
-        return \Carbon\Carbon::createFromFormat('H:i:s', $value)->format('H:i');
+        return Carbon::createFromFormat('H:i:s', $value)->format('H:i');
     }
 
     public function setStartAttribute($value)
     {
-        $this->attributes['start'] = \Carbon\Carbon::createFromFormat('H:i', $value)->format('H:i:s');
+        $this->attributes['start'] = Carbon::createFromFormat('H:i', $value)->format('H:i:s');
     }
 
     public function getEndAttribute($value)
     {
-        return \Carbon\Carbon::createFromFormat('H:i:s', $value)->format('H:i');
+        return Carbon::createFromFormat('H:i:s', $value)->format('H:i');
     }
 
     public function setEndAttribute($value)
     {
-        $this->attributes['end'] = \Carbon\Carbon::createFromFormat('H:i', $value)->format('H:i:s');
+        $this->attributes['end'] = Carbon::createFromFormat('H:i', $value)->format('H:i:s');
     }
 
-    public function getReservations($paginate = true)
+    public function getReservations($paginate = true, $filters = [])
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
-        $query = Reservations::select(
-            'reservations.*',
-            'statuses_labels.name as status_name',
-            'types_labels.name as type_name'
-        )
-            ->join('statuses', 'reservations.status_id', '=', 'statuses.status_id')
-            ->join('statuses_labels', function ($join) use ($language_id) {
-                $join->on('statuses.status_id', '=', 'statuses_labels.status_id')->where('statuses_labels.language_id', $language_id);
-            })->join('types', 'reservations.type_id', '=', 'types.type_id')
-            ->join('types_labels', function ($join) use ($language_id) {
-                $join->on('types.type_id', '=', 'types_labels.type_id')->where('types_labels.language_id', $language_id);
+        $query = Reservations::select('reservations.*', 'statuses_labels.name as status_name', 'types_labels.name as type_name');
+        $query->join('statuses', 'reservations.status_id', '=', 'statuses.status_id');
+        $query->join('statuses_labels', function ($join) use ($language_id) {
+            $join->on('statuses.status_id', '=', 'statuses_labels.status_id')->where('statuses_labels.language_id', $language_id);
+        });
+        $query->join('types', 'reservations.type_id', '=', 'types.type_id');
+        $query->join('types_labels', function ($join) use ($language_id) {
+            $join->on('types.type_id', '=', 'types_labels.type_id')->where('types_labels.language_id', $language_id);
+        });
+
+        // Apply filters
+        if (!empty($filters['keyword'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('reservations.name', 'like', '%' . $filters['keyword'] . '%')
+                    ->orWhere('reservations.mobile', 'like', '%' . $filters['keyword'] . '%');
             });
+        }
+
+        if (!empty($filters['status_id'])) {
+            $query->where('reservations.status_id', $filters['status_id']);
+        }
+
+        if (!empty($filters['type_id'])) {
+            $query->where('reservations.type_id', $filters['type_id']);
+        }
+
+        if (!empty($filters['photographer'])) {
+            $query->where('reservations.photographer', $filters['photographer']);
+        }
+
+        if (!empty($filters['from_date'])) {
+            $query->whereDate('reservations.date', '>=', $filters['from_date']);
+        }
+
+        if (!empty($filters['to_date'])) {
+            $query->whereDate('reservations.date', '<=', $filters['to_date']);
+        }
 
         return $paginate ? $query->paginate(10) : $query->get();
     }

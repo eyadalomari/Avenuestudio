@@ -23,14 +23,12 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        Reservations::factory()->count(15)->create();
-
         // Insert status records
         DB::table('statuses')->insert([
-            ['status_id' => 1, 'code' => 'active'],
-            ['status_id' => 2, 'code' => 'completed'],
-            ['status_id' => 3, 'code' => 'canceled'],
-            ['status_id' => 4, 'code' => 'deleted'],
+            ['status_id' => 1, 'code' => 'active', 'sort' => 1],
+            ['status_id' => 2, 'code' => 'completed', 'sort' => 2],
+            ['status_id' => 3, 'code' => 'canceled', 'sort' => 3],
+            ['status_id' => 4, 'code' => 'deleted', 'sort' => 4],
         ]);
         DB::table('statuses_labels')->insert([
             ['status_id' => 1, 'name' => 'Active', 'language_id' => 1],
@@ -45,22 +43,28 @@ class DatabaseSeeder extends Seeder
 
         // Insert type records
         DB::table('types')->insert([
-            ['type_id' => 1, 'code' => 'graduates'],
-            ['type_id' => 2, 'code' => 'couples'],
+            ['type_id' => 1, 'code' => 'graduates', 'sort' => 1],
+            ['type_id' => 2, 'code' => 'couples', 'sort' => 2],
+            ['type_id' => 3, 'code' => 'products', 'sort' => 3],
+            ['type_id' => 4, 'code' => 'fashion', 'sort' => 3],
         ]);
         DB::table('types_labels')->insert([
             ['type_id' => 1, 'name' => 'Graduates', 'language_id' => 1],
             ['type_id' => 1, 'name' => 'خريجين', 'language_id' => 2],
             ['type_id' => 2, 'name' => 'Couples', 'language_id' => 1],
             ['type_id' => 2, 'name' => 'ازواج', 'language_id' => 2],
+            ['type_id' => 3, 'name' => 'Products', 'language_id' => 1],
+            ['type_id' => 3, 'name' => 'منتجات', 'language_id' => 2],
+            ['type_id' => 4, 'name' => 'Fashion', 'language_id' => 1],
+            ['type_id' => 4, 'name' => 'أزياء', 'language_id' => 2],
         ]);
 
         // Insert roles records
         DB::table('roles')->insert([
-            ['role_id' => 1, 'code' => 'admin'],
-            ['role_id' => 2, 'code' => 'photographer'],
-            ['role_id' => 3, 'code' => 'social_media'],
-            ['role_id' => 4, 'code' => 'receptionist'],
+            ['role_id' => 1, 'code' => 'admin', 'sort' => 1],
+            ['role_id' => 2, 'code' => 'photographer', 'sort' => 2],
+            ['role_id' => 3, 'code' => 'social_media', 'sort' => 3],
+            ['role_id' => 4, 'code' => 'receptionist', 'sort' => 4],
         ]);
         DB::table('roles_labels')->insert([
             ['role_id' => 1, 'name' => 'Admin', 'language_id' => 1],
@@ -74,7 +78,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            ['name' => 'Admin', 'mobile' => '0795473804', 'email' => 'admin@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => Hash::make('Demo@123')]
+            ['name' => 'Admin', 'mobile' => '0795473804', 'email' => 'admin@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => Hash::make('Demo@123')],
+            ['name' => 'Osaid', 'mobile' => '0798527381', 'email' => 'osaid@avenue.com', 'role_id' => 2, 'is_active' => 1, 'password' => Hash::make('Demo@123')],
+            ['name' => 'Ashraf', 'mobile' => '0798527382', 'email' => 'ashraf@avenue.com', 'role_id' => 2, 'is_active' => 1, 'password' => Hash::make('Demo@123')],
         ]);
 
         DB::table('languages')->insert([
@@ -82,8 +88,6 @@ class DatabaseSeeder extends Seeder
             ['language_id' => 2, 'name' => 'Arabic'],
         ]);
 
-        // Update reservations table
-        DB::statement('UPDATE reservations SET status_id = 1');
-        DB::statement('UPDATE reservations SET type_id = 1');
+        Reservations::factory()->count(1000)->create();
     }
 }

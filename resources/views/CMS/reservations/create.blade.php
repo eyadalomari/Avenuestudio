@@ -16,7 +16,7 @@
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                        name="name" placeholder="Enter name" value="{{ old('name', $reservation->name ?? '') }}">
+                        name="name" placeholder="{{ __('common.enter_name') }}" value="{{ old('name', $reservation->name ?? '') }}">
                     @error('name')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -27,7 +27,7 @@
                 <div class="col-2"><label for="mobile">{{ __('common.mobile') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('mobile') is-invalid @enderror" id="mobile"
-                        name="mobile" placeholder="Enter mobile" value="{{ old('mobile', $reservation->mobile ?? '') }}">
+                        name="mobile" placeholder="{{ __('common.enter_mobile') }}" value="{{ old('mobile', $reservation->mobile ?? '') }}">
                     @error('mobile')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -68,7 +68,7 @@
                 <div class="col-2"><label for="price">{{ __('common.price') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('price') is-invalid @enderror" id="price"
-                        name="price" placeholder="Enter price" value="{{ old('price', $reservation->price ?? '') }}">
+                        name="price" placeholder="{{ __('common.enter_price') }}" value="{{ old('price', $reservation->price ?? '') }}">
                     @error('price')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -78,7 +78,7 @@
                 <div class="col-2"><label for="price_remaining">{{ __('common.remaining_price') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('price_remaining') is-invalid @enderror"
-                        id="price_remaining" name="price_remaining" placeholder="Enter remaining price"
+                        id="price_remaining" name="price_remaining" placeholder="{{ __('common.enter_remaining_price') }}"
                         value="{{ old('price_remaining', $reservation->price_remaining ?? '') }}">
                     @error('price_remaining')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>

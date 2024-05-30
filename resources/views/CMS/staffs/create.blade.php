@@ -12,7 +12,7 @@
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                        name="name" placeholder="Enter name" value="{{ old('name', $user->name ?? '') }}">
+                        name="name" placeholder="{{ __('common.enter_name') }}" value="{{ old('name', $user->name ?? '') }}">
                     @error('name')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -23,7 +23,7 @@
                 <div class="col-2"><label for="mobile">{{ __('common.mobile') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('mobile') is-invalid @enderror" id="mobile"
-                        name="mobile" placeholder="Enter mobile" value="{{ old('mobile', $user->mobile ?? '') }}">
+                        name="mobile" placeholder="{{ __('common.enter_mobile') }}" value="{{ old('mobile', $user->mobile ?? '') }}">
                     @error('mobile')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -33,7 +33,7 @@
                 <div class="col-2"><label for="email">{{ __('common.email') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
-                        name="email" placeholder="Enter Email" value="{{ old('email', $user->email ?? '') }}">
+                        name="email" placeholder="{{ __('common.enter_email') }}" value="{{ old('email', $user->email ?? '') }}">
                     @error('email')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -43,7 +43,7 @@
                 <div class="col-2"><label for="password">{{ __('common.password') }}:</label></div>
                 <div class="col-10">
                     <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
-                        name="password" placeholder="Enter Password">
+                        name="password" placeholder="{{ __('common.enter_password') }}">
                     @error('password')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -53,7 +53,7 @@
                 <div class="col-2"><label for="password_confirmation">{{ __('common.confirm_password') }}:</label></div>
                 <div class="col-10">
                     <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
-                        id="password_confirmation" name="password_confirmation" placeholder="Confirm Password">
+                        id="password_confirmation" name="password_confirmation" placeholder="{{ __('common.confirm_password') }}">
                     @error('password_confirmation')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror

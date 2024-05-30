@@ -167,7 +167,7 @@
             <!--  Header Start -->
             <header class="app-header">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <ul class="navbar-nav">
+                    {{-- <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
                             <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
                                 href="javascript:void(0)">
@@ -180,22 +180,22 @@
                                 <div class="notification bg-primary rounded-circle"></div>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                             @if (app()->getLocale() == 'en')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}">العربية</a>
+                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}"><span class="h6">العربية</span></a>
                                 </li>
                             @else
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">English</a>
+                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}"><span class="h6">English</span></a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="" id="drop2" data-bs-toggle="dropdown"
                                     aria-expanded="false">
-                                    <span class="fn fn-s">{{ Auth::user()->name }}</span>
+                                    <span class="fn fn-sx">{{ Auth::user()->name }}</span>
                                     <img src="{{ asset('images/profile/user-1.jpg') }}" alt="" width="35"
                                         height="35" class="rounded-circle">
                                 </a>
