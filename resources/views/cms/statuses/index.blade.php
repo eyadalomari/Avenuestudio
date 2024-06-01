@@ -1,4 +1,4 @@
-@extends('CMS.dashboard')
+@extends('cms.dashboard')
 
 @section('content')
     <div class="row">
@@ -21,8 +21,8 @@
                     <tr>
                         <td>{{ $status->status_id }}</td>
                         <td>{{ $status->name }}</td>
-                        <td>{{ $status->code }}</td>
-                        <td>{{ $status->sort }}</td>
+                        <td>{{ $status->status->code }}</td>
+                        <td>{{ $status->status->sort }}</td>
                         <td>
                             <button status="button" class="btn btn-primary m-1"
                                 onclick="window.location.href='{{ avenue_route('statuses.show', ['status' => $status->status_id]) }}'">

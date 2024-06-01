@@ -31,18 +31,4 @@ class Roles extends Model
     {
         return $this->hasMany(RolesLabel::class, 'role_id', 'role_id');
     }
-
-    public function getRoles($paginate = true)
-    {
-        $language_id = app()->getLocale() == 'en' ? 1 : 2;
-    
-        $query = Roles::leftJoin('roles_labels', function($join) use ($language_id) {
-            $join->on('roles.role_id', '=', 'roles_labels.role_id')
-                 ->where('roles_labels.language_id', '=', $language_id);
-        })
-        ->select('roles.*', 'roles_labels.*');
-    
-        return $paginate ? $query->paginate(10) : $query->get();
-    }
-    
 }

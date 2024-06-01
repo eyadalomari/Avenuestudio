@@ -1,4 +1,4 @@
-@extends('CMS.dashboard')
+@extends('cms.dashboard')
 
 @section('content')
     <div class="container">
@@ -47,6 +47,16 @@
                 <span>{{ dateTimeFormatter($user->updated_at) }}</span>
             </div>
         </div>
+
+        <div class="form-group row mt-3">
+            <div class="col-2"><span>{{ __('common.profile_picture') }}:</span></div>
+            <div class="col-10">
+                <img src="{{ asset($user->image) }}" alt="{{ $user->name }}" width="100">
+            </div>
+        </div>
+
+
+
         <div class="mt-3">
             <a type="button" class="btn btn-secondary"
                 href="{{ avenue_route('staffs.index') }}">{{ __('common.back') }}</a>

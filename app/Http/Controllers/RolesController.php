@@ -13,11 +13,10 @@ class RolesController extends Controller
 {
     public function index()
     {
-        
-        $roles = (new Roles())->getRoles();
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
+        $roles = RolesLabel::where('language_id', $language_id)->paginate(config('constants.PAGINATION'));
 
-        return view('CMS.roles.index', compact('roles', 'language_id'));
+        return view('cms.roles.index', compact('roles', 'language_id'));
     }
 
     /**
@@ -26,7 +25,7 @@ class RolesController extends Controller
     public function create()
     {
         $languages = Languages::all()->keyBy('language_id');
-        return view('CMS.roles.create', compact('languages'));
+        return view('cms.roles.create', compact('languages'));
     }
 
     /**
@@ -75,7 +74,7 @@ class RolesController extends Controller
         $languages = Languages::all()->keyBy('language_id');
         $role = Roles::findOrFail($id);
 
-        return view('CMS.roles.view', compact('role', 'languages'));
+        return view('cms.roles.view', compact('role', 'languages'));
     }
 
     /**
@@ -93,6 +92,6 @@ class RolesController extends Controller
 
         $languages = Languages::all()->keyBy('language_id');
 
-        return view('CMS.roles.create', compact('role', 'languages'));
+        return view('cms.roles.create', compact('role', 'languages'));
     }
 }

@@ -64,7 +64,7 @@ class Reservations extends Model
         $this->attributes['end'] = Carbon::createFromFormat('H:i', $value)->format('H:i:s');
     }
 
-    public function getReservations($paginate = true, $filters = [])
+    public function getReservations($filters = [])
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
@@ -106,6 +106,6 @@ class Reservations extends Model
             $query->whereDate('reservations.date', '<=', $filters['to_date']);
         }
 
-        return $paginate ? $query->paginate(10) : $query->get();
+        return $query->paginate(config('constants.PAGINATION'));
     }
 }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Reservations;
 use App\Models\Types;
+use App\Models\TypesLabel;
 use App\Models\Statuses;
+use App\Models\StatusesLabel;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,12 +20,14 @@ class ReservationController extends Controller
     {
         $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
 
-        $reservations = (new Reservations())->getReservations(true, $filters);
-        $statuses = (new Statuses())->getStatuses(false);
-        $types = (new Types())->getTypes(false);
-        $users = (new User())->getUsersRole('photographer');
+        $reservations = (new Reservations())->getReservations($filters);
 
-        return view('CMS.reservations.index', compact('reservations', 'statuses', 'types', 'users'));
+        $language_id = app()->getLocale() == 'en' ? 1 : 2;
+        $statuses = StatusesLabel::where('language_id', $language_id);
+        $types = TypesLabel::where('language_id', $language_id);
+        $users = (new User())->getUsersWithRole('photographer');
+
+        return view('cms.reservations.index', compact('reservations', 'statuses', 'types', 'users'));
     }
 
     /**
@@ -31,11 +35,12 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $statuses = (new Statuses())->getStatuses(false);
-        $types = (new Types())->getTypes(false);
-        $users = (new User())->getUsersRole('photographer');
+        $language_id = app()->getLocale() == 'en' ? 1 : 2;
+        $statuses = StatusesLabel::where('language_id', $language_id);
+        $types = TypesLabel::where('language_id', $language_id);
+        $users = (new User())->getUsersWithRole('photographer');
 
-        return view('CMS.reservations.create', compact('types', 'statuses', 'users'));
+        return view('cms.reservations.create', compact('types', 'statuses', 'users'));
     }
 
     /**
@@ -113,7 +118,7 @@ class ReservationController extends Controller
     {
         $reservation = Reservations::with(['status', 'type'])->findOrFail($id);
 
-        return view('CMS.reservations.view', compact('reservation'));
+        return view('cms.reservations.view', compact('reservation'));
     }
 
     /**
@@ -121,13 +126,14 @@ class ReservationController extends Controller
      */
     public function edit(string $id)
     {
-        $statuses = (new Statuses())->getStatuses(false);
-        $types = (new Types())->getTypes(false);
-        $users = (new User())->getUsersRole('photographer');
+        $language_id = app()->getLocale() == 'en' ? 1 : 2;
+        $statuses = StatusesLabel::where('language_id', $language_id);
+        $types = TypesLabel::where('language_id', $language_id);
+        $users = (new User())->getUsersWithRole('photographer');
 
         $reservation = Reservations::with(['status', 'type'])->findOrFail($id);
 
-        return view('CMS.reservations.create', compact('types', 'statuses', 'users', 'reservation'));
+        return view('cms.reservations.create', compact('types', 'statuses', 'users', 'reservation'));
     }
 
     private function isTimeOverlap($date, $start, $end)

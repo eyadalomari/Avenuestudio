@@ -1,4 +1,4 @@
-@extends('CMS.dashboard')
+@extends('cms.dashboard')
 
 @section('content')
     <!--  Row 1 -->

@@ -185,19 +185,23 @@
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                             @if (app()->getLocale() == 'en')
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}"><span class="h6">العربية</span></a>
+                                    <a class="nav-link"
+                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}"><span
+                                            class="h6">العربية</span></a>
                                 </li>
                             @else
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}"><span class="h6">English</span></a>
+                                    <a class="nav-link"
+                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}"><span
+                                            class="h6">English</span></a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
                                 <a class="nav-link" href="" id="drop2" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <span class="fn fn-sx">{{ Auth::user()->name }}</span>
-                                    <img src="{{ asset('images/profile/user-1.jpg') }}" alt="" width="35"
-                                        height="35" class="rounded-circle">
+                                    <img src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('images/profile/user-1.jpg') }}"
+                                        alt="" width="35" height="35" class="rounded-circle">
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"

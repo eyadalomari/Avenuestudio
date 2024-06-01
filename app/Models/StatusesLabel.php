@@ -21,7 +21,7 @@ class StatusesLabel extends Model
     /**
      * Get the property type that owns the label.
      */
-    public function propertyType()
+    public function status()
     {
         return $this->belongsTo(Statuses::class, 'status_id', 'status_id');
     }

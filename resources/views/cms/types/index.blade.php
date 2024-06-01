@@ -1,10 +1,10 @@
-@extends('CMS.dashboard')
+@extends('cms.dashboard')
 
 @section('content')
     <div class="row">
         <div class="col">
-            <h5 class="card-title fw-semibold mb-4">{{ __('common.roles') }}</h5>
-            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('roles.create') }}">{{ __('common.add') }}</a>
+            <h5 class="card-title fw-semibold mb-4">{{ __('common.types') }}</h5>
+            <a type="button" class="btn btn-primary m-1" href="{{ avenue_route('types.create') }}">{{ __('common.add') }}</a>
         </div>
         <table class="table table-striped">
             <thead>
@@ -17,19 +17,19 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($roles as $role)
+                @foreach ($types as $type)
                     <tr>
-                        <td>{{ $role->role_id }}</td>
-                        <td>{{ $role->name }}</td>
-                        <td>{{ $role->code }}</td>
-                        <td>{{ $role->sort }}</td>
+                        <td>{{ $type->type_id }}</td>
+                        <td>{{ $type->name }}</td>
+                        <td>{{ $type->type->code }}</td>
+                        <td>{{ $type->type->sort }}</td>
                         <td>
                             <button type="button" class="btn btn-primary m-1"
-                                onclick="window.location.href='{{ avenue_route('roles.show', ['role' => $role->role_id]) }}'">
+                                onclick="window.location.href='{{ avenue_route('types.show', ['type' => $type->type_id]) }}'">
                                 {{ __('common.view') }}
                             </button>
                             <button type="button" class="btn btn-primary m-1"
-                                onclick="window.location.href='{{ avenue_route('roles.edit', ['role' => $role->role_id]) }}'">
+                                onclick="window.location.href='{{ avenue_route('types.edit', ['type' => $type->type_id]) }}'">
                                 {{ __('common.edit') }}
                             </button>
                         </td>
@@ -38,7 +38,7 @@
             </tbody>
         </table>
         <div class="pagination">
-            {{ $roles->links() }}
+            {{ $types->links() }}
         </div>
     </div>
 @endsection

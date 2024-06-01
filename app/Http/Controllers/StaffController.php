@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Roles;
+use App\Models\RolesLabel;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -12,8 +12,8 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(10);
-        return view('CMS.staffs.index', compact('users'));
+        $users = User::paginate(config('constants.PAGINATION'));
+        return view('cms.staffs.index', compact('users'));
     }
 
     /**
@@ -21,9 +21,10 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $roles = (new Roles())->getRoles(false);
+        $language_id = app()->getLocale() == 'en' ? 1 : 2;
+        $roles = RolesLabel::where('language_id', $language_id);
 
-        return view('CMS.staffs.create', compact('roles'));
+        return view('cms.staffs.create', compact('roles'));
     }
 
     /**
@@ -42,26 +43,34 @@ class StaffController extends Controller
             'role_id' => 'required|integer',
             'is_active' => 'required|integer',
             'password' => $request->has('user_id') ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
+
+        $data = $request->only(['name', 'mobile', 'email', 'role_id', 'is_active']);
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->get('password'));
+        }
+
+        // Handle iamge upload
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('images/profiles');
+
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            $image->move($destinationPath, $imageName);
+            $data['image'] = 'images/profiles/' . $imageName;
+        }
+
         if ($request->has('user_id')) {
             $user = User::findOrFail($request->user_id);
-            $user->update([
-                'name' => $request->get('name'),
-                'mobile' => $request->get('mobile'),
-                'email' => $request->get('email'),
-                'role_id' => $request->get('role_id'),
-                'is_active' => $request->get('is_active'),
-                'password' => Hash::make($request->get('password')),
-            ]);
+            $user->update($data);
         } else {
-            User::create([
-                'name' => $request->get('name'),
-                'mobile' => $request->get('mobile'),
-                'email' => $request->get('email'),
-                'role_id' => $request->get('role_id'),
-                'is_active' => $request->get('is_active'),
-                'password' => Hash::make($request->get('password')),
-            ]);
+            User::create($data);
         }
 
         return redirect(avenue_route('staffs.index'))->with('success', 'Staff created successfully.');
@@ -74,7 +83,7 @@ class StaffController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('CMS.staffs.view', compact('user'));
+        return view('cms.staffs.view', compact('user'));
     }
 
     /**
@@ -87,11 +96,10 @@ class StaffController extends Controller
         }
 
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-
-        $roles = (new Roles())->getRoles(false);
+        $roles = RolesLabel::where('language_id', $language_id);
 
         $user = User::findOrFail($id);
 
-        return view('CMS.staffs.create', compact('roles', 'user'));
+        return view('cms.staffs.create', compact('roles', 'user'));
     }
 }

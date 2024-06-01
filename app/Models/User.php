@@ -19,13 +19,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
-        'name',
-        'mobile',
-        'email',
-        'password',
-        'role_id',
-        'is_active',
+        'name', 'mobile', 'email', 'role_id', 'is_active', 'password', 'image'
     ];
 
     /**
@@ -63,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(Reservations::class, 'user_id', 'photographer');
     }
 
-    public function getUsersRole($code){
+    public function getUsersWithRole($code){
         return User::whereHas('role', function ($query) {
             $query->where('code', 'photographer');
         })->get();

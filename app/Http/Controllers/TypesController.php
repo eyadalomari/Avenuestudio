@@ -13,9 +13,9 @@ class TypesController extends Controller
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $types = (new Types())->getTypes();
-        
-        return view('CMS.types.index', compact('types', 'language_id'));
+        $types = TypesLabel::where('language_id', $language_id)->paginate(config('constants.PAGINATION'));
+
+        return view('cms.types.index', compact('types', 'language_id'));
     }
 
     /**
@@ -24,7 +24,7 @@ class TypesController extends Controller
     public function create()
     {
         $languages = Languages::all()->keyBy('language_id');
-        return view('CMS.types.create', compact('languages'));
+        return view('cms.types.create', compact('languages'));
     }
 
     /**
@@ -73,7 +73,7 @@ class TypesController extends Controller
         $languages = Languages::all()->keyBy('language_id');
         $type = Types::findOrFail($id);
 
-        return view('CMS.types.view', compact('type', 'languages'));
+        return view('cms.types.view', compact('type', 'languages'));
     }
 
     /**
@@ -91,6 +91,6 @@ class TypesController extends Controller
 
         $languages = Languages::all()->keyBy('language_id');
 
-        return view('CMS.types.create', compact('type', 'languages'));
+        return view('cms.types.create', compact('type', 'languages'));
     }
 }

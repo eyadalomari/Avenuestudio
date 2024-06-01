@@ -83,5 +83,8 @@ return [
    'enter_remaining_price' => 'ادخل السعر المتبقي',
    'enter_code' => 'ادخل الرمز',
    'enter_sort' => 'ادخل الترتيب',
-   
+   'remember_me'=>'تذكرني',
+   'forgot_your_password'=>'هل نسيت كلمة المرور؟',
+   'login'=>'تسجيل الدخول',
+   'profile_picture'=>'الصورة الشخصية',
 ];

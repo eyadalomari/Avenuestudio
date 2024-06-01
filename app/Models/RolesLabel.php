@@ -23,7 +23,7 @@ class RolesLabel extends Model
     /**
      * Get the property type that owns the label.
      */
-    public function propertyType()
+    public function role()
     {
         return $this->belongsTo(Roles::class, 'role_id', 'role_id');
     }

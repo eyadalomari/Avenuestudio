@@ -13,9 +13,9 @@ class StatusesController extends Controller
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = (new Statuses())->getStatuses();
+        $statuses = StatusesLabel::where('language_id', $language_id)->paginate(config('constants.PAGINATION'));
         
-        return view('CMS.statuses.index', compact('statuses', 'language_id'));
+        return view('cms.statuses.index', compact('statuses', 'language_id'));
     }
 
     /**
@@ -24,7 +24,7 @@ class StatusesController extends Controller
     public function create()
     {
         $languages = Languages::all()->keyBy('language_id');
-        return view('CMS.statuses.create', compact('languages'));
+        return view('cms.statuses.create', compact('languages'));
     }
 
     /**
@@ -73,7 +73,7 @@ class StatusesController extends Controller
         $languages = Languages::all()->keyBy('language_id');
         $status = Statuses::findOrFail($id);
 
-        return view('CMS.statuses.view', compact('status', 'languages'));
+        return view('cms.statuses.view', compact('status', 'languages'));
     }
 
     /**
@@ -91,6 +91,6 @@ class StatusesController extends Controller
 
         $languages = Languages::all()->keyBy('language_id');
 
-        return view('CMS.statuses.create', compact('status', 'languages'));
+        return view('cms.statuses.create', compact('status', 'languages'));
     }
 }

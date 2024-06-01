@@ -1,9 +1,9 @@
-@extends('CMS.dashboard')
+@extends('cms.dashboard')
 
 @section('content')
     <div class="container">
         <h2>{{ empty($user) ? __('common.create_staff') : __('common.edit_staff') }}</h2>
-        <form action="{{ avenue_route('staffs.store') }}" method="POST">
+        <form action="{{ avenue_route('staffs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (!empty($user))
                 <input type="hidden" name="user_id" value="{{ $user->user_id }}">
@@ -90,7 +90,14 @@
                     @enderror
                 </div>
             </div>
-            <!-- Add more form fields for other columns -->
+
+            <div class="form-group row mt-3">
+                <div class="col-2"><label for="image">{{ __('common.profile_picture') }}:</label></div>
+                <div class="col-10">
+                    <input type="file" name="image" id="image" class="form-control">
+                </div>
+            </div>
+
             <a type="button" class="btn btn-secondary"
                 href="{{ avenue_route('staffs.index') }}">{{ __('common.back') }}</a>
             <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>

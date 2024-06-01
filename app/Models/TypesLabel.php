@@ -21,7 +21,7 @@ class TypesLabel extends Model
     /**
      * Get the property type that owns the label.
      */
-    public function propertyType()
+    public function type()
     {
         return $this->belongsTo(Types::class, 'type_id', 'type_id');
     }

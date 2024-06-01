@@ -1,4 +1,4 @@
-@extends('CMS.dashboard')
+@extends('cms.dashboard')
 
 @section('content')
     <div class="container">
@@ -110,7 +110,7 @@
                         @foreach ($statuses as $status)
                             <option value="{{ $status->status_id }}"
                                 {{ old('status_id', $reservation->status_id ?? '') == $status->status_id ? 'selected' : '' }}>
-                                {{ __('common.' . $status->code) }}</option>
+                                {{  $status->name }}</option>
                         @endforeach
                     </select>
                     @error('status_id')
