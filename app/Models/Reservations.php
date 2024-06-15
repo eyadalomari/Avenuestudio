@@ -64,7 +64,7 @@ class Reservations extends Model
         $this->attributes['end'] = Carbon::createFromFormat('H:i', $value)->format('H:i:s');
     }
 
-    public function getReservations($filters = [])
+    public static function list($filters = [])
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
@@ -82,7 +82,8 @@ class Reservations extends Model
         if (!empty($filters['keyword'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('reservations.name', 'like', '%' . $filters['keyword'] . '%')
-                    ->orWhere('reservations.mobile', 'like', '%' . $filters['keyword'] . '%');
+                ->orWhere('reservations.reservation_id', $filters['keyword'])
+                ->orWhere('reservations.mobile', 'like', '%' . $filters['keyword'] . '%');
             });
         }
 
@@ -105,6 +106,8 @@ class Reservations extends Model
         if (!empty($filters['to_date'])) {
             $query->whereDate('reservations.date', '<=', $filters['to_date']);
         }
+
+        $query->orderBy('reservations.date', 'DESC');
 
         return $query->paginate(config('constants.PAGINATION'));
     }

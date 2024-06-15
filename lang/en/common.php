@@ -46,8 +46,8 @@ return [
    'remaining_price' => 'Remaining Price',
    'date' => 'Date',
    'time' => 'Time',
-   'start' => 'Start',
-   'end' => 'End',
+   'start_time' => 'Start Time',
+   'end_time' => 'End Time',
    'note' => 'Note',
    'back' => 'Back',
    'save' => 'Save',
@@ -86,5 +86,6 @@ return [
    'remember_me'=>'Remember Me',
    'forgot_your_password'=>'Forgot Your Password?',
    'login'=>'Login',
+   'profile'=>'Profile',
    'profile_picture'=>'Profile Picture',
 ];

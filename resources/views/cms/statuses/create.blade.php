@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <h2>{{ empty($status) ? __('common.create_status') : __('common.edit_status') }}</h2>
+
         <form action="{{ avenue_route('statuses.store') }}" method="POST">
             @csrf
             @if (!empty($status))

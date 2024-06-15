@@ -20,7 +20,7 @@
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.type') }}:</span></div>
             <div class="col-10">
-                <span>{{ !empty($reservation->type) ? __('common.' . $reservation->type->code) : 'N/A' }}</span>
+                <span>{{ !empty($reservation->type) ? getNameFromLabels($reservation->type->labels) : 'N/A' }} ({{ __('common.' . $reservation->location_type) }})</span>
             </div>
         </div>
         <div class="form-group row mt-3">
@@ -44,13 +44,13 @@
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.status') }}:</span></div>
             <div class="col-10">
-                <span>{{ !empty($reservation->status) ? __('common.' . $reservation->status->code) : 'N/A' }}</span>
+                <span>{{ !empty($reservation->status) ? getNameFromLabels($reservation->status->labels) : 'N/A' }}</span>
             </div>
         </div>
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.has_video') }}:</span></div>
             <div class="col-10">
-                <span>{{ $reservation->has_video == 1 ? 'yes' : 'no' }}</span>
+                <span>{{ $reservation->has_video == 1 ? __('common.yes') : __('common.no') }}</span>
             </div>
         </div>
         <div class="form-group row mt-3">

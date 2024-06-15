@@ -20,7 +20,7 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
+                    <a href="{{ avenue_route('home') }}" class="text-nowrap logo-img">
                         <img src="{{ asset('images/avenue.png') }}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -182,55 +182,47 @@
                         </li>
                     </ul> --}}
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+                        <ul class="navbar-nav flex-row ms-auto align-items-center">
                             @if (app()->getLocale() == 'en')
-                                <li class="nav-item">
+                                <li class="nav-item me-3">
                                     <a class="nav-link"
-                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}"><span
-                                            class="h6">العربية</span></a>
+                                       href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}">
+                                        <span class="h6">العربية</span>
+                                    </a>
                                 </li>
                             @else
-                                <li class="nav-item">
+                                <li class="nav-item me-3">
                                     <a class="nav-link"
-                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}"><span
-                                            class="h6">English</span></a>
+                                       href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">
+                                        <span class="h6">English</span>
+                                    </a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
-                                <a class="nav-link" href="" id="drop2" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <span class="fn fn-sx">{{ Auth::user()->name }}</span>
+                                <a class="nav-link d-flex align-items-center" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="me-2">{{ Auth::user()->name }}</span>
                                     <img src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('images/profile/user-1.jpg') }}"
-                                        alt="" width="35" height="35" class="rounded-circle">
+                                         alt="User Image" width="35" height="35" class="rounded-circle">
                                 </a>
-
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                                    aria-labelledby="drop2">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="{{ avenue_route('profile.index') }}" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-user fs-6"></i>
-                                            <p class="mb-0 fs-3">My Profile</p>
+                                            <p class="mb-0 fs-3">{{ __('common.profile') }}</p>
                                         </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-mail fs-6"></i>
                                             <p class="mb-0 fs-3">My Account</p>
                                         </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="{{ avenue_route('logout') }}"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block"
-                                            onclick="event.preventDefault();
-                                                          document.getElementById('logout-form').submit();">
+                                        <a href="{{ avenue_route('logout') }}" class="btn btn-outline-primary mx-3 mt-2 d-block"
+                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
                                         </a>
-
-                                        <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST"
-                                            class="d-none">
+                                        <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST" class="d-none">
                                             @csrf
                                         </form>
                                     </div>
@@ -238,6 +230,7 @@
                             </li>
                         </ul>
                     </div>
+                    
                 </nav>
             </header>
             <!--  Header End -->

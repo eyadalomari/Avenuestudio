@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <h2>{{ empty($user) ? __('common.create_staff') : __('common.edit_staff') }}</h2>
+
         <form action="{{ avenue_route('staffs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (!empty($user))
@@ -67,7 +68,7 @@
                         @foreach ($roles as $role)
                             <option value="{{ $role->role_id }}"
                                 {{ old('role_id', $user->role_id ?? '') == $role->role_id ? 'selected' : '' }}>
-                                {{ __('common.' . $role->code) }}</option>
+                                {{ $role->name }}</option>
                         @endforeach
                     </select>
                     @error('role_id')

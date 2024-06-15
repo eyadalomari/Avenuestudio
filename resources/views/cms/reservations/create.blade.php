@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <h2>{{ empty($reservation) ? __('common.create_reservation') : __('common.edit_reservation') }}</h2>
+        
         @if ($errors->has('overlap'))
             <div class="alert alert-danger">{{ $errors->first('overlap') }}</div>
         @endif
@@ -147,7 +148,7 @@
                 </div>
             </div>
             <div class="form-group row mt-3">
-                <div class="col-2"><label for="start">{{ __('common.start') }}:</label></div>
+                <div class="col-2"><label for="start">{{ __('common.start_time') }}:</label></div>
                 <div class="col-10">
                     <input type="time" class="form-control @error('start') is-invalid @enderror" id="start"
                         name="start" step="60" value="{{ old('start', $reservation->start ?? '') }}">
@@ -157,7 +158,7 @@
                 </div>
             </div>
             <div class="form-group row mt-3">
-                <div class="col-2"><label for="end">{{ __('common.end') }}:</label></div>
+                <div class="col-2"><label for="end">{{ __('common.end_time') }}:</label></div>
                 <div class="col-10">
                     <input type="time" class="form-control @error('end') is-invalid @enderror" id="end"
                         name="end" step="60" value="{{ old('end', $reservation->end ?? '') }}">

@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <h2>{{ empty($type) ? __('common.create_type') : __('common.edit_type') }}</h2>
+
         <form action="{{ avenue_route('types.store') }}" method="POST">
             @csrf
             @if (!empty($type))

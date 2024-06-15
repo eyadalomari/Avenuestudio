@@ -22,7 +22,7 @@ class StaffController extends Controller
     public function create()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RolesLabel::where('language_id', $language_id);
+        $roles = RolesLabel::where('language_id', $language_id)->get();
 
         return view('cms.staffs.create', compact('roles'));
     }
@@ -96,7 +96,7 @@ class StaffController extends Controller
         }
 
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RolesLabel::where('language_id', $language_id);
+        $roles = RolesLabel::where('language_id', $language_id)->get();
 
         $user = User::findOrFail($id);
 

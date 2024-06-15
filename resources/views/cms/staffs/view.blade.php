@@ -26,7 +26,7 @@
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.role') }}:</span></div>
             <div class="col-10">
-                <span>{{ !empty($user->role->code) ? __('common.' . $user->role->code) : 'N/A' }}</span>
+                <span>{{ !empty($user->role->code) ? getNameFromLabels($user->role->labels) : 'N/A' }}</span>
             </div>
         </div>
         <div class="form-group row mt-3">

@@ -3,6 +3,7 @@
 @section('content')
     <div class="container">
         <h2>{{ empty($role) ? __('common.create_role') : __('common.edit_role') }}</h2>
+
         <form action="{{ avenue_route('roles.store') }}" method="POST">
             @csrf
             @if (!empty($role))

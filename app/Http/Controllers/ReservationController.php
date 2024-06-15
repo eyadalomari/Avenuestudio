@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Reservations;
-use App\Models\Types;
 use App\Models\TypesLabel;
-use App\Models\Statuses;
 use App\Models\StatusesLabel;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -20,12 +18,31 @@ class ReservationController extends Controller
     {
         $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
 
-        $reservations = (new Reservations())->getReservations($filters);
+        $reservations = Reservations::list($filters);
 
+        /* ===================================================================== //
+        $reservations = Reservations::with([
+            'type' => function ($query) {
+                $query->with(['labels' => function ($query2) {
+                    $language_id = app()->getLocale() == 'en' ? 1 : 2;
+                    $query2->where('language_id', $language_id);
+                }]);
+            },
+
+            'status' => function ($query) {
+                $query->with(['labels' => function ($query2) {
+                    $language_id = app()->getLocale() == 'en' ? 1 : 2;
+                    $query2->where('language_id', $language_id);
+                }]);
+            },
+
+        ])->paginate(config('constants.PAGINATION'));
+        // ===================================================================== */
+        
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = StatusesLabel::where('language_id', $language_id);
-        $types = TypesLabel::where('language_id', $language_id);
-        $users = (new User())->getUsersWithRole('photographer');
+        $statuses = StatusesLabel::where('language_id', $language_id)->get();
+        $types = TypesLabel::where('language_id', $language_id)->get();
+        $users = User::getUsersWithRole('photographer');
 
         return view('cms.reservations.index', compact('reservations', 'statuses', 'types', 'users'));
     }
@@ -36,9 +53,9 @@ class ReservationController extends Controller
     public function create()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = StatusesLabel::where('language_id', $language_id);
-        $types = TypesLabel::where('language_id', $language_id);
-        $users = (new User())->getUsersWithRole('photographer');
+        $statuses = StatusesLabel::where('language_id', $language_id)->get();
+        $types = TypesLabel::where('language_id', $language_id)->get();
+        $users = User::getUsersWithRole('photographer');
 
         return view('cms.reservations.create', compact('types', 'statuses', 'users'));
     }
@@ -64,7 +81,7 @@ class ReservationController extends Controller
             'note' => 'nullable|string',
         ]);
 
-        $overlap = $this->isTimeOverlap($request->date, $request->start, $request->end);
+        $overlap = $this->isTimeOverlap($request->date, $request->start, $request->end, $request->reservation_id);
         if ($overlap) {
             return redirect()->back()->withErrors(['overlap' => 'Time overlap detected with an existing reservation.' . $overlap->reservation_id])->withInput();
         }
@@ -127,18 +144,18 @@ class ReservationController extends Controller
     public function edit(string $id)
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = StatusesLabel::where('language_id', $language_id);
-        $types = TypesLabel::where('language_id', $language_id);
-        $users = (new User())->getUsersWithRole('photographer');
+        $statuses = StatusesLabel::where('language_id', $language_id)->get();
+        $types = TypesLabel::where('language_id', $language_id)->get();
+        $users = User::getUsersWithRole('photographer');
 
         $reservation = Reservations::with(['status', 'type'])->findOrFail($id);
 
         return view('cms.reservations.create', compact('types', 'statuses', 'users', 'reservation'));
     }
 
-    private function isTimeOverlap($date, $start, $end)
+    private function isTimeOverlap($date, $start, $end, $ReservationId = null)
     {
-        return Reservations::where('date', $date)->where(function ($query) use ($start, $end) {
+        $query = Reservations::where('date', $date)->where(function ($query) use ($start, $end) {
             $query->where(function ($query) use ($start, $end) {
                 $query->where('start', '<=', $start)->where('end', '>', $start);
             })->orWhere(function ($query) use ($start, $end) {
@@ -146,6 +163,13 @@ class ReservationController extends Controller
             })->orWhere(function ($query) use ($start, $end) {
                 $query->where('start', '>=', $start)->where('end', '<=', $end);
             });
-        })->first();
+        });
+    
+        if ($ReservationId) {
+            $query->where('reservation_id', '!=', $ReservationId);
+        }
+    
+        return $query->first();
     }
+    
 }

@@ -28,6 +28,9 @@ Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], funct
     Route::resource('roles', App\Http\Controllers\RolesController::class);
     Route::resource('types', App\Http\Controllers\TypesController::class);
     Route::resource('statuses', App\Http\Controllers\StatusesController::class);
+
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 });
 
 Route::get('/', function () {
