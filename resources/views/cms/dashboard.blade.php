@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modernize Free</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     @vite(['resources/assets/css/styles.min.css'])
 
-    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png')}}" />
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logos/favicon.png') }}" />
 </head>
 
 <body>
@@ -20,8 +20,8 @@
             <!-- Sidebar scroll-->
             <div>
                 <div class="brand-logo d-flex align-items-center justify-content-between">
-                    <a href="./index.html" class="text-nowrap logo-img">
-                        <img src="{{ asset('images/logos/dark-logo.svg')}}" width="180" alt="" />
+                    <a href="{{ avenue_route('home') }}" class="text-nowrap logo-img">
+                        <img src="{{ asset('images/avenue.png') }}" width="180" alt="" />
                     </a>
                     <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                         <i class="ti ti-x fs-8"></i>
@@ -30,39 +30,68 @@
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
-                        <li class="nav-small-cap">
+                        {{-- <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">Home</span>
-                        </li>
+                        </li> --}}
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./index.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('home') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-layout-dashboard"></i>
                                 </span>
-                                <span class="hide-menu">Dashboard</span>
+                                <span class="hide-menu">{{ __('common.dashboard') }}</span>
+                            </a>
+                        </li>
+                        {{-- <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">UI COMPONENTS</span>
+                        </li> --}}
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ avenue_route('reservations.index') }}"
+                                aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-article"></i>
+                                </span>
+                                <span class="hide-menu">{{ __('common.reservations') }}</span>
+                            </a>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ avenue_route('staffs.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user"></i>
+                                </span>
+                                <span class="hide-menu">{{ __('common.staffs') }}</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">UI COMPONENTS</span>
+                            <span class="hide-menu">{{ __('common.settings') }}</span>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-buttons.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('roles.index') }}" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-article"></i>
+                                    <i class="ti ti-cards"></i>
                                 </span>
-                                <span class="hide-menu">Buttons</span>
+                                <span class="hide-menu">{{ __('common.roles') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ui-alerts.html" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('types.index') }}" aria-expanded="false">
                                 <span>
-                                    <i class="ti ti-alert-circle"></i>
+                                    <i class="ti ti-file-description"></i>
                                 </span>
-                                <span class="hide-menu">Alerts</span>
+                                <span class="hide-menu">{{ __('common.types') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ avenue_route('statuses.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-typography"></i>
+                                </span>
+                                <span class="hide-menu">{{ __('common.statuses') }}</span>
+                            </a>
+                        </li>
+                        {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-cards"></i>
@@ -125,20 +154,8 @@
                                 </span>
                                 <span class="hide-menu">Sample Page</span>
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
-                    <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">
-                        <div class="d-flex">
-                            <div class="unlimited-access-title me-3">
-                                <h6 class="fw-semibold fs-4 mb-6 text-dark w-85">Upgrade to pro</h6>
-                                <a href="https://adminmart.com/product/modernize-bootstrap-5-admin-template/"
-                                    target="_blank" class="btn btn-primary fs-2 fw-semibold lh-sm">Buy Pro</a>
-                            </div>
-                            <div class="unlimited-access-img">
-                                <img src="{{ asset('images/backgrounds/rocket.png')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
                 </nav>
                 <!-- End Sidebar navigation -->
             </div>
@@ -150,7 +167,7 @@
             <!--  Header Start -->
             <header class="app-header">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <ul class="navbar-nav">
+                    {{-- <ul class="navbar-nav">
                         <li class="nav-item d-block d-xl-none">
                             <a class="nav-link sidebartoggler nav-icon-hover" id="headerCollapse"
                                 href="javascript:void(0)">
@@ -163,80 +180,62 @@
                                 <div class="notification bg-primary rounded-circle"></div>
                             </a>
                         </li>
-                    </ul>
+                    </ul> --}}
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
-                        <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-                            <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/"
-                                target="_blank" class="btn btn-primary">Download Free</a>
+                        <ul class="navbar-nav flex-row ms-auto align-items-center">
+                            @if (app()->getLocale() == 'en')
+                                <li class="nav-item me-3">
+                                    <a class="nav-link"
+                                       href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}">
+                                        <span class="h6">العربية</span>
+                                    </a>
+                                </li>
+                            @else
+                                <li class="nav-item me-3">
+                                    <a class="nav-link"
+                                       href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">
+                                        <span class="h6">English</span>
+                                    </a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
-                                <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset('images/profile/user-1.jpg')}}" alt="" width="35"
-                                        height="35" class="rounded-circle">
+                                <a class="nav-link d-flex align-items-center" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="me-2">{{ Auth::user()->name }}</span>
+                                    <img src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('images/profile/user-1.jpg') }}"
+                                         alt="User Image" width="35" height="35" class="rounded-circle">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                                    aria-labelledby="drop2">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="{{ avenue_route('profile.index') }}" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-user fs-6"></i>
-                                            <p class="mb-0 fs-3">My Profile</p>
+                                            <p class="mb-0 fs-3">{{ __('common.profile') }}</p>
                                         </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-mail fs-6"></i>
                                             <p class="mb-0 fs-3">My Account</p>
                                         </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="./authentication-login.html"
-                                            class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                        <a href="{{ avenue_route('logout') }}" class="btn btn-outline-primary mx-3 mt-2 d-block"
+                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
+                                        <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST" class="d-none">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </div>
+                    
                 </nav>
             </header>
             <!--  Header End -->
             <div class="container-fluid">
-                <div class="container-fluid">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title fw-semibold mb-4">Buttons</h5>
-                            <div class="card">
-                                <div class="card-body p-4">
-                                    <button type="button" class="btn btn-primary m-1">Primary</button>
-                                    <button type="button" class="btn btn-secondary m-1">Secondary</button>
-                                    <button type="button" class="btn btn-success m-1">Success</button>
-                                    <button type="button" class="btn btn-danger m-1">Danger</button>
-                                    <button type="button" class="btn btn-warning m-1">Warning</button>
-                                    <button type="button" class="btn btn-info m-1">Info</button>
-                                    <button type="button" class="btn btn-light m-1">Light</button>
-                                    <button type="button" class="btn btn-dark m-1">Dark</button>
-                                    <button type="button" class="btn btn-link m-1">Link</button>
-                                </div>
-                            </div>
-                            <h5 class="card-title fw-semibold mb-4">Outline buttons</h5>
-                            <div class="card mb-0">
-                                <div class="card-body p-4">
-                                    <button type="button" class="btn btn-outline-primary m-1">Primary</button>
-                                    <button type="button" class="btn btn-outline-secondary m-1">Secondary</button>
-                                    <button type="button" class="btn btn-outline-success m-1">Success</button>
-                                    <button type="button" class="btn btn-outline-danger m-1">Danger</button>
-                                    <button type="button" class="btn btn-outline-warning m-1">Warning</button>
-                                    <button type="button" class="btn btn-outline-info m-1">Info</button>
-                                    <button type="button" class="btn btn-outline-light m-1">Light</button>
-                                    <button type="button" class="btn btn-outline-dark m-1">Dark</button>
-                                    <button type="button" class="btn btn-outline-link m-1">Link</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @yield('content')
             </div>
         </div>
     </div>

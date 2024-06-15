@@ -14,8 +14,25 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::group(['prefix' => '{locale}', 'middleware' => ['locale']], function () {
+   Auth::routes();
+});
 
-Auth::routes();
+Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], function () {
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->middleware('auth')->name('home');
+    Route::resource('reservations', App\Http\Controllers\ReservationController::class)->parameter('id', 'id');
+    Route::resource('staffs', App\Http\Controllers\StaffController::class);
+
+    Route::resource('roles', App\Http\Controllers\RolesController::class);
+    Route::resource('types', App\Http\Controllers\TypesController::class);
+    Route::resource('statuses', App\Http\Controllers\StatusesController::class);
+
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
+});
+
+Route::get('/', function () {
+    return redirect('/' . app()->getLocale());
+});

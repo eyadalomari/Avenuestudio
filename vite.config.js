@@ -14,7 +14,6 @@ export default defineConfig({
                 'resources/assets/js/sidebarmenu.js',
                 'resources/assets/js/app.min.js',
                 'resources/assets/libs/simplebar/dist/simplebar.js',
-                'resources/assets/libs/apexcharts/dist/apexcharts.min.js',
                 'resources/assets/js/dashboard.js',
             ],
             refresh: true,
