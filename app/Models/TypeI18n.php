@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StatusesLabel extends Model
+class TypeI18n extends Model
 {
     use HasFactory;
+    
+    protected $table = 'types_i18n';
 
     public $timestamps = false;
     public $incrementing = false;
 
     protected $fillable = [
-        'status_id',
+        'type_id',
         'language_id',
         'name'
     ];
@@ -21,8 +23,8 @@ class StatusesLabel extends Model
     /**
      * Get the property type that owns the label.
      */
-    public function status()
+    public function type()
     {
-        return $this->belongsTo(Statuses::class, 'status_id', 'status_id');
+        return $this->belongsTo(Type::class, 'type_id', 'id');
     }
 }

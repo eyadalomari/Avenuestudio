@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('languages', function (Blueprint $table) {
-            $table->id('language_id');
+            $table->id('id');
             $table->string('name')->nullable(false);
+            $table->boolean('status')->default(true);
+            $table->boolean('is_rtl')->default(true);
         });
     }
 

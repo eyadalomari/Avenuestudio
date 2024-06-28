@@ -14,15 +14,15 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('cms.profile.index', compact('user'));
+        return view('cms/profile/index', compact('user'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:50',
-            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->user()->user_id, 'user_id')],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user()->user_id, 'user_id')],
+            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->user()->id)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user()->id)],
             'password' => $request->filled('password') ? 'nullable|string|min:8|confirmed' : 'sometimes|nullable|string|min:8|confirmed',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -47,7 +47,7 @@ class ProfileController extends Controller
             $data['image'] = 'images/profiles/' . $imageName;
         }
     
-        $user = User::findOrFail($request->user()->user_id);
+        $user = User::findOrFail($request->user()->id);
         $user->update($data);
     
         return redirect(avenue_route('profile.index'))->with('success', 'Profile updated successfully.');

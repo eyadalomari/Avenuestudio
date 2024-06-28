@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\RolesLabel;
+use App\Models\RoleI18n;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 
@@ -13,7 +13,7 @@ class StaffController extends Controller
     public function index()
     {
         $users = User::paginate(config('constants.PAGINATION'));
-        return view('cms.staffs.index', compact('users'));
+        return view('cms/staffs/index', compact('users'));
     }
 
     /**
@@ -22,9 +22,9 @@ class StaffController extends Controller
     public function create()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RolesLabel::where('language_id', $language_id)->get();
+        $roles = RoleI18n::where('language_id', $language_id)->get();
 
-        return view('cms.staffs.create', compact('roles'));
+        return view('cms/staffs/create', compact('roles'));
     }
 
     /**
@@ -32,17 +32,17 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->has('user_id') && $request->user_id == 1) {
+        if ($request->has('id') && $request->id == 1) {
             return redirect(avenue_route('staffs.index'));
         }
 
         $request->validate([
             'name' => 'required|string|max:50',
-            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->user_id, 'user_id')],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user_id, 'user_id')],
+            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->id)],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
             'role_id' => 'required|integer',
             'is_active' => 'required|integer',
-            'password' => $request->has('user_id') ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
+            'password' => $request->has('id') ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
@@ -66,14 +66,16 @@ class StaffController extends Controller
             $data['image'] = 'images/profiles/' . $imageName;
         }
 
-        if ($request->has('user_id')) {
-            $user = User::findOrFail($request->user_id);
+        if ($request->has('id')) {
+            $user = User::findOrFail($request->id);
             $user->update($data);
+            return redirect(avenue_route('staffs.index'))->with('success', 'Staff updated successfully.');
         } else {
             User::create($data);
+            return redirect(avenue_route('staffs.index'))->with('success', 'Staff created successfully.');
         }
 
-        return redirect(avenue_route('staffs.index'))->with('success', 'Staff created successfully.');
+
     }
 
     /**
@@ -83,7 +85,7 @@ class StaffController extends Controller
     {
         $user = User::findOrFail($id);
 
-        return view('cms.staffs.view', compact('user'));
+        return view('cms/staffs/view', compact('user'));
     }
 
     /**
@@ -96,10 +98,10 @@ class StaffController extends Controller
         }
 
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RolesLabel::where('language_id', $language_id)->get();
+        $roles = RoleI18n::where('language_id', $language_id)->get();
 
         $user = User::findOrFail($id);
 
-        return view('cms.staffs.create', compact('roles', 'user'));
+        return view('cms/staffs/create', compact('roles', 'user'));
     }
 }

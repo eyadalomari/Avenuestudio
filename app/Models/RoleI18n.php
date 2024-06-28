@@ -5,15 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TypesLabel extends Model
+class RoleI18n extends Model
 {
     use HasFactory;
+
+    protected $table = 'roles_i18n';
 
     public $timestamps = false;
     public $incrementing = false;
 
     protected $fillable = [
-        'type_id',
+        'role_id',
         'language_id',
         'name'
     ];
@@ -21,8 +23,8 @@ class TypesLabel extends Model
     /**
      * Get the property type that owns the label.
      */
-    public function type()
+    public function role()
     {
-        return $this->belongsTo(Types::class, 'type_id', 'type_id');
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 }

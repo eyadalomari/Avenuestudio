@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Types;
-use App\Models\TypesLabel;
-use App\Models\Languages;
+use App\Models\Type;
+use App\Models\Language;
+use App\Models\TypeI18n;
 use Illuminate\Validation\Rule;
 
-class TypesController extends Controller
+class TypeController extends Controller
 {
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $types = TypesLabel::where('language_id', $language_id)->paginate(config('constants.PAGINATION'));
+        $types = Type::select('types.id', 'types.code', 'types.sort', 'types.created_at', 'types.updated_at', 'types_i18n.name')
+        ->join('types_i18n', 'types.id', '=', 'types_i18n.type_id')
+        ->where('types_i18n.language_id', $language_id)
+        ->paginate(10);
 
-        return view('cms.types.index', compact('types', 'language_id'));
+        return view('cms/types/index', compact('types', 'language_id'));
     }
 
     /**
@@ -23,8 +26,8 @@ class TypesController extends Controller
      */
     public function create()
     {
-        $languages = Languages::all()->keyBy('language_id');
-        return view('cms.types.create', compact('languages'));
+        $languages = Language::all()->keyBy('id');
+        return view('cms/types/create', compact('languages'));
     }
 
     /**
@@ -34,29 +37,30 @@ class TypesController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'code' => ['required', 'string', 'max:50', Rule::unique('types')->ignore($request->type_id, 'type_id')],
+            'code' => ['required', 'string', 'max:50', Rule::unique('types')->ignore($request->id)],
             'sort' => 'required|integer',
             'name.*' => 'required|string|max:50',
         ]);
 
-        if ($request->has('type_id')) {
-            $type = Types::find($request->get('type_id'));
+        if ($request->has('id')) {
+            $type = Type::find($request->id);
             $type->update([
                 'code' => $request->get('code'),
                 'sort' => $request->get('sort'),
             ]);
         } else {
-            $type = Types::create([
+            $type = Type::create([
                 'code' => $request->get('code'),
                 'sort' => $request->get('sort'),
             ]);
         }
 
         foreach ($request->get('name') as $language_id => $name) {
-            TypesLabel::updateOrCreate(
+            TypeI18n::updateOrCreate(
                 [
-                    'type_id' => $type->type_id,
+                    'type_id' => $type->id,
                     'language_id' => $language_id,
+                ],[
                     'name' => $name
                 ]
             );
@@ -70,10 +74,10 @@ class TypesController extends Controller
      */
     public function show(string $id)
     {
-        $languages = Languages::all()->keyBy('language_id');
-        $type = Types::findOrFail($id);
+        $languages = Language::all()->keyBy('id');
+        $type = Type::findOrFail($id);
 
-        return view('cms.types.view', compact('type', 'languages'));
+        return view('cms/types/view', compact('type', 'languages'));
     }
 
     /**
@@ -81,7 +85,7 @@ class TypesController extends Controller
      */
     public function edit(string $id)
     {
-        $type = Types::findOrFail($id);
+        $type = Type::findOrFail($id);
 
         $reindexedLabels = [];
         foreach ($type->labels->sortBy('language_id') as $label) {
@@ -89,8 +93,8 @@ class TypesController extends Controller
         }
         $type->labels = $reindexedLabels;
 
-        $languages = Languages::all()->keyBy('language_id');
+        $languages = Language::all()->keyBy('id');
 
-        return view('cms.types.create', compact('type', 'languages'));
+        return view('cms/types/create', compact('type', 'languages'));
     }
 }

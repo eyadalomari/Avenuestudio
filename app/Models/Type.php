@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Statuses extends Model
+class Type extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'status_id';
-    public $timestamps = false;
+    protected $table = 'types';
 
     protected $fillable = [
         'code',
@@ -19,11 +18,11 @@ class Statuses extends Model
 
     public function reservations()
     {
-        return $this->hasMany(Reservations::class, 'status_id', 'status_id');
+        return $this->hasMany(Reservation::class,'type_id', 'id');
     }
 
     public function labels()
     {
-        return $this->hasMany(StatusesLabel::class, 'status_id', 'status_id');
+        return $this->hasMany(TypeI18n::class, 'type_id', 'id');
     }
 }

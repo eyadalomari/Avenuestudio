@@ -11,7 +11,7 @@
         <form action="{{ avenue_route('reservations.store') }}" method="POST">
             @csrf
             @if (!empty($reservation))
-                <input type="hidden" name="reservation_id" value="{{ $reservation->reservation_id }}">
+                <input type="hidden" name="id" value="{{ $reservation->id }}">
             @endif
             <div class="form-group row mt-5">
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>
@@ -91,10 +91,11 @@
                 <div class="col-10">
                     <select class="form-control @error('photographer') is-invalid @enderror" id="photographer"
                         name="photographer">
+                        {{ print_r($users) }}
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($users as $user)
-                            <option value="{{ $user->user_id }}"
-                                {{ old('photographer', $reservation->photographer ?? '') == $user->user_id ? 'selected' : '' }}>
+                            <option value="{{ $user->id }}"
+                                {{ old('photographer', $reservation->photographer ?? '') == $user->id ? 'selected' : '' }}>
                                 {{ $user->name }}</option>
                         @endforeach
                     </select>

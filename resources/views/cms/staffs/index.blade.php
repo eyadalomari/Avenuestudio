@@ -38,16 +38,18 @@
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>
                     <td>
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->user_id]) }}'">
-                            {{ __('common.view') }}
-                        </button>
-                        @if ($user->user_id != 1)
-                            <button type="button" class="btn btn-primary m-1"
-                                onclick="window.location.href='{{ avenue_route('staffs.edit', ['staff' => $user->user_id]) }}'">
-                                {{ __('common.edit') }}
+                        <div class="btn-group" role="group" aria-label="Action buttons">
+                            <button type="button" class="btn btn-primary"
+                                onclick="window.location.href='{{ avenue_route('staffs.show', ['staff' => $user->id]) }}'">
+                                <i class="fa-solid fa-eye"></i>
                             </button>
-                        @endif
+                            @if ($user->id != 1)
+                                <button type="button" class="btn btn-secondary"
+                                    onclick="window.location.href='{{ avenue_route('staffs.edit', ['staff' => $user->id]) }}'">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            @endif
+                        </div>
                     </td>
                 </tr>
             @endforeach

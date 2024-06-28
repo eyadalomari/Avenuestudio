@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Roles extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'role_id';
-    public $timestamps = false;
+    protected $table = 'roles';
 
     protected $fillable = [
         'code',
@@ -19,16 +18,16 @@ class Roles extends Model
 
     public function user()
     {
-        return $this->hasMany(User::class, 'role_id', 'role_id');
+        return $this->hasMany(User::class, 'role_id', 'id');
     }
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_id', 'role_id');
+        return $this->belongsToMany(User::class, 'role_id', 'id');
     }
 
     public function labels()
     {
-        return $this->hasMany(RolesLabel::class, 'role_id', 'role_id');
+        return $this->hasMany(RoleI18n::class, 'role_id', 'id');
     }
 }

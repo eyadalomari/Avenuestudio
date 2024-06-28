@@ -24,19 +24,21 @@
         <tbody>
             @foreach ($roles as $role)
                 <tr>
-                    <td>{{ $role->role_id }}</td>
+                    <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
-                    <td>{{ $role->role->code }}</td>
-                    <td>{{ $role->role->sort }}</td>
+                    <td>{{ $role->code }}</td>
+                    <td>{{ $role->sort }}</td>
                     <td>
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('roles.show', ['role' => $role->role_id]) }}'">
-                            {{ __('common.view') }}
-                        </button>
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('roles.edit', ['role' => $role->role_id]) }}'">
-                            {{ __('common.edit') }}
-                        </button>
+                        <div class="btn-group" role="group" aria-label="Action buttons">
+                            <button type="button" class="btn btn-primary"
+                                onclick="window.location.href='{{ avenue_route('roles.show', ['role' => $role->id]) }}'">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary"
+                                onclick="window.location.href='{{ avenue_route('roles.edit', ['role' => $role->id]) }}'">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endforeach

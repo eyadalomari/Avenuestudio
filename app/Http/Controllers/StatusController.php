@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Statuses;
-use App\Models\StatusesLabel;
-use App\Models\Languages;
+use App\Models\Status;
+use App\Models\Language;
+use App\Models\StatusI18n;
 use Illuminate\Validation\Rule;
 
-class StatusesController extends Controller
+class StatusController extends Controller
 {
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = StatusesLabel::where('language_id', $language_id)->paginate(config('constants.PAGINATION'));
         
-        return view('cms.statuses.index', compact('statuses', 'language_id'));
+        $statuses = Status::select('statuses.id', 'statuses.code', 'statuses.sort', 'statuses.created_at', 'statuses.updated_at', 'statuses_i18n.name')
+        ->join('statuses_i18n', 'statuses.id', '=', 'statuses_i18n.status_id')
+        ->where('statuses_i18n.language_id', $language_id)
+        ->paginate(10);
+        return view('cms/statuses/index', compact('statuses', 'language_id'));
     }
 
     /**
@@ -23,8 +26,8 @@ class StatusesController extends Controller
      */
     public function create()
     {
-        $languages = Languages::all()->keyBy('language_id');
-        return view('cms.statuses.create', compact('languages'));
+        $languages = Language::all()->keyBy('id');
+        return view('cms/statuses/create', compact('languages'));
     }
 
     /**
@@ -34,29 +37,30 @@ class StatusesController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'code' => ['required', 'string', 'max:50', Rule::unique('statuses')->ignore($request->status_id, 'status_id')],
+            'code' => ['required', 'string', 'max:50', Rule::unique('statuses')->ignore($request->id,)],
             'sort' => 'required|integer',
             'name.*' => 'required|string|max:50',
         ]);
 
-        if ($request->has('status_id')) {
-            $status = Statuses::find($request->get('status_id'));
+        if ($request->has('id')) {
+            $status = Status::find($request->id);
             $status->update([
                 'code' => $request->get('code'),
                 'sort' => $request->get('sort'),
             ]);
         } else {
-            $status = Statuses::create([
+            $status = Status::create([
                 'code' => $request->get('code'),
                 'sort' => $request->get('sort'),
             ]);
         }
 
         foreach ($request->get('name') as $language_id => $name) {
-            StatusesLabel::updateOrCreate(
+            StatusI18n::updateOrCreate(
                 [
-                    'status_id' => $status->status_id,
+                    'status_id' => $status->id,
                     'language_id' => $language_id,
+                ],[
                     'name' => $name
                 ]
             );
@@ -70,10 +74,10 @@ class StatusesController extends Controller
      */
     public function show(string $id)
     {
-        $languages = Languages::all()->keyBy('language_id');
-        $status = Statuses::findOrFail($id);
+        $languages = Language::all()->keyBy('id');
+        $status = Status::findOrFail($id);
 
-        return view('cms.statuses.view', compact('status', 'languages'));
+        return view('cms/statuses/view', compact('status', 'languages'));
     }
 
     /**
@@ -81,7 +85,7 @@ class StatusesController extends Controller
      */
     public function edit(string $id)
     {
-        $status = Statuses::findOrFail($id);
+        $status = Status::findOrFail($id);
 
         $reindexedLabels = [];
         foreach ($status->labels->sortBy('language_id') as $label) {
@@ -89,8 +93,8 @@ class StatusesController extends Controller
         }
         $status->labels = $reindexedLabels;
 
-        $languages = Languages::all()->keyBy('language_id');
+        $languages = Language::all()->keyBy('id');
 
-        return view('cms.statuses.create', compact('status', 'languages'));
+        return view('cms/statuses/create', compact('status', 'languages'));
     }
 }

@@ -7,15 +7,15 @@
         <form action="{{ avenue_route('statuses.store') }}" method="POST">
             @csrf
             @if (!empty($status))
-                <input type="hidden" name="status_id" value="{{ $status->status_id }}">
+                <input type="hidden" name="id" value="{{ $status->id }}">
             @endif
 
             @foreach ($languages as $language)
                 <div class="form-group row mt-3">
                     <div class="col-2"><label for="name">{{ __('common.'.strtolower($language->name).'_name') }}:</label></div>
                     <div class="col-10">
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name_{{ $language->language_id }}"
-                            name="name[{{ $language->language_id }}]" placeholder="{{ __('common.enter_'.strtolower($language->name).'_name') }}" value="{{ old('name['.$language->language_id.']', $status->labels[$language->language_id]->name ?? '') }}">
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name_{{ $language->id }}"
+                            name="name[{{ $language->id }}]" placeholder="{{ __('common.enter_'.strtolower($language->name).'_name') }}" value="{{ old('name['.$language->id.']', $status->labels[$language->id]->name ?? '') }}">
                         @error('name')
                             <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                         @enderror

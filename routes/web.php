@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::group(['prefix' => '{locale}', 'middleware' => ['locale']], function () {
-   Auth::routes();
+    Auth::routes();
 });
 
 Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], function () {
@@ -25,9 +25,9 @@ Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], funct
     Route::resource('reservations', App\Http\Controllers\ReservationController::class)->parameter('id', 'id');
     Route::resource('staffs', App\Http\Controllers\StaffController::class);
 
-    Route::resource('roles', App\Http\Controllers\RolesController::class);
-    Route::resource('types', App\Http\Controllers\TypesController::class);
-    Route::resource('statuses', App\Http\Controllers\StatusesController::class);
+    Route::resource('roles', App\Http\Controllers\RoleController::class);
+    Route::resource('types', App\Http\Controllers\TypeController::class);
+    Route::resource('statuses', App\Http\Controllers\StatusController::class);
 
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
