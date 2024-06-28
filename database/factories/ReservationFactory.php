@@ -5,14 +5,14 @@ namespace Database\Factories;
 use App\Models\Reservations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
-use App\Models\Statuses;
-use App\Models\Types;
+use App\Models\Status;
+use App\Models\Type;
 use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Reservation>
  */
-class ReservationsFactory extends Factory
+class ReservationFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -36,9 +36,9 @@ class ReservationsFactory extends Factory
         $date = Carbon::today()->addDays($this->faker->numberBetween(1, 365))->format('Y-m-d');
 
         // Ensure that foreign key values exist
-        $statusIds = Statuses::pluck('status_id')->toArray();
-        $typeIds = Types::pluck('type_id')->toArray();
-        $photographerIds = User::pluck('user_id')->toArray();
+        $statusIds = Status::pluck('id')->toArray();
+        $typeIds = Type::pluck('id')->toArray();
+        $photographerIds = User::pluck('id')->toArray();
 
         return [
             'name' => $this->faker->name,

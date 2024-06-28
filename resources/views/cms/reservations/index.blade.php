@@ -45,8 +45,8 @@
                 <select class="form-control" id="photographer" name="photographer">
                     <option value="">--{{ __('common.select') }}--</option>
                     @foreach ($users as $user)
-                        <option value="{{ $user->user_id }}"
-                            {{ request('photographer') == $user->user_id ? 'selected' : '' }}>
+                        <option value="{{ $user->id }}"
+                            {{ request('photographer') == $user->id ? 'selected' : '' }}>
                             {{ $user->name }}
                         </option>
                     @endforeach
@@ -75,14 +75,12 @@
             <tr>
                 <th>#</th>
                 <th>{{ __('common.name') }}</th>
-                <th>{{ __('common.mobile') }}</th>
+                <th>{{ __('common.photographer') }}</th>
                 <th>{{ __('common.type') }}</th>
                 <th>{{ __('common.price') }}</th>
                 <th>{{ __('common.status') }}</th>
-                <th>{{ __('common.has_video') }}</th>
-                <th>{{ __('common.date') }}</th>
+                <th>{{ __('common.date_time') }}</th>
                 <th>{{ __('common.time') }}</th>
-                <th>{{ __('common.photographer') }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -96,47 +94,60 @@
                         'deleted' => 'table-danger',
                     ];
                     $statusClass = $statusClasses[$reservation->status->code] ?? '';
-                    
-                    
-                    $statusText = [
+
+                    $statusTextClasses = [
                         'active' => 'text-primary',
                         'completed' => 'text-success',
                         'canceled' => 'table-info',
                         'deleted' => 'text-danger',
                     ];
-                    $statusText = $statusText[$reservation->status->code] ?? '';
+                    $statusTextClass = $statusTextClasses[$reservation->status->code] ?? '';
                 @endphp
 
                 <tr>
-                    <td class="{{ $statusClass }}">{{ $reservation->reservation_id }}</td>
-                    <td>{{ $reservation->name }}</td>
-                    <td>{{ $reservation->mobile }}</td>
-                    <td>{{ !empty($reservation->type_name) ? $reservation->type_name : 'N/A' }}
-                        ({{ __('common.' . $reservation->location_type) }})
+                    <td class="{{ $statusClass }}">{{ $reservation->id }}</td>
+                    <td>
+                        <div>{{ $reservation->name }}</div>
+                        <div>{{ $reservation->mobile }}</div>
+                    </td>
+                    <td>
+                        @if (!empty($reservation->thePhotographer))
+                            <div>{{ $reservation->thePhotographer->name }}</div>
+                            <div>{{ $reservation->thePhotographer->mobile }}</div>
+                        @else
+                            N/A
+                        @endif
+                    </td>
+                    <td>
+                        @if (!empty($reservation->type_name))
+                            <div>{{ $reservation->type_name }} ({{ __('common.' . $reservation->location_type) }})</div>
+                        @else
+                            N/A
+                        @endif
                     </td>
                     <td>{{ currencyFormatter($reservation->price) }}</td>
                     <td>
-                        <p class="fw-bolder {{ $statusText }}">
-                            {{ !empty($reservation->status_name) ? $reservation->status_name : 'N/A' }}</p>
-                    </td>
-                    <td>{{ $reservation->has_video ? __('common.yes') : __('common.no') }}</td>
-                    <td>
-                        <div class="row">{{ dateFormatter($reservation->date) }}</div>
+                        <p class="fw-bolder {{ $statusTextClass }}">
+                            {{ !empty($reservation->status_name) ? $reservation->status_name : 'N/A' }}
+                        </p>
                     </td>
                     <td>
-                        <div class="row">{{ timeFormatter($reservation->start) }}</div>
-                        <div class="row">{{ timeFormatter($reservation->end) }}</div>
+                        <div>{{ dateFormatter($reservation->date) }}</div>
+                        <div>{{ timeFormatter($reservation->start) }} - {{ timeFormatter($reservation->end) }}</div>
                     </td>
-                    <td>{{ !empty($reservation->thePhotographer) ? $reservation->thePhotographer->name : 'N/A' }}</td>
-                    <td class="row">
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->reservation_id]) }}'">
-                            {{ __('common.view') }}
-                        </button>
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('reservations.edit', ['reservation' => $reservation->reservation_id]) }}'">
-                            {{ __('common.edit') }}
-                        </button>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Action buttons">
+                            <button type="button" class="btn btn-primary" title="View"
+                                onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->id]) }}'">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            @if ($reservation->status->code == 'active')
+                                <button type="button" class="btn btn-secondary" title="Edit"
+                                    onclick="window.location.href='{{ avenue_route('reservations.edit', ['reservation' => $reservation->id]) }}'">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                            @endif
+                        </div>
                     </td>
                 </tr>
             @endforeach

@@ -26,19 +26,21 @@
         <tbody>
             @foreach ($statuses as $status)
                 <tr>
-                    <td>{{ $status->status_id }}</td>
+                    <td>{{ $status->id }}</td>
                     <td>{{ $status->name }}</td>
-                    <td>{{ $status->status->code }}</td>
-                    <td>{{ $status->status->sort }}</td>
+                    <td>{{ $status->code }}</td>
+                    <td>{{ $status->sort }}</td>
                     <td>
-                        <button status="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('statuses.show', ['status' => $status->status_id]) }}'">
-                            {{ __('common.view') }}
-                        </button>
-                        <button status="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('statuses.edit', ['status' => $status->status_id]) }}'">
-                            {{ __('common.edit') }}
-                        </button>
+                        <div class="btn-group" role="group" aria-label="Action buttons">
+                            <button status="button" class="btn btn-primary"
+                                onclick="window.location.href='{{ avenue_route('statuses.show', ['status' => $status->id]) }}'">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button status="button" class="btn btn-secondary"
+                                onclick="window.location.href='{{ avenue_route('statuses.edit', ['status' => $status->id]) }}'">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endforeach

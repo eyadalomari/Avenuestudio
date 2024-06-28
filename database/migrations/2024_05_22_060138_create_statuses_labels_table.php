@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('statuses_labels', function (Blueprint $table) {
-            $table->integer('status_id')->unsigned()->nullable(false);
+        Schema::create('statuses_i18n', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('status_id')->constrained('statuses')->onDelete('cascade');
             $table->integer('language_id')->unsigned()->nullable(false);
             $table->string('name', 50)->nullable(false)->default('');
         });
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('statuses_labels');
+        Schema::dropIfExists('statuses_i18n');
     }
 };

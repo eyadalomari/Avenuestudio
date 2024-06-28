@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 
-class Reservations extends Model
+class Reservation extends Model
 {
     use HasFactory;
-    protected $primaryKey = 'reservation_id';
+
+    protected $table = 'reservations';
 
     protected $fillable = [
         'name',
@@ -31,17 +32,17 @@ class Reservations extends Model
 
     public function status()
     {
-        return $this->belongsTo(Statuses::class, 'status_id', 'status_id');
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 
     public function type()
     {
-        return $this->belongsTo(Types::class, 'type_id', 'type_id');
+        return $this->belongsTo(Type::class, 'type_id', 'id');
     }
 
     public function thePhotographer()
     {
-        return $this->belongsTo(User::class, 'photographer', 'user_id');
+        return $this->belongsTo(User::class, 'photographer', 'id');
     }
 
     public function getStartAttribute($value)
@@ -68,22 +69,22 @@ class Reservations extends Model
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
-        $query = Reservations::select('reservations.*', 'statuses_labels.name as status_name', 'types_labels.name as type_name');
-        $query->join('statuses', 'reservations.status_id', '=', 'statuses.status_id');
-        $query->join('statuses_labels', function ($join) use ($language_id) {
-            $join->on('statuses.status_id', '=', 'statuses_labels.status_id')->where('statuses_labels.language_id', $language_id);
+        $query = Reservation::select('reservations.*', 'statuses_i18n.name as status_name', 'types_i18n.name as type_name');
+        $query->join('statuses', 'reservations.status_id', '=', 'statuses.id');
+        $query->join('statuses_i18n', function ($join) use ($language_id) {
+            $join->on('statuses.id', '=', 'statuses_i18n.status_id')->where('statuses_i18n.language_id', $language_id);
         });
-        $query->join('types', 'reservations.type_id', '=', 'types.type_id');
-        $query->join('types_labels', function ($join) use ($language_id) {
-            $join->on('types.type_id', '=', 'types_labels.type_id')->where('types_labels.language_id', $language_id);
+        $query->join('types', 'reservations.type_id', '=', 'types.id');
+        $query->join('types_i18n', function ($join) use ($language_id) {
+            $join->on('types.id', '=', 'types_i18n.type_id')->where('types_i18n.language_id', $language_id);
         });
 
         // Apply filters
         if (!empty($filters['keyword'])) {
             $query->where(function ($q) use ($filters) {
                 $q->where('reservations.name', 'like', '%' . $filters['keyword'] . '%')
-                ->orWhere('reservations.reservation_id', $filters['keyword'])
-                ->orWhere('reservations.mobile', 'like', '%' . $filters['keyword'] . '%');
+                    ->orWhere('reservations.id', $filters['keyword'])
+                    ->orWhere('reservations.mobile', 'like', '%' . $filters['keyword'] . '%');
             });
         }
 

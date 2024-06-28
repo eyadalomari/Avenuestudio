@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RolesLabel extends Model
+class StatusI18n extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles_labels';
+    protected $table = 'statuses_i18n';
 
     public $timestamps = false;
     public $incrementing = false;
 
     protected $fillable = [
-        'role_id',
+        'status_id',
         'language_id',
         'name'
     ];
@@ -23,8 +23,8 @@ class RolesLabel extends Model
     /**
      * Get the property type that owns the label.
      */
-    public function role()
+    public function status()
     {
-        return $this->belongsTo(Roles::class, 'role_id', 'role_id');
+        return $this->belongsTo(Status::class, 'status_id', 'id');
     }
 }

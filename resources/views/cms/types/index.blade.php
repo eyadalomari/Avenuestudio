@@ -25,19 +25,21 @@
         <tbody>
             @foreach ($types as $type)
                 <tr>
-                    <td>{{ $type->type_id }}</td>
+                    <td>{{ $type->id }}</td>
                     <td>{{ $type->name }}</td>
-                    <td>{{ $type->type->code }}</td>
-                    <td>{{ $type->type->sort }}</td>
+                    <td>{{ $type->code }}</td>
+                    <td>{{ $type->sort }}</td>
                     <td>
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('types.show', ['type' => $type->type_id]) }}'">
-                            {{ __('common.view') }}
-                        </button>
-                        <button type="button" class="btn btn-primary m-1"
-                            onclick="window.location.href='{{ avenue_route('types.edit', ['type' => $type->type_id]) }}'">
-                            {{ __('common.edit') }}
-                        </button>
+                        <div class="btn-group" role="group" aria-label="Action buttons">
+                            <button type="button" class="btn btn-primary"
+                                onclick="window.location.href='{{ avenue_route('types.show', ['type' => $type->id]) }}'">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary"
+                                onclick="window.location.href='{{ avenue_route('types.edit', ['type' => $type->id]) }}'">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             @endforeach
