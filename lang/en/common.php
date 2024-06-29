@@ -32,6 +32,7 @@ return [
    'confirm_password'=>'Confirm Password',
    'role' => 'Role',
    'type' => 'Type',
+   'location_type' => 'Location type',
    'indoor'=>'Indoor',
    'outdoor'=>'Outdoor',
    'price' => 'Price',

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RoleRequest;
 use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\RoleI18n;
 use App\Models\Language;
-use Illuminate\Validation\Rule;
 use App\Models\User;
 
 class RoleController extends Controller
@@ -34,15 +34,8 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        // Validate the request data
-        $request->validate([
-            'code' => ['required', 'string', 'max:50', Rule::unique('roles')->ignore($request->id)],
-            'sort' => 'required|integer',
-            'name.*' => 'required|string|max:50',
-        ]);
-
         if ($request->has('id')) {
             $role = Role::find($request->id);
             $role->update([

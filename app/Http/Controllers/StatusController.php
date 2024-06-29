@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StatusRequest;
 use Illuminate\Http\Request;
 use App\Models\Status;
 use App\Models\Language;
@@ -33,15 +34,8 @@ class StatusController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StatusRequest $request)
     {
-        // Validate the request data
-        $request->validate([
-            'code' => ['required', 'string', 'max:50', Rule::unique('statuses')->ignore($request->id,)],
-            'sort' => 'required|integer',
-            'name.*' => 'required|string|max:50',
-        ]);
-
         if ($request->has('id')) {
             $status = Status::find($request->id);
             $status->update([

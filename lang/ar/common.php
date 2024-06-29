@@ -32,6 +32,7 @@ return [
    'confirm_password' => 'تأكيد كلمة المرور',
    'role' => 'الدور',
    'type' => 'النوع',
+   'location_type' => 'موقع التصوير',
    'indoor' => 'داخلي',
    'outdoor' => 'خارجي',
    'price' => 'السعر',
