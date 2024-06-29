@@ -14,9 +14,9 @@
                 <div class="form-group row mt-3">
                     <div class="col-2"><label for="name">{{ __('common.'.strtolower($language->name).'_name') }}:</label></div>
                     <div class="col-10">
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" id="name_{{ $language->id }}"
+                        <input type="text" class="form-control @error('name.'.$language->id) is-invalid @enderror" id="name_{{ $language->id }}"
                             name="name[{{ $language->id }}]" placeholder="{{ __('common.enter_'.strtolower($language->name).'_name') }}" value="{{ old('name['.$language->id.']', $role->labels[$language->id]->name ?? '') }}">
-                        @error('name')
+                        @error('name.'.$language->id)
                             <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                         @enderror
                     </div>

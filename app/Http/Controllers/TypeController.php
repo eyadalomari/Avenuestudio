@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TypeRequest;
 use Illuminate\Http\Request;
 use App\Models\Type;
 use App\Models\Language;
@@ -33,15 +34,8 @@ class TypeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TypeRequest $request)
     {
-        // Validate the request data
-        $request->validate([
-            'code' => ['required', 'string', 'max:50', Rule::unique('types')->ignore($request->id)],
-            'sort' => 'required|integer',
-            'name.*' => 'required|string|max:50',
-        ]);
-
         if ($request->has('id')) {
             $type = Type::find($request->id);
             $type->update([

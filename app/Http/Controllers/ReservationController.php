@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReservationRequest;
 use Illuminate\Http\Request;
 use App\Models\Reservation;
 use App\Models\TypeI18n;
@@ -64,24 +65,8 @@ class ReservationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ReservationRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:50',
-            'mobile' => 'required|string|max:25',
-            'type_id' => 'required|integer',
-            'location_type' => 'required|in:indoor,outdoor',
-            'price' => 'required|numeric',
-            'price_remaining' => 'required|numeric',
-            'photographer' => 'required|integer',
-            'status_id' => 'required|integer',
-            'has_video' => 'required|boolean',
-            'date' => 'required|date',
-            'start' => 'required|date_format:H:i',
-            'end' => 'required|date_format:H:i|after:time_start',
-            'note' => 'nullable|string',
-        ]);
-
         $overlap = $this->isTimeOverlap($request->date, $request->start, $request->end, $request->id);
         if ($overlap) {
             return redirect()->back()->withErrors(['overlap' => 'Time overlap detected with an existing reservation (#' . $overlap->id . ')'])->withInput();
