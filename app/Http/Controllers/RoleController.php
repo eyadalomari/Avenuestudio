@@ -3,21 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoleRequest;
-use App\Models\Role;
-use App\Models\RoleI18n;
 use App\Models\Language;
+use App\Repositories\RoleRepository;
 
 class RoleController extends Controller
 {
+    private $roleRepository;
+    
+    public function __construct(RoleRepository $roleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+    }
     public function index()
     {
-        $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RoleI18n::where('language_id', $language_id)->paginate(env('PER_PAGE', 12));
-        $roles = Role::select('roles.id', 'roles.code', 'roles.sort', 'roles.created_at', 'roles.updated_at', 'roles_i18n.name')
-        ->join('roles_i18n', 'roles.id', '=', 'roles_i18n.role_id')
-        ->where('roles_i18n.language_id', $language_id)
-        ->paginate(env('PER_PAGE', 12));
-        return view('cms/roles/index', compact('roles', 'language_id'));
+        $roles = $this->roleRepository->list();
+
+        return view('cms/roles/index', compact('roles'));
     }
 
     /**
@@ -26,6 +27,7 @@ class RoleController extends Controller
     public function create()
     {
         $languages = Language::all()->keyBy('id');
+
         return view('cms/roles/create', compact('languages'));
     }
 
@@ -34,29 +36,7 @@ class RoleController extends Controller
      */
     public function store(RoleRequest $request)
     {
-        if ($request->has('id')) {
-            $role = Role::find($request->id);
-            $role->update([
-                'code' => $request->code,
-                'sort' => $request->sort,
-            ]);
-        } else {
-            $role = Role::create([
-                'code' => $request->code,
-                'sort' => $request->sort,
-            ]);
-        }
-
-        foreach ($request->get('name') as $language_id => $name) {
-            RoleI18n::updateOrCreate(
-                [
-                    'role_id' => $role->id,
-                    'language_id' => $language_id,
-                ],[
-                    'name' => $name
-                ]
-            );
-        }
+        $this->roleRepository->store();
 
         return redirect(avenue_route('roles.index'))->with('success', 'Role saved successfully.');
     }
@@ -67,7 +47,8 @@ class RoleController extends Controller
     public function show(string $id)
     {
         $languages = Language::all()->keyBy('id');
-        $role = Role::findOrFail($id);
+
+        $role = $this->roleRepository->findById($id);
 
         return view('cms/roles/view', compact('role', 'languages'));
     }
@@ -77,15 +58,9 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        $role = Role::findOrFail($id);
-
-        $reindexedLabels = [];
-        foreach ($role->labels->sortBy('language_id') as $label) {
-            $reindexedLabels[$label->language_id] = $label;
-        }
-        $role->labels = $reindexedLabels;
-
         $languages = Language::all()->keyBy('id');
+
+        $role = $this->roleRepository->findById($id);
 
         return view('cms/roles/create', compact('role', 'languages'));
     }

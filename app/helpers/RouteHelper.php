@@ -49,10 +49,10 @@ if (!function_exists('getNameFromLabels')) {
     function getNameFromLabels($labels)
     {
 
-        $language_id = app()->getLocale() == 'en' ? 1 : 2;
+        $languageId = app()->getLocale() == 'en' ? 1 : 2;
 
         foreach ($labels as $label) {
-            if ($label->language_id == $language_id) {
+            if ($label->language_id == $languageId) {
                 return $label->name;
             }
         }

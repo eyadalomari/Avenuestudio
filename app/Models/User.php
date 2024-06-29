@@ -58,10 +58,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Reservation::class, 'id', 'photographer');
     }
-
-    public static function getUsersWithRole($code){
-        return User::whereHas('role', function ($query) {
-            $query->where('code', 'photographer');
-        })->get();
-    }
 }
