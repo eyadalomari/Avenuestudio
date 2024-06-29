@@ -3,11 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StaffRequest;
-use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\RoleI18n;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 
 class StaffController extends Controller
 {
@@ -22,8 +19,8 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RoleI18n::where('language_id', $language_id)->get();
+        $languageId = app()->getLocale() == 'en' ? 1 : 2;
+        $roles = RoleI18n::where('language_id', $languageId)->get();
 
         return view('cms/staffs/create', compact('roles'));
     }
@@ -81,8 +78,8 @@ class StaffController extends Controller
             return redirect(avenue_route('staffs.index'));
         }
 
-        $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RoleI18n::where('language_id', $language_id)->get();
+        $languageId = app()->getLocale() == 'en' ? 1 : 2;
+        $roles = RoleI18n::where('language_id', $languageId)->get();
 
         $user = User::findOrFail($id);
 
