@@ -38,7 +38,7 @@ class ReservationController extends Controller
                 }]);
             },
 
-        ])->paginate(config('constants.PAGINATION'));
+        ])->paginate(env('PER_PAGE', 12));
         // ===================================================================== */
 
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
@@ -93,7 +93,6 @@ class ReservationController extends Controller
                 'updated_by' => Auth::user()->id,
             ]);
 
-            return redirect(avenue_route('reservations.index'))->with('success', 'Reservation updated successfully.');
         } else {
             Reservation::create([
                 'name' => $request->get('name'),
@@ -112,9 +111,9 @@ class ReservationController extends Controller
                 'added_by'  => Auth::user()->id,
                 'updated_by'  => Auth::user()->id,
             ]);
-
-            return redirect(avenue_route('reservations.index'))->with('success', 'Reservation created successfully.');
         }
+        
+        return redirect(avenue_route('reservations.index'))->with('success', 'Reservation saved successfully.');
     }
 
     /**

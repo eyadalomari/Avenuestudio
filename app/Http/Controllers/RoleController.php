@@ -3,22 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RoleRequest;
-use Illuminate\Http\Request;
 use App\Models\Role;
 use App\Models\RoleI18n;
 use App\Models\Language;
-use App\Models\User;
 
 class RoleController extends Controller
 {
     public function index()
     {
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RoleI18n::where('language_id', $language_id)->paginate(config('constants.PAGINATION'));
+        $roles = RoleI18n::where('language_id', $language_id)->paginate(env('PER_PAGE', 12));
         $roles = Role::select('roles.id', 'roles.code', 'roles.sort', 'roles.created_at', 'roles.updated_at', 'roles_i18n.name')
         ->join('roles_i18n', 'roles.id', '=', 'roles_i18n.role_id')
         ->where('roles_i18n.language_id', $language_id)
-        ->paginate(10);
+        ->paginate(env('PER_PAGE', 12));
         return view('cms/roles/index', compact('roles', 'language_id'));
     }
 
@@ -39,13 +37,13 @@ class RoleController extends Controller
         if ($request->has('id')) {
             $role = Role::find($request->id);
             $role->update([
-                'code' => $request->get('code'),
-                'sort' => $request->get('sort'),
+                'code' => $request->code,
+                'sort' => $request->sort,
             ]);
         } else {
             $role = Role::create([
-                'code' => $request->get('code'),
-                'sort' => $request->get('sort'),
+                'code' => $request->code,
+                'sort' => $request->sort,
             ]);
         }
 

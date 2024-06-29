@@ -110,6 +110,6 @@ class Reservation extends Model
 
         $query->orderBy('reservations.date', 'DESC');
 
-        return $query->paginate(config('constants.PAGINATION'));
+        return $query->paginate(env('PER_PAGE', 12));
     }
 }

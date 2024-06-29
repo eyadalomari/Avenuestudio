@@ -51,10 +51,25 @@ if (!function_exists('getNameFromLabels')) {
 
         $language_id = app()->getLocale() == 'en' ? 1 : 2;
 
-        foreach($labels as $label){
-            if($label->language_id == $language_id){
+        foreach ($labels as $label) {
+            if ($label->language_id == $language_id) {
                 return $label->name;
             }
         }
+    }
+}
+
+if (!function_exists('upload_file')) {
+    function upload_file($file, $path = 'images/profiles')
+    {
+        $fileName = time() . '.' . $file->getClientOriginalExtension();
+        $destinationPath = public_path($path);
+
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $file->move($destinationPath, $fileName);
+        return $path . '/' . $fileName;
     }
 }

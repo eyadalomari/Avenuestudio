@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TypeRequest;
-use Illuminate\Http\Request;
 use App\Models\Type;
 use App\Models\Language;
 use App\Models\TypeI18n;
-use Illuminate\Validation\Rule;
 
 class TypeController extends Controller
 {
@@ -17,7 +15,7 @@ class TypeController extends Controller
         $types = Type::select('types.id', 'types.code', 'types.sort', 'types.created_at', 'types.updated_at', 'types_i18n.name')
         ->join('types_i18n', 'types.id', '=', 'types_i18n.type_id')
         ->where('types_i18n.language_id', $language_id)
-        ->paginate(10);
+        ->paginate(env('PER_PAGE', 12));
 
         return view('cms/types/index', compact('types', 'language_id'));
     }
@@ -39,13 +37,13 @@ class TypeController extends Controller
         if ($request->has('id')) {
             $type = Type::find($request->id);
             $type->update([
-                'code' => $request->get('code'),
-                'sort' => $request->get('sort'),
+                'code' => $request->code,
+                'sort' => $request->sort,
             ]);
         } else {
             $type = Type::create([
-                'code' => $request->get('code'),
-                'sort' => $request->get('sort'),
+                'code' => $request->code,
+                'sort' => $request->sort,
             ]);
         }
 
@@ -60,7 +58,7 @@ class TypeController extends Controller
             );
         }
 
-        return redirect(avenue_route('types.index'))->with('success', 'Role saved successfully.');
+        return redirect(avenue_route('types.index'))->with('success', 'Type saved successfully.');
     }
 
     /**
