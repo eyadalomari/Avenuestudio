@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StatusRequest;
-use Illuminate\Http\Request;
 use App\Models\Status;
 use App\Models\Language;
 use App\Models\StatusI18n;
-use Illuminate\Validation\Rule;
 
 class StatusController extends Controller
 {
@@ -18,7 +16,7 @@ class StatusController extends Controller
         $statuses = Status::select('statuses.id', 'statuses.code', 'statuses.sort', 'statuses.created_at', 'statuses.updated_at', 'statuses_i18n.name')
         ->join('statuses_i18n', 'statuses.id', '=', 'statuses_i18n.status_id')
         ->where('statuses_i18n.language_id', $language_id)
-        ->paginate(10);
+        ->paginate(env('PER_PAGE', 12));
         return view('cms/statuses/index', compact('statuses', 'language_id'));
     }
 
@@ -39,13 +37,13 @@ class StatusController extends Controller
         if ($request->has('id')) {
             $status = Status::find($request->id);
             $status->update([
-                'code' => $request->get('code'),
-                'sort' => $request->get('sort'),
+                'code' => $request->code,
+                'sort' => $request->sort,
             ]);
         } else {
             $status = Status::create([
-                'code' => $request->get('code'),
-                'sort' => $request->get('sort'),
+                'code' => $request->code,
+                'sort' => $request->sort,
             ]);
         }
 
@@ -60,7 +58,7 @@ class StatusController extends Controller
             );
         }
 
-        return redirect(avenue_route('statuses.index'))->with('success', 'Role saved successfully.');
+        return redirect(avenue_route('statuses.index'))->with('success', 'Status saved successfully.');
     }
 
     /**

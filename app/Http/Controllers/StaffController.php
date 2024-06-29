@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StaffRequest;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\RoleI18n;
@@ -12,7 +13,7 @@ class StaffController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(config('constants.PAGINATION'));
+        $users = User::paginate(env('PER_PAGE', 12));
         return view('cms/staffs/index', compact('users'));
     }
 
@@ -30,52 +31,35 @@ class StaffController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StaffRequest $request)
     {
         if ($request->has('id') && $request->id == 1) {
             return redirect(avenue_route('staffs.index'));
         }
 
-        $request->validate([
-            'name' => 'required|string|max:50',
-            'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($request->id)],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->id)],
-            'role_id' => 'required|integer',
-            'is_active' => 'required|integer',
-            'password' => $request->has('id') ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+        $validated = $request->validated();
 
-        $data = $request->only(['name', 'mobile', 'email', 'role_id', 'is_active']);
-
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($request->get('password'));
+        // Remove null values
+        $data = array_filter($validated, function ($value) {
+            return !is_null($value);
+        });
+    
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($request->get('password'));
         }
-
-        // Handle iamge upload
+        
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('images/profiles');
-
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-
-            $image->move($destinationPath, $imageName);
-            $data['image'] = 'images/profiles/' . $imageName;
+            $data['image'] = upload_file($request->file('image'), 'images/profiles');
         }
 
-        if ($request->has('id')) {
-            $user = User::findOrFail($request->id);
-            $user->update($data);
-            return redirect(avenue_route('staffs.index'))->with('success', 'Staff updated successfully.');
-        } else {
-            User::create($data);
-            return redirect(avenue_route('staffs.index'))->with('success', 'Staff created successfully.');
-        }
+        // Update or create user based on ID existence
+        User::updateOrCreate(
+            ['id' => $request->id],
+            $data
+        );
 
-
+        return redirect(avenue_route('staffs.index'))->with('success', 'Staff saved successfully.');
     }
 
     /**

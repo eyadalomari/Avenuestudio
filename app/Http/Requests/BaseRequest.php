@@ -21,11 +21,17 @@ class BaseRequest extends FormRequest
         'end' => 'end_time',
         'code' => 'code',
         'sort' => 'sort',
+        'password' => 'password',
+        'password_confirmation' => 'password_confirmation',
+        'email' => 'email',
+        'role_id' => 'role',
+        'is_active' => 'status',
     ];
 
     protected $maxChars = [
         'name' => 50,
         'mobile' => 10,
+        'email' => 255,
     ];
 
     /**
@@ -57,7 +63,6 @@ class BaseRequest extends FormRequest
             if (isset($this->maxChars[$field])) {
                 $messages["{$field}.max"] = __("validation.field_max", ['attribute' => $attributeName, 'max' => $this->maxChars[$field]]);
             }
-
         }
 
         return $messages;
