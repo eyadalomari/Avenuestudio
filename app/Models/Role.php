@@ -16,18 +16,18 @@ class Role extends Model
         'sort'
     ];
 
-    public function user()
+    public function labels()
     {
-        return $this->hasMany(User::class, 'role_id', 'id');
+        return $this->hasMany(RoleI18n::class, 'role_id', 'id');
     }
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'role_id', 'id');
+        return $this->belongsToMany(User::class, 'user_roles', 'role_id', 'user_id');
     }
 
-    public function labels()
+    public function permissions()
     {
-        return $this->hasMany(RoleI18n::class, 'role_id', 'id');
+        return $this->belongsToMany(Permission::class, 'role_permissions', 'role_id', 'permission_id');
     }
 }

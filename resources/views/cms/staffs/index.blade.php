@@ -33,7 +33,11 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->mobile }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->role_name }}</td>
+                    <td>
+                        @foreach ($user->roles as $role)
+                            <li>{{ $role->role_name }}</li>
+                        @endforeach
+                    </td>
                     <td>{{ $user->is_active == 1 ? __('common.active') : __('common.in_active') }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>

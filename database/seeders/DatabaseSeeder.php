@@ -13,6 +13,8 @@ use App\Models\TypeI18n;
 use App\Models\Role;
 use App\Models\RoleI18n;
 use App\Models\Language;
+use App\Models\Permission;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -84,17 +86,57 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::insert([
-            ['name' => 'Admin', 'mobile' => '079999999', 'email' => 'admin@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => bcrypt('Demo@123')],
-            ['name' => 'Eyad', 'mobile' => '0795473804', 'email' => 'eyad@avenue.com', 'role_id' => 1, 'is_active' => 1, 'password' => bcrypt('Demo@123')],
-            ['name' => 'Osaid', 'mobile' => '0798527381', 'email' => 'osaid@avenue.com', 'role_id' => 2, 'is_active' => 1, 'password' => bcrypt('Demo@123')],
-            ['name' => 'Ashraf', 'mobile' => '0798527382', 'email' => 'ashraf@avenue.com', 'role_id' => 2, 'is_active' => 1, 'password' => bcrypt('Demo@123')],
+            ['name' => 'Admin', 'mobile' => '0799999990', 'email' => 'admin@avenue.com', 'is_active' => true, 'is_admin' => true, 'password' => bcrypt('Demo@123')],
+            ['name' => 'Eyad', 'mobile' => '0795473804', 'email' => 'eyad@avenue.com', 'is_active' => true, 'is_admin' => false, 'password' => bcrypt('Demo@123')],
+            ['name' => 'Osaid', 'mobile' => '0798527381', 'email' => 'osaid@avenue.com', 'is_active' => true, 'is_admin' => false, 'password' => bcrypt('Demo@123')],
+            ['name' => 'Ashraf', 'mobile' => '0798527382', 'email' => 'ashraf@avenue.com', 'is_active' => true, 'is_admin' => false, 'password' => bcrypt('Demo@123')],
         ]);
+
+        DB::table('user_roles')->insert(
+            ['user_id' => 1, 'role_id' => 1],
+            ['user_id' => 1, 'role_id' => 2],
+            ['user_id' => 2, 'role_id' => 1],
+            ['user_id' => 2, 'role_id' => 2],
+        );
+
 
         Language::insert([
             ['id' => 1, 'name' => 'English', 'status' => 1, 'is_rtl' => 0],
             ['id' => 2, 'name' => 'Arabic', 'status' => 1, 'is_rtl' => 1],
         ]);
 
-        Reservation::factory()->count(1000)->create();
+        Permission::insert([
+            ['name' => 'Reservations-index'],
+            ['name' => 'Reservations-create'],
+            ['name' => 'Reservations-edit'],
+            ['name' => 'Reservations-show'],
+            ['name' => 'Reservations-store'],
+            ['name' => 'Roles-index'],
+            ['name' => 'Roles-create'],
+            ['name' => 'Roles-edit'],
+            ['name' => 'Roles-show'],
+            ['name' => 'Roles-store'],
+            ['name' => 'Staffs-index'],
+            ['name' => 'Staffs-create'],
+            ['name' => 'Staffs-edit'],
+            ['name' => 'Staffs-show'],
+            ['name' => 'Staffs-store'],
+            ['name' => 'Status-index'],
+            ['name' => 'Status-create'],
+            ['name' => 'Status-edit'],
+            ['name' => 'Status-show'],
+            ['name' => 'Status-store'],
+            ['name' => 'Types-index'],
+            ['name' => 'Types-create'],
+            ['name' => 'Types-edit'],
+            ['name' => 'Types-show'],
+            ['name' => 'Types-store'],
+        ]);
+
+        $role = Role::find(1);
+        $permissions = Permission::all();
+        $role->permissions()->attach($permissions);
+
+        Reservation::factory()->count(50)->create();
     }
 }

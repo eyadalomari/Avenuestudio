@@ -38,35 +38,43 @@ class StaffController extends Controller
      */
     public function store(StaffRequest $request)
     {
+        // If the user ID is 1, redirect to the staff index (typically for admin protection)
         if ($request->has('id') && $request->id == 1) {
             return redirect(avenue_route('staffs.index'));
         }
-
+    
+        // Validate the request data
         $validated = $request->validated();
-
-        // Remove null values
+    
+        // Remove null values from the validated data
         $data = array_filter($validated, function ($value) {
             return !is_null($value);
         });
     
+        // Hash the password if it's set in the request
         if (isset($data['password'])) {
             $data['password'] = bcrypt($request->get('password'));
         }
-        
+    
         // Handle image upload
         if ($request->hasFile('image')) {
             $data['image'] = upload_file($request->file('image'), 'images/profiles');
         }
-
-        // Update or create user based on ID existence
-        User::updateOrCreate(
+    
+        // Update or create the user based on the ID existence
+        $user = User::updateOrCreate(
             ['id' => $request->id],
             $data
         );
-
+    
+        // Sync the roles if role_ids are present in the request
+        if ($request->has('role_ids')) {
+            $user->roles()->sync($request->input('role_ids'));
+        }
+    
         return redirect(avenue_route('staffs.index'))->with('success', 'Staff saved successfully.');
     }
-
+    
     /**
      * Display the specified resource.
      */

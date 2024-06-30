@@ -16,8 +16,8 @@ return new class () extends Migration {
             $table->string('name');
             $table->string('mobile', length:25)->unique()->nullable()->default('');
             $table->string('email')->unique();
-            $table->unsignedInteger('role_id')->nullable(false)->default(0);
-            $table->unsignedInteger('is_active')->nullable(false)->default(1);
+            $table->boolean('is_admin')->nullable(false)->default(0);
+            $table->boolean('is_active')->nullable(false)->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

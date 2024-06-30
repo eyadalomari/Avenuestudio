@@ -11,12 +11,16 @@ class UserRepository
 
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
 
-        $users = User::paginate(env('PER_PAGE', 12));
+        $users = User::with(['roles.labels' => function($query) use ($languageId) {
+            $query->where('language_id', $languageId);
+        }])->paginate(env('PER_PAGE', 12));
 
         foreach ($users as $user) {
-            foreach ($user->role->labels as $row) {
-                if ($row->language_id == $languageId) {
-                    $user->role_name = $row->name;
+            foreach ($user->roles as $role) {
+                foreach($role->labels as $label){
+                    if($label->language_id == $languageId){
+                        $role->role_name = $label->name;
+                    }
                 }
             }
         }
@@ -40,12 +44,14 @@ class UserRepository
 
         $user = User::findOrFail($user_id);
 
-        foreach ($user->role->labels as $row) {
-            if ($row->language_id == $languageId) {
-                $user->role_name = $row->name;
+        foreach ($user->roles as $role) {
+            foreach($role->labels as $label){
+                if($label->language_id == $languageId){
+                    $role->role_name = $label->name;
+                }
             }
         }
-
+        
         return $user;
 
         /*
@@ -62,7 +68,7 @@ class UserRepository
 
     public function getUsersByRole($role)
     {
-        return User::whereHas('role', function ($query) use ($role) {
+        return User::whereHas('roles', function ($query) use ($role) {
             $query->where('code', $role);
         })->get();
     }
