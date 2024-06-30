@@ -19,7 +19,6 @@
                 <th>{{ __('common.name') }}</th>
                 <th>{{ __('common.mobile') }}</th>
                 <th>{{ __('common.email') }}</th>
-                <th>{{ __('common.role') }}</th>
                 <th>{{ __('common.status') }}</th>
                 <th>{{ __('common.created_date') }}</th>
                 <th>{{ __('common.updated_date') }}</th>
@@ -33,7 +32,6 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->mobile }}</td>
                     <td>{{ $user->email }}</td>
-                    <td>{{ $user->role_name }}</td>
                     <td>{{ $user->is_active == 1 ? __('common.active') : __('common.in_active') }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>

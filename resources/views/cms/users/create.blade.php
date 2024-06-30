@@ -61,22 +61,6 @@
                 </div>
             </div>
             <div class="form-group row mt-3">
-                <div class="col-2"><label for="role_id">{{ __('common.role') }}:</label></div>
-                <div class="col-10">
-                    <select class="form-control @error('role_id') is-invalid @enderror" id="role_id" name="role_id">
-                        <option value="">--{{ __('common.select') }}--</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->role_id }}"
-                                {{ old('role_id', $user->role_id ?? '') == $role->role_id ? 'selected' : '' }}>
-                                {{ $role->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('role_id')
-                        <div class="invalid-feedback" style="display: block">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-            <div class="form-group row mt-3">
                 <div class="col-2"><label for="is_active">{{ __('common.status') }}:</label></div>
                 <div class="col-10">
                     <select class="form-control @error('is_active') is-invalid @enderror" id="is_active" name="is_active">

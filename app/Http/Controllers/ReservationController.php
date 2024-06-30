@@ -37,7 +37,7 @@ class ReservationController extends Controller
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
         $statuses = $this->statusRepository->getAllByLanguage($languageId);
         $types = $this->typeRepository->getAllByLanguage($languageId);
-        $users = $this->userRepository->getUsersByRole('photographer');
+        $users = $this->userRepository->all();
 
         return view('cms/reservations/index', compact('reservations', 'statuses', 'types', 'users'));
     }
@@ -47,7 +47,7 @@ class ReservationController extends Controller
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
         $statuses = $this->statusRepository->getAllByLanguage($languageId);
         $types = $this->typeRepository->getAllByLanguage($languageId);
-        $users = $this->userRepository->getUsersByRole('photographer');
+        $users = $this->userRepository->all();
 
         return view('cms/reservations/create', compact('types', 'statuses', 'users'));
     }
@@ -76,7 +76,7 @@ class ReservationController extends Controller
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
         $statuses = $this->statusRepository->getAllByLanguage($languageId);
         $types = $this->typeRepository->getAllByLanguage($languageId);
-        $users = $this->userRepository->getUsersByRole('photographer');
+        $users = $this->userRepository->all();
 
         $reservation = $this->reservationRepository->findById($id);
 

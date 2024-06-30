@@ -21,7 +21,7 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'name', 'mobile', 'email', 'role_id', 'is_active', 'password', 'image'
+        'name', 'mobile', 'email', 'is_active', 'password', 'image'
     ];
 
     /**
@@ -43,16 +43,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class, 'role_id', 'id');
-    }
-
-    public function hasRole($code)
-    {
-        return $this->roles()->where('code', $code)->exists();
-    }
 
     public function reservations()
     {

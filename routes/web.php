@@ -25,7 +25,6 @@ Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], funct
     Route::resource('reservations', App\Http\Controllers\ReservationController::class)->parameter('id', 'id');
     Route::resource('users', App\Http\Controllers\UserController::class);
 
-    Route::resource('roles', App\Http\Controllers\RoleController::class);
     Route::resource('types', App\Http\Controllers\TypeController::class);
     Route::resource('statuses', App\Http\Controllers\StatusController::class);
 

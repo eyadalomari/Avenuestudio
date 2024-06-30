@@ -24,7 +24,6 @@ class BaseRequest extends FormRequest
         'password' => 'password',
         'password_confirmation' => 'password_confirmation',
         'email' => 'email',
-        'role_id' => 'role',
         'is_active' => 'status',
     ];
 

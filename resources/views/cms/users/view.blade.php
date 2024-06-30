@@ -24,12 +24,6 @@
             </div>
         </div>
         <div class="form-group row mt-3">
-            <div class="col-2"><span>{{ __('common.role') }}:</span></div>
-            <div class="col-10">
-                <span>{{ $user->role_name }}</span>
-            </div>
-        </div>
-        <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.status') }}:</span></div>
             <div class="col-10">
                 <span>{{ $user->is_active == 1 ? __('common.active') : __('common.in_active') }}</span>

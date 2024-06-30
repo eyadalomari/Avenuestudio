@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
 use App\Models\User;
-use App\Models\RoleI18n;
 use App\Repositories\UserRepository;
 
 class UserController extends Controller
@@ -28,9 +27,8 @@ class UserController extends Controller
     public function create()
     {
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RoleI18n::where('language_id', $languageId)->get();
 
-        return view('cms/users/create', compact('roles'));
+        return view('cms/users/create');
     }
 
     /**
@@ -87,10 +85,9 @@ class UserController extends Controller
         }
 
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = RoleI18n::where('language_id', $languageId)->get();
 
         $user = $this->userRepository->findById($id);
 
-        return view('cms/users/create', compact('roles', 'user'));
+        return view('cms/users/create', compact('user'));
     }
 }
