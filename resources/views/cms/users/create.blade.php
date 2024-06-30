@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container">
-        <h2>{{ empty($user) ? __('common.create_staff') : __('common.edit_staff') }}</h2>
+        <h2>{{ empty($user) ? __('common.create_user') : __('common.edit_user') }}</h2>
 
-        <form action="{{ avenue_route('staffs.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ avenue_route('users.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (!empty($user))
                 <input type="hidden" name="id" value="{{ $user->id }}">
@@ -100,7 +100,7 @@
             </div>
 
             <a type="button" class="btn btn-secondary"
-                href="{{ avenue_route('staffs.index') }}">{{ __('common.back') }}</a>
+                href="{{ avenue_route('users.index') }}">{{ __('common.back') }}</a>
             <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
         </form>
     </div>

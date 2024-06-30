@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <h2>{{ __('common.view_staff') }}</h2>
+        <h2>{{ __('common.view_user') }}</h2>
         @csrf
         <div class="form-group row mt-5">
             <div class="col-2"><span for="name">{{ __('common.name') }}:</span></div>
@@ -59,7 +59,7 @@
 
         <div class="mt-3">
             <a type="button" class="btn btn-secondary"
-                href="{{ avenue_route('staffs.index') }}">{{ __('common.back') }}</a>
+                href="{{ avenue_route('users.index') }}">{{ __('common.back') }}</a>
         </div>
     </div>
 @endsection

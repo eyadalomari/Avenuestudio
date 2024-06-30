@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StaffRequest;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use App\Models\RoleI18n;
 use App\Repositories\UserRepository;
 
-class StaffController extends Controller
+class UserController extends Controller
 {
     private $userRepository;
     public function __construct(UserRepository $userRepository)
@@ -19,7 +19,7 @@ class StaffController extends Controller
     {
         $users = $this->userRepository->list();
         
-        return view('cms/staffs/index', compact('users'));
+        return view('cms/users/index', compact('users'));
     }
 
     /**
@@ -30,16 +30,16 @@ class StaffController extends Controller
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
         $roles = RoleI18n::where('language_id', $languageId)->get();
 
-        return view('cms/staffs/create', compact('roles'));
+        return view('cms/users/create', compact('roles'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StaffRequest $request)
+    public function store(UserRequest $request)
     {
         if ($request->has('id') && $request->id == 1) {
-            return redirect(avenue_route('staffs.index'));
+            return redirect(avenue_route('users.index'));
         }
 
         $validated = $request->validated();
@@ -64,7 +64,7 @@ class StaffController extends Controller
             $data
         );
 
-        return redirect(avenue_route('staffs.index'))->with('success', 'Staff saved successfully.');
+        return redirect(avenue_route('users.index'))->with('success', 'User saved successfully.');
     }
 
     /**
@@ -74,7 +74,7 @@ class StaffController extends Controller
     {
         $user = $this->userRepository->findById($id);
 
-        return view('cms/staffs/view', compact('user'));
+        return view('cms/users/view', compact('user'));
     }
 
     /**
@@ -83,7 +83,7 @@ class StaffController extends Controller
     public function edit(string $id)
     {
         if (!empty($id) && $id == 1) {
-            return redirect(avenue_route('staffs.index'));
+            return redirect(avenue_route('users.index'));
         }
 
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
@@ -91,6 +91,6 @@ class StaffController extends Controller
 
         $user = $this->userRepository->findById($id);
 
-        return view('cms/staffs/create', compact('roles', 'user'));
+        return view('cms/users/create', compact('roles', 'user'));
     }
 }
