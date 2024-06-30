@@ -45,20 +45,6 @@ if (!function_exists('currencyFormatter')) {
     }
 }
 
-if (!function_exists('getNameFromLabels')) {
-    function getNameFromLabels($labels)
-    {
-
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-
-        foreach ($labels as $label) {
-            if ($label->language_id == $languageId) {
-                return $label->name;
-            }
-        }
-    }
-}
-
 if (!function_exists('upload_file')) {
     function upload_file($file, $path = 'images/profiles')
     {
