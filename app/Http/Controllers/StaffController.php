@@ -5,12 +5,20 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StaffRequest;
 use App\Models\User;
 use App\Models\RoleI18n;
+use App\Repositories\UserRepository;
 
 class StaffController extends Controller
 {
+    private $userRepository;
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function index()
     {
-        $users = User::paginate(env('PER_PAGE', 12));
+        $users = $this->userRepository->list();
+        
         return view('cms/staffs/index', compact('users'));
     }
 
@@ -64,7 +72,7 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userRepository->findById($id);
 
         return view('cms/staffs/view', compact('user'));
     }
@@ -81,7 +89,7 @@ class StaffController extends Controller
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
         $roles = RoleI18n::where('language_id', $languageId)->get();
 
-        $user = User::findOrFail($id);
+        $user = $this->userRepository->findById($id);
 
         return view('cms/staffs/create', compact('roles', 'user'));
     }
