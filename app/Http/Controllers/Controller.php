@@ -12,9 +12,9 @@ class Controller extends BaseController
 
     public function __construct()
     {
-        $controller = request()->route()->getControllerClass();
+        $controller = class_basename(request()->route()->getControllerClass());
         $method = request()->route()->getActionMethod();
 
-        $this->middleware('permission:'.$controller.'-'.$method)->only([$method]);
+        $this->middleware('permission:'.$controller.','.$method)->only([$method]);
     }
 }

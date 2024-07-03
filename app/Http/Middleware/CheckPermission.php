@@ -14,15 +14,15 @@ class CheckPermission
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $permission): Response
+    public function handle(Request $request, Closure $next, $controller, $method): Response
     {
-        // if (Auth::check() && (Auth::user()->hasPermission($permission) || Auth::user()->id == 1)) {
-        //     return $next($request);
-        // }
+        /*
+        if (Auth::check() && (Auth::user()->hasPermission($permission) || Auth::user()->id == 1)) {
+            return $next($request);
+        }
+        dd($controller, $method, Auth::user()->checkHasPermission($controller, $method), Auth::user()->roles);
+        */
 
-        list($fullController, $method) = explode('-', $permission);
-        $controllerParts = explode('\\', $fullController);
-        $controller = end($controllerParts);
 
         if (Auth::check() && (Auth::user()->checkHasPermission($controller, $method) || Auth::user()->id == 1)) {
             return $next($request);

@@ -64,10 +64,8 @@ class User extends Authenticatable
     public function checkHasPermission($class, $method)
     {
         return $this->roles()->whereHas('permissions', function ($query) use ($class, $method) {
-            $query->where('class_code', $class, function($query) use ($method) {
-                $query->where('method_code', $method);
-            });
-        })->exists();
+            $query->where('class_code', $class)->where('method_code', $method);
+            })->exists();
     }
 
 
