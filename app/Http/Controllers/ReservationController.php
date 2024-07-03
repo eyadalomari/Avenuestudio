@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationRequest;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Repositories\ReservationRepository;
 use App\Repositories\StatusRepository;
 use App\Repositories\TypeRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Route;
 
 class ReservationController extends Controller
 {
