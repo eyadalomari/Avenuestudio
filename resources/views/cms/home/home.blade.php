@@ -19,7 +19,7 @@
            </div>
        @empty
            <div class="col-12">
-               <h1>There are no Reservations for Today</h1>
+               <h1>{{ __('common.no_reservations_scheduled_for_today') }}</h1>
            </div>
        @endforelse
    </div>

@@ -34,8 +34,8 @@
                     <td>{{ $user->mobile }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        @foreach($user->role_names as $role_name)
-                            <li>{{ $role_name }}</li>
+                        @foreach($user->roles as $role)
+                            <li>{{ $role->label->name }}</li>
                         @endforeach
                     </td>
                     <td>{{ $user->is_active == 1 ? __('common.active') : __('common.in_active') }}</td>

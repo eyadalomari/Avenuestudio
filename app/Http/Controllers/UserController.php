@@ -33,8 +33,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = $this->roleRepository->getAllByLanguage($languageId);
+        $roles = $this->roleRepository->getAllRoles();
 
         return view('cms/users/create', compact('roles'));
     }
@@ -69,8 +68,7 @@ class UserController extends AdminController
             return redirect(avenue_route('users.index'));
         }
 
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = $this->roleRepository->getAllByLanguage($languageId);
+        $roles = $this->roleRepository->getAllRoles();
 
         $user = $this->userRepository->findById($id);
 

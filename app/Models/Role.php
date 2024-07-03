@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Role extends Model
 {
@@ -26,6 +27,13 @@ class Role extends Model
         return $this->belongsToMany(User::class, 'role_id', 'id');
     }
 
+    public function label(): HasOne
+    {
+        $languageId = app()->getLocale() == 'en' ? 1 : 2;
+
+        return $this->hasOne(RoleI18n::class, 'role_id', 'id')->where('language_id', $languageId);
+    }
+
     public function labels()
     {
         return $this->hasMany(RoleI18n::class, 'role_id', 'id');
@@ -35,5 +43,4 @@ class Role extends Model
     {
         return $this->belongsToMany(Permission::class, 'role_permission');
     }
-
 }

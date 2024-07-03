@@ -60,7 +60,6 @@ class StatusController extends AdminController
     public function edit(string $id)
     {
         $languages = Language::all()->keyBy('id');
-
         $status = $this->statusRepository->findById($id);
 
         return view('cms/statuses/create', compact('status', 'languages'));

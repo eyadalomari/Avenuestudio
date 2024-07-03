@@ -9,17 +9,12 @@ class TypeRepository
 {
     public function list()
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-
-        return Type::select('types.id', 'types.code', 'types.sort', 'types.created_at', 'types.updated_at', 'types_i18n.name')
-            ->join('types_i18n', 'types.id', '=', 'types_i18n.type_id')
-            ->where('types_i18n.language_id', $languageId)
-            ->paginate(env('PER_PAGE', 12));
+        return Type::paginate(env('PER_PAGE', 12));
     }
 
-    public function getAllByLanguage($languageId)
+    public function getAllTypes()
     {
-        return TypeI18n::where('language_id', $languageId)->get();
+        return Type::all();
     }
 
     public function store()
@@ -46,19 +41,13 @@ class TypeRepository
                 ]
             );
         }
-
     }
 
     public function findById($type_id)
     {
         $type = Type::findOrFail($type_id);
+        $type->labels = $type->labels->keyBy('language_id');
         
-        $reindexedLabels = [];
-        foreach ($type->labels as $label) {
-            $reindexedLabels[$label->language_id] = $label;
-        }
-        $type->labels = $reindexedLabels;
-
         return $type;
     }
 }

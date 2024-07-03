@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\ReservationRepository;
 use App\Repositories\StatusRepository;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class HomeController extends AdminController
 {
@@ -37,7 +37,7 @@ class HomeController extends AdminController
             'from_date' => date('Y-m-d'),
             'to_date' => date('Y-m-d')
         ];
-
+        
         $reservations = $this->reservationRepository->homePage($filters);
 
         return view('cms/home/home', compact('reservations'));

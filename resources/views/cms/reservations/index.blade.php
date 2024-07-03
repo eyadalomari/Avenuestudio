@@ -22,8 +22,8 @@
                 <select class="form-control" id="type_id" name="type_id">
                     <option value="">--{{ __('common.select') }}--</option>
                     @foreach ($types as $type)
-                        <option value="{{ $type->type_id }}" {{ request('type_id') == $type->type_id ? 'selected' : '' }}>
-                            {{ $type->name }}
+                        <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>
+                            {{ $type->label->name }}
                         </option>
                     @endforeach
                 </select>
@@ -33,9 +33,9 @@
                 <select class="form-control" id="status_id" name="status_id">
                     <option value="">--{{ __('common.select') }}--</option>
                     @foreach ($statuses as $status)
-                        <option value="{{ $status->status_id }}"
-                            {{ request('status_id') == $status->status_id ? 'selected' : '' }}>
-                            {{ $status->name }}
+                        <option value="{{ $status->id }}"
+                            {{ request('status_id') == $status->id ? 'selected' : '' }}>
+                            {{ $status->label->name }}
                         </option>
                     @endforeach
                 </select>
@@ -119,16 +119,12 @@
                         @endif
                     </td>
                     <td>
-                        @if (!empty($reservation->type_name))
-                            <div>{{ $reservation->type_name }} ({{ __('common.' . $reservation->location_type) }})</div>
-                        @else
-                            N/A
-                        @endif
+                        <div>{{ $reservation->type->label->name }} ({{ __('common.' . $reservation->location_type) }})</div>
                     </td>
                     <td>{{ currencyFormatter($reservation->price) }}</td>
                     <td>
                         <p class="fw-bolder {{ $statusTextClass }}">
-                            {{ !empty($reservation->status_name) ? $reservation->status_name : 'N/A' }}
+                            {{ $reservation->status->label->name }}
                         </p>
                     </td>
                     <td>

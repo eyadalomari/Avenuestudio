@@ -34,9 +34,8 @@ class ReservationController extends AdminController
         $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
         $reservations = $this->reservationRepository->list($filters);
 
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = $this->statusRepository->getAllByLanguage($languageId);
-        $types = $this->typeRepository->getAllByLanguage($languageId);
+        $statuses = $this->statusRepository->getAllStatuses();
+        $types = $this->typeRepository->getAllTypes();
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/index', compact('reservations', 'statuses', 'types', 'users'));
@@ -44,9 +43,8 @@ class ReservationController extends AdminController
 
     public function create()
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = $this->statusRepository->getAllByLanguage($languageId);
-        $types = $this->typeRepository->getAllByLanguage($languageId);
+        $statuses = $this->statusRepository->getAllStatuses();
+        $types = $this->typeRepository->getAllTypes();
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/create', compact('types', 'statuses', 'users'));
@@ -73,9 +71,8 @@ class ReservationController extends AdminController
 
     public function edit(string $id)
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = $this->statusRepository->getAllByLanguage($languageId);
-        $types = $this->typeRepository->getAllByLanguage($languageId);
+        $statuses = $this->statusRepository->getAllStatuses();
+        $types = $this->typeRepository->getAllTypes();
         $users = $this->userRepository->getUsersByRole('photographer');
 
         $reservation = $this->reservationRepository->findById($id);
