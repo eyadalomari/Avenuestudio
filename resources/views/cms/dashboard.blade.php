@@ -55,11 +55,11 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ avenue_route('staffs.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('users.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user"></i>
                                 </span>
-                                <span class="hide-menu">{{ __('common.staffs') }}</span>
+                                <span class="hide-menu">{{ __('common.users') }}</span>
                             </a>
                         </li>
                         <li class="nav-small-cap">

@@ -177,7 +177,7 @@
                     @enderror
                 </div>
             </div>
-            <!-- Add more form fields for other columns -->
+
             <a type="button" class="btn btn-secondary"
                 href="{{ avenue_route('reservations.index') }}">{{ __('common.back') }}</a>
             <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>

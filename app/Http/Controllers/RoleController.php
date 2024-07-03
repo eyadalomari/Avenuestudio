@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RoleRequest;
 use App\Models\Language;
 use App\Repositories\RoleRepository;
+use App\Repositories\PermissionRepository;
 
 class RoleController extends Controller
 {
     private $roleRepository;
+    private $permissionRepository;
     
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(RoleRepository $roleRepository, PermissionRepository $permissionRepository)
     {
+        parent::__construct();
         $this->roleRepository = $roleRepository;
+        $this->permissionRepository = $permissionRepository;
     }
     public function index()
     {
@@ -27,8 +31,9 @@ class RoleController extends Controller
     public function create()
     {
         $languages = Language::all()->keyBy('id');
+        $permissions = $this->permissionRepository->all();
 
-        return view('cms/roles/create', compact('languages'));
+        return view('cms/roles/create', compact('permissions', 'languages'));
     }
 
     /**
@@ -59,9 +64,10 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         $languages = Language::all()->keyBy('id');
-
         $role = $this->roleRepository->findById($id);
+        $permissions = $this->permissionRepository->all();
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
 
-        return view('cms/roles/create', compact('role', 'languages'));
+        return view('cms/roles/create', compact('role', 'permissions', 'languages', 'rolePermissions'));
     }
 }

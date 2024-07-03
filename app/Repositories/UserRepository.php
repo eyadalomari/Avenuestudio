@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\Role;
 use App\Models\User;
 
 class UserRepository
@@ -11,15 +12,16 @@ class UserRepository
 
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
 
-        $users = User::paginate(env('PER_PAGE', 12));
-
+        $users = User::with(['roles.labels' => function ($query) use ($languageId) {
+            $query->where('language_id', $languageId);
+        }])->paginate(env('PER_PAGE', 12));
+        
         foreach ($users as $user) {
-            foreach ($user->role->labels as $row) {
-                if ($row->language_id == $languageId) {
-                    $user->role_name = $row->name;
-                }
-            }
+            $user->role_names = $user->roles->flatMap(function ($role) use ($languageId) {
+                return $role->labels->where('language_id', $languageId)->pluck('name');
+            })->toArray();
         }
+
 
         return $users;
 
@@ -38,14 +40,14 @@ class UserRepository
     {
         $languageId = app()->getLocale() == 'en' ? 1 : 2;
 
-        $user = User::findOrFail($user_id);
-
-        foreach ($user->role->labels as $row) {
-            if ($row->language_id == $languageId) {
-                $user->role_name = $row->name;
-            }
-        }
-
+        $user = User::with(['roles.labels' => function ($query) use ($languageId) {
+            $query->where('language_id', $languageId);
+        }])->findOrFail($user_id);
+        
+        $user->role_names = $user->roles->flatMap(function ($role) use ($languageId) {
+            return $role->labels->where('language_id', $languageId)->pluck('name');
+        })->toArray();
+        
         return $user;
 
         /*
@@ -60,10 +62,43 @@ class UserRepository
         */
     }
 
-    public function getUsersByRole($role)
+    public function getUsersByRole($roleCode)
     {
-        return User::whereHas('role', function ($query) use ($role) {
-            $query->where('code', $role);
+        return User::whereHas('roles', function ($query) use ($roleCode) {
+            $query->where('code', $roleCode);
         })->get();
+    }
+
+    public function store($data)
+    {
+        if (request()->id == 1) {
+            return redirect(avenue_route('users.index'));
+        }
+
+        if (request()->has('password')) {
+            $data['password'] = bcrypt(request()->get('password'));
+        }
+
+        if (request()->hasFile('image')) {
+            $data['image'] = upload_file(request()->file('image'), 'images/profiles');
+        }
+
+
+        $user = User::updateOrCreate(
+            ['id' => request()->id],
+            $data
+        );
+
+        if (request()->has('role_ids')) {
+            $roleIds = request()->role_ids;
+            $existingRoles = Role::whereIn('id', $roleIds)->pluck('id')->toArray();
+    
+            if (count($existingRoles) !== count($roleIds)) {
+                return redirect()->back()->withErrors(['role_ids' => 'One or more roles dose not saved successfully.']);
+            }
+
+            $user->roles()->sync($existingRoles);
+        }
+
     }
 }

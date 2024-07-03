@@ -9,6 +9,7 @@ use App\Repositories\ReservationRepository;
 use App\Repositories\StatusRepository;
 use App\Repositories\TypeRepository;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Route;
 
 class ReservationController extends Controller
 {
@@ -23,6 +24,7 @@ class ReservationController extends Controller
         TypeRepository $typeRepository,
         UserRepository $userRepository
     ) {
+        parent::__construct();
         $this->reservationRepository = $reservationRepository;
         $this->statusRepository = $statusRepository;
         $this->typeRepository = $typeRepository;

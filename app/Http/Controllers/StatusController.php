@@ -12,6 +12,7 @@ class StatusController extends Controller
 
     public function __construct(StatusRepository $statusRepository)
     {
+        parent::__construct();
         $this->statusRepository = $statusRepository;
     }
     

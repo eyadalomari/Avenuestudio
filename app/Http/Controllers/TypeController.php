@@ -13,6 +13,7 @@ class TypeController extends Controller
 
     public function __construct(TypeRepository $typeRepository)
     {
+        parent::__construct();
         $this->typeRepository = $typeRepository;
     }
 

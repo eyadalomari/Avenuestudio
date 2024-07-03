@@ -3,7 +3,7 @@
 return [
    'dashboard' => 'Dashboard',
    'reservations' => 'Reservations',
-   'staffs' => 'Staffs',
+   'users' => 'Users',
    'roles' => 'Roles',
    'types' => 'Types',
    'statuses' => 'Statuses',
@@ -11,9 +11,9 @@ return [
    'view_reservation' => 'View Reservation',
    'create_reservation' => 'Create Reservation',
    'edit_reservation' => 'Edit Reservation',
-   'view_staff' => 'View Staff',
-   'create_staff' => 'Create Staff',
-   'edit_staff' => 'Edit Staff',
+   'view_user' => 'View Users',
+   'create_user' => 'Create Users',
+   'edit_user' => 'Edit Users',
    'view_role' => 'View Role',
    'create_role' => 'Create Role',
    'edit_role' => 'Edit Role',
@@ -89,4 +89,6 @@ return [
    'login'=>'Login',
    'profile'=>'Profile',
    'profile_picture'=>'Profile Picture',
+   'permissions' => 'Permissions',
+   'section' => 'Section',
 ];

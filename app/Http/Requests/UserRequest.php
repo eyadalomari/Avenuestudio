@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StaffRequest extends BaseRequest
+class UserRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,7 +26,7 @@ class StaffRequest extends BaseRequest
             'name' => 'required|string|max:50',
             'mobile' => ['required', 'string', 'max:25', Rule::unique('users')->ignore($this->id)],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($this->id)],
-            'role_id' => 'required|integer',
+            'role_ids.*' => 'required|integer',
             'is_active' => 'required|integer',
             'password' => $this->has('id') ? 'nullable|string|min:8|confirmed' : 'required|string|min:8|confirmed',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
