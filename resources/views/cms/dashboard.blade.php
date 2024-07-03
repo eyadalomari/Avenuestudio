@@ -56,30 +56,6 @@
                                 </a>
                             </li>
                         @endcan
-                        @can('permission', ['UserController', 'index'])
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ avenue_route('users.index') }}" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-user"></i>
-                                </span>
-                                <span class="hide-menu">{{ __('common.users') }}</span>
-                            </a>
-                        </li>
-                        @endcan
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">{{ __('common.settings') }}</span>
-                        </li>
-                        @can('permission', ['RoleController', 'index'])
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ avenue_route('roles.index') }}" aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-cards"></i>
-                                </span>
-                                <span class="hide-menu">{{ __('common.roles') }}</span>
-                            </a>
-                        </li>
-                        @endcan
                         @can('permission', ['TypeController', 'index'])
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ avenue_route('types.index') }}" aria-expanded="false">
@@ -97,6 +73,32 @@
                                     <i class="ti ti-typography"></i>
                                 </span>
                                 <span class="hide-menu">{{ __('common.statuses') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">{{ __('common.settings') }}</span>
+                        </li>
+                        @can('permission', ['UserController', 'index'])
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ avenue_route('users.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-user"></i>
+                                </span>
+                                <span class="hide-menu">{{ __('common.users') }}</span>
+                            </a>
+                        </li>
+                        @endcan
+                        @can('permission', ['RoleController', 'index'])
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="{{ avenue_route('roles.index') }}" aria-expanded="false">
+                                <span>
+                                    <i class="ti ti-cards"></i>
+                                </span>
+                                <span class="hide-menu">{{ __('common.roles') }}</span>
                             </a>
                         </li>
                         @endcan

@@ -6,7 +6,7 @@ use App\Http\Requests\StatusRequest;
 use App\Models\Language;
 use App\Repositories\StatusRepository;
 
-class StatusController extends Controller
+class StatusController extends AdminController
 {
     private $statusRepository;
 

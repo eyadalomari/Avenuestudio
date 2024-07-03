@@ -9,7 +9,7 @@ use App\Repositories\StatusRepository;
 use App\Repositories\TypeRepository;
 use App\Repositories\UserRepository;
 
-class ReservationController extends Controller
+class ReservationController extends AdminController
 {
     private $reservationRepository;
     private $statusRepository;

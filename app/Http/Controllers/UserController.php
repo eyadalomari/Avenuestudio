@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Models\User;
-use App\Models\RoleI18n;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
 
-class UserController extends Controller
+class UserController extends AdminController
 {
     private $userRepository;
     private $roleRepository;

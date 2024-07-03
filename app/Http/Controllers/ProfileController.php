@@ -6,7 +6,7 @@ use App\Http\Requests\ProfileRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-class ProfileController extends Controller
+class ProfileController extends AdminController
 {
     public function index()
     {

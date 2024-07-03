@@ -61,4 +61,17 @@ class StatusRepository
 
         return $status;
     }
+
+    public function findBycode($code)
+    {
+        $status = Status::where('code', $code)->firstOrFail();
+        
+        $reindexedLabels = [];
+        foreach ($status->labels as $label) {
+            $reindexedLabels[$label->language_id] = $label;
+        }
+        $status->labels = $reindexedLabels;
+
+        return $status;
+    }
 }

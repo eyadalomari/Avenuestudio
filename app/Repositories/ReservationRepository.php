@@ -51,9 +51,40 @@ class ReservationRepository
             $query->whereDate('reservations.date', '<=', $filters['to_date']);
         }
 
-        $query->orderBy('reservations.date', 'DESC');
+        $query->orderBy('reservations.date', 'DESC')->orderBy('reservations.start', 'ASC');
 
         return $query->paginate(env('PER_PAGE', 12));
+    }
+
+    public function homePage($filters = [])
+    {
+        $languageId = app()->getLocale() == 'en' ? 1 : 2;
+
+        $query = Reservation::select('reservations.*', 'statuses_i18n.name as status_name', 'types_i18n.name as type_name');
+        $query->join('statuses', 'reservations.status_id', '=', 'statuses.id');
+        $query->join('statuses_i18n', function ($join) use ($languageId) {
+            $join->on('statuses.id', '=', 'statuses_i18n.status_id')->where('statuses_i18n.language_id', $languageId);
+        });
+        $query->join('types', 'reservations.type_id', '=', 'types.id');
+        $query->join('types_i18n', function ($join) use ($languageId) {
+            $join->on('types.id', '=', 'types_i18n.type_id')->where('types_i18n.language_id', $languageId);
+        });
+
+        if (!empty($filters['status_id'])) {
+            $query->where('reservations.status_id', $filters['status_id']);
+        }
+
+        if (!empty($filters['from_date'])) {
+            $query->whereDate('reservations.date', '>=', $filters['from_date']);
+        }
+
+        if (!empty($filters['to_date'])) {
+            $query->whereDate('reservations.date', '<=', $filters['to_date']);
+        }
+
+        $query->orderBy('reservations.date', 'DESC')->orderBy('reservations.start', 'ASC');
+
+        return $query->get();
     }
 
     public function store()
