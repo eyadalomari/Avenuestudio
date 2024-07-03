@@ -15,7 +15,7 @@ class UserRepository
         $users = User::with(['roles.labels' => function ($query) use ($languageId) {
             $query->where('language_id', $languageId);
         }])->paginate(env('PER_PAGE', 12));
-        
+
         foreach ($users as $user) {
             $user->role_names = $user->roles->flatMap(function ($role) use ($languageId) {
                 return $role->labels->where('language_id', $languageId)->pluck('name');
@@ -43,11 +43,11 @@ class UserRepository
         $user = User::with(['roles.labels' => function ($query) use ($languageId) {
             $query->where('language_id', $languageId);
         }])->findOrFail($user_id);
-        
+
         $user->role_names = $user->roles->flatMap(function ($role) use ($languageId) {
             return $role->labels->where('language_id', $languageId)->pluck('name');
         })->toArray();
-        
+
         return $user;
 
         /*
@@ -75,30 +75,46 @@ class UserRepository
             return redirect(avenue_route('users.index'));
         }
 
-        if (request()->has('password')) {
-            $data['password'] = bcrypt(request()->get('password'));
+        if ($password = request()->get('password')) {
+            $data['password'] = bcrypt($password);
         }
 
         if (request()->hasFile('image')) {
             $data['image'] = upload_file(request()->file('image'), 'images/profiles');
         }
 
-
         $user = User::updateOrCreate(
             ['id' => request()->id],
-            $data
+            [
+                'name' => $data['name'],
+                'mobile' => $data['mobile'],
+                'email' => $data['email'],
+                'is_active' => $data['is_active'],
+                'name' => $data['name'],
+                'name' => $data['name'],
+                'name' => $data['name'],
+            ]
         );
+
+        if (!empty($data['image'])) {
+            $user->image = $data['image'];
+            $user->save();
+        }
+
+        if (!empty($data['password'])) {
+            $user->password = $data['password'];
+            $user->save();
+        }
 
         if (request()->has('role_ids')) {
             $roleIds = request()->role_ids;
             $existingRoles = Role::whereIn('id', $roleIds)->pluck('id')->toArray();
-    
+
             if (count($existingRoles) !== count($roleIds)) {
-                return redirect()->back()->withErrors(['role_ids' => 'One or more roles dose not saved successfully.']);
+                return redirect()->back()->withErrors(['role_ids' => 'One or more roles does not exist.']);
             }
 
             $user->roles()->sync($existingRoles);
         }
-
     }
 }
