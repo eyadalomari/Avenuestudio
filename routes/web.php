@@ -23,7 +23,7 @@ Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], funct
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::resource('reservations', App\Http\Controllers\ReservationController::class)->parameter('id', 'id');
-    Route::resource('staffs', App\Http\Controllers\StaffController::class);
+    Route::resource('users', App\Http\Controllers\UserController::class);
 
     Route::resource('roles', App\Http\Controllers\RoleController::class);
     Route::resource('types', App\Http\Controllers\TypeController::class);

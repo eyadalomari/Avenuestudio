@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ReservationRequest;
 use Illuminate\Http\Request;
-use App\Models\User;
 use App\Repositories\ReservationRepository;
 use App\Repositories\StatusRepository;
 use App\Repositories\TypeRepository;
@@ -23,6 +22,7 @@ class ReservationController extends Controller
         TypeRepository $typeRepository,
         UserRepository $userRepository
     ) {
+        parent::__construct();
         $this->reservationRepository = $reservationRepository;
         $this->statusRepository = $statusRepository;
         $this->typeRepository = $typeRepository;

@@ -45,27 +45,32 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">UI COMPONENTS</span>
                         </li> --}}
+                        @can('permission', ['ReservationController', 'index'])
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="{{ avenue_route('reservations.index') }}"
+                                    aria-expanded="false">
+                                    <span>
+                                        <i class="ti ti-article"></i>
+                                    </span>
+                                    <span class="hide-menu">{{ __('common.reservations') }}</span>
+                                </a>
+                            </li>
+                        @endcan
+                        @can('permission', ['UserController', 'index'])
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ avenue_route('reservations.index') }}"
-                                aria-expanded="false">
-                                <span>
-                                    <i class="ti ti-article"></i>
-                                </span>
-                                <span class="hide-menu">{{ __('common.reservations') }}</span>
-                            </a>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="{{ avenue_route('staffs.index') }}" aria-expanded="false">
+                            <a class="sidebar-link" href="{{ avenue_route('users.index') }}" aria-expanded="false">
                                 <span>
                                     <i class="ti ti-user"></i>
                                 </span>
-                                <span class="hide-menu">{{ __('common.staffs') }}</span>
+                                <span class="hide-menu">{{ __('common.users') }}</span>
                             </a>
                         </li>
+                        @endcan
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">{{ __('common.settings') }}</span>
                         </li>
+                        @can('permission', ['RoleController', 'index'])
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ avenue_route('roles.index') }}" aria-expanded="false">
                                 <span>
@@ -74,6 +79,8 @@
                                 <span class="hide-menu">{{ __('common.roles') }}</span>
                             </a>
                         </li>
+                        @endcan
+                        @can('permission', ['TypeController', 'index'])
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ avenue_route('types.index') }}" aria-expanded="false">
                                 <span>
@@ -82,6 +89,8 @@
                                 <span class="hide-menu">{{ __('common.types') }}</span>
                             </a>
                         </li>
+                        @endcan
+                        @can('permission', ['StatusController', 'index'])
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="{{ avenue_route('statuses.index') }}" aria-expanded="false">
                                 <span>
@@ -90,6 +99,7 @@
                                 <span class="hide-menu">{{ __('common.statuses') }}</span>
                             </a>
                         </li>
+                        @endcan
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./ui-card.html" aria-expanded="false">
                                 <span>
@@ -185,43 +195,50 @@
                             @if (app()->getLocale() == 'en')
                                 <li class="nav-item me-3">
                                     <a class="nav-link"
-                                       href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}">
+                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}">
                                         <span class="h6">العربية</span>
                                     </a>
                                 </li>
                             @else
                                 <li class="nav-item me-3">
                                     <a class="nav-link"
-                                       href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">
+                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">
                                         <span class="h6">English</span>
                                     </a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">
-                                <a class="nav-link d-flex align-items-center" id="drop2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="nav-link d-flex align-items-center" id="drop2" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     <span class="me-2">{{ Auth::user()->name }}</span>
                                     <img src="{{ Auth::user()->image ? asset(Auth::user()->image) : asset('images/profile/user-1.jpg') }}"
-                                         alt="User Image" width="35" height="35" class="rounded-circle">
+                                        alt="User Image" width="35" height="35" class="rounded-circle">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
+                                <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+                                    aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <a href="{{ avenue_route('profile.index') }}" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="{{ avenue_route('profile.index') }}"
+                                            class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-user fs-6"></i>
                                             <p class="mb-0 fs-3">{{ __('common.profile') }}</p>
                                         </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="javascript:void(0)"
+                                            class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-mail fs-6"></i>
                                             <p class="mb-0 fs-3">My Account</p>
                                         </a>
-                                        <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
+                                        <a href="javascript:void(0)"
+                                            class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">My Task</p>
                                         </a>
-                                        <a href="{{ avenue_route('logout') }}" class="btn btn-outline-primary mx-3 mt-2 d-block"
-                                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <a href="{{ avenue_route('logout') }}"
+                                            class="btn btn-outline-primary mx-3 mt-2 d-block"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }}
                                         </a>
-                                        <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST" class="d-none">
+                                        <form id="logout-form" action="{{ avenue_route('logout') }}" method="POST"
+                                            class="d-none">
                                             @csrf
                                         </form>
                                     </div>
@@ -229,7 +246,7 @@
                             </li>
                         </ul>
                     </div>
-                    
+
                 </nav>
             </header>
             <!--  Header End -->

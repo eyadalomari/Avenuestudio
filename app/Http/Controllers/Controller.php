@@ -9,4 +9,12 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    public function __construct()
+    {
+        $controller = class_basename(request()->route()->getControllerClass());
+        $method = request()->route()->getActionMethod();
+
+        $this->middleware('permission:'.$controller.','.$method)->only([$method]);
+    }
 }

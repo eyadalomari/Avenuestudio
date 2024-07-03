@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rule;
 use App\Models\User;
 
 class ProfileController extends Controller
@@ -26,20 +23,20 @@ class ProfileController extends Controller
         $data = array_filter($validated, function ($value) {
             return !is_null($value);
         });
-    
+
         if (isset($data['password'])) {
             $data['password'] = bcrypt($request->get('password'));
         }
-        
+
         // Handle image upload
         if ($request->hasFile('image')) {
             $data['image'] = upload_file($request->file('image'), 'images/profiles');
         }
-    
+
         $user = User::findOrFail($request->user()->id);
         $user->update($data);
-    
+
         return redirect(avenue_route('profile.index'))->with('success', 'Profile saved successfully.');
     }
-    
+
 }

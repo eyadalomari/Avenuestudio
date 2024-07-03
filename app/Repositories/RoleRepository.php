@@ -19,7 +19,10 @@ class RoleRepository
 
     public function getAllByLanguage($languageId)
     {
-        return RoleI18n::where('language_id', $languageId)->get();
+        return Role::select('roles.id', 'roles.code', 'roles.sort', 'roles.created_at', 'roles.updated_at', 'roles_i18n.name')
+            ->join('roles_i18n', 'roles.id', '=', 'roles_i18n.role_id')
+            ->where('roles_i18n.language_id', $languageId)
+            ->get();
     }
 
     public function store()
@@ -46,6 +49,13 @@ class RoleRepository
                 ]
             );
         }
+
+        if (request()->has('permissions')) {
+            $role->permissions()->sync(request()->permissions);
+        } else {
+            $role->permissions()->detach();
+        }
+    
     }
 
     public function findById($role_id)

@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="container">
-        <h2>{{ empty($user) ? __('common.create_staff') : __('common.edit_staff') }}</h2>
+        <h2>{{ empty($user) ? __('common.create_user') : __('common.edit_user') }}</h2>
 
-        <form action="{{ avenue_route('staffs.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ avenue_route('users.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @if (!empty($user))
                 <input type="hidden" name="id" value="{{ $user->id }}">
@@ -13,7 +13,8 @@
                 <div class="col-2"><label for="name">{{ __('common.name') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name"
-                        name="name" placeholder="{{ __('common.enter_name') }}" value="{{ old('name', $user->name ?? '') }}">
+                        name="name" placeholder="{{ __('common.enter_name') }}"
+                        value="{{ old('name', $user->name ?? '') }}">
                     @error('name')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -24,7 +25,8 @@
                 <div class="col-2"><label for="mobile">{{ __('common.mobile') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('mobile') is-invalid @enderror" id="mobile"
-                        name="mobile" placeholder="{{ __('common.enter_mobile') }}" value="{{ old('mobile', $user->mobile ?? '') }}">
+                        name="mobile" placeholder="{{ __('common.enter_mobile') }}"
+                        value="{{ old('mobile', $user->mobile ?? '') }}">
                     @error('mobile')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -34,7 +36,8 @@
                 <div class="col-2"><label for="email">{{ __('common.email') }}:</label></div>
                 <div class="col-10">
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
-                        name="email" placeholder="{{ __('common.enter_email') }}" value="{{ old('email', $user->email ?? '') }}">
+                        name="email" placeholder="{{ __('common.enter_email') }}"
+                        value="{{ old('email', $user->email ?? '') }}">
                     @error('email')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
@@ -54,24 +57,26 @@
                 <div class="col-2"><label for="password_confirmation">{{ __('common.confirm_password') }}:</label></div>
                 <div class="col-10">
                     <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror"
-                        id="password_confirmation" name="password_confirmation" placeholder="{{ __('common.confirm_password') }}">
+                        id="password_confirmation" name="password_confirmation"
+                        placeholder="{{ __('common.confirm_password') }}">
                     @error('password_confirmation')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
             <div class="form-group row mt-3">
-                <div class="col-2"><label for="role_id">{{ __('common.role') }}:</label></div>
+                <div class="col-2"><label for="role_ids">{{ __('common.role') }}:</label></div>
                 <div class="col-10">
-                    <select class="form-control @error('role_id') is-invalid @enderror" id="role_id" name="role_id">
+                    <select class="form-control @error('role_ids') is-invalid @enderror" id="role_ids" name="role_ids[]"
+                        multiple>
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($roles as $role)
-                            <option value="{{ $role->role_id }}"
-                                {{ old('role_id', $user->role_id ?? '') == $role->role_id ? 'selected' : '' }}>
+                            <option value="{{ $role->id }}"
+                                {{ in_array($role->id, old('role_ids', (isset($user) ? $user->roles->pluck('id')->toArray() : []) ?? [])) ? 'selected' : '' }}>
                                 {{ $role->name }}</option>
                         @endforeach
                     </select>
-                    @error('role_id')
+                    @error('role_ids')
                         <div class="invalid-feedback" style="display: block">{{ $message }}</div>
                     @enderror
                 </div>
@@ -100,7 +105,7 @@
             </div>
 
             <a type="button" class="btn btn-secondary"
-                href="{{ avenue_route('staffs.index') }}">{{ __('common.back') }}</a>
+                href="{{ avenue_route('users.index') }}">{{ __('common.back') }}</a>
             <button type="submit" class="btn btn-primary">{{ __('common.save') }}</button>
         </form>
     </div>

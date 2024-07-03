@@ -3,7 +3,7 @@
 return [
    'dashboard' => 'لوحة التحكم',
    'reservations' => 'الحجوزات',
-   'staffs' => 'الموظفين',
+   'users' => 'الموظفين',
    'roles' => 'الصلاحيات',
    'types' => 'الانواع',
    'statuses' => 'الحالات',
@@ -11,9 +11,9 @@ return [
    'view_reservation' => 'عرض الحجز',
    'create_reservation' => 'إنشاء حجز',
    'edit_reservation' => 'تعديل حجز',
-   'view_staff' => 'عرض الموظف',
-   'create_staff' => 'إنشاء موظف',
-   'edit_staff' => 'تعديل موظف',
+   'view_user' => 'عرض الموظف',
+   'create_user' => 'إنشاء موظف',
+   'edit_user' => 'تعديل موظف',
    'view_role' => 'عرض الصلاحية',
    'create_role' => 'إنشاء صلاحية',
    'edit_role' => 'تعديل الصلاحية',
@@ -89,4 +89,6 @@ return [
    'login' => 'تسجيل الدخول',
    'profile' => 'الملف الشخصي',
    'profile_picture' => 'الصورة الشخصية',
+   'permissions' => 'لصلاحيات',
+   'section' => 'القسم',
 ];
