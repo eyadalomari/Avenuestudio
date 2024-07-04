@@ -7,7 +7,7 @@ use App\Models\User;
 
 class UserRepository
 {
-    public function list($withPaginate = true)
+    public function getAllUsers($withPaginate = true)
     {
         if($withPaginate){
             return User::paginate(env('PER_PAGE', 12));
@@ -16,7 +16,7 @@ class UserRepository
         return User::all();
     }
 
-    public function findById($user_id)
+    public function getUserById($user_id)
     {
         return User::findOrFail($user_id);
     }
@@ -28,7 +28,7 @@ class UserRepository
         })->get();
     }
 
-    public function store($data)
+    public function storeUser($data)
     {
         if (request()->id == 1) {
             return redirect(avenue_route('users.index'));

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationRepository
 {
-    public function list($filters = [], $withPaginate = true)
+    public function getAllReservations($filters = [], $withPaginate = true)
     {
         $query = Reservation::query()
         ->filterByKeyword($filters['keyword'] ?? null)
@@ -19,14 +19,14 @@ class ReservationRepository
         ->orderBy('reservations.date', 'DESC')
         ->orderBy('reservations.start', 'ASC');
 
-        if($withPaginate){
+        if($withPaginate) {
             return $query->paginate(env('PER_PAGE', 12));
         }
 
         return $query->get();
     }
 
-    public function store()
+    public function storeReservation()
     {
         Reservation::updateOrCreate(
             [
@@ -76,7 +76,7 @@ class ReservationRepository
         return $query->first();
     }
 
-    public function findById($reservation_id)
+    public function getReservationById($reservation_id)
     {
         return Reservation::findOrFail($reservation_id);
     }

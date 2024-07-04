@@ -7,7 +7,7 @@ use App\Models\RoleI18n;
 
 class RoleRepository
 {
-    public function list($withPaginate = true)
+    public function getAllRoles($withPaginate = true)
     {
         if($withPaginate){
             return Role::paginate(env('PER_PAGE', 12));
@@ -16,7 +16,7 @@ class RoleRepository
         return Role::all();
     }
 
-    public function store()
+    public function storeRole()
     {
         $role = Role::updateOrCreate(
             [
@@ -49,7 +49,7 @@ class RoleRepository
     
     }
 
-    public function findById($role_id)
+    public function getRoleById($role_id)
     {
         $role = Role::findOrFail($role_id);
         $role->labels = $role->labels->keyBy('language_id');

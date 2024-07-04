@@ -20,7 +20,7 @@ class RoleController extends AdminController
     }
     public function index()
     {
-        $roles = $this->roleRepository->list();
+        $roles = $this->roleRepository->getAllRoles();
 
         return view('cms/roles/index', compact('roles'));
     }
@@ -31,7 +31,7 @@ class RoleController extends AdminController
     public function create()
     {
         $languages = Language::all()->keyBy('id');
-        $permissions = $this->permissionRepository->all();
+        $permissions = $this->permissionRepository->getAllPermissions();
 
         return view('cms/roles/create', compact('permissions', 'languages'));
     }
@@ -41,7 +41,7 @@ class RoleController extends AdminController
      */
     public function store(RoleRequest $request)
     {
-        $this->roleRepository->store();
+        $this->roleRepository->storeRole();
 
         return redirect(avenue_route('roles.index'))->with('success', 'Role saved successfully.');
     }
@@ -53,7 +53,7 @@ class RoleController extends AdminController
     {
         $languages = Language::all()->keyBy('id');
 
-        $role = $this->roleRepository->findById($id);
+        $role = $this->roleRepository->getRoleById($id);
 
         return view('cms/roles/view', compact('role', 'languages'));
     }
@@ -64,8 +64,8 @@ class RoleController extends AdminController
     public function edit(string $id)
     {
         $languages = Language::all()->keyBy('id');
-        $role = $this->roleRepository->findById($id);
-        $permissions = $this->permissionRepository->all();
+        $role = $this->roleRepository->getRoleById($id);
+        $permissions = $this->permissionRepository->getAllPermissions();
         $rolePermissions = $role->permissions->pluck('id')->toArray();
 
         return view('cms/roles/create', compact('role', 'permissions', 'languages', 'rolePermissions'));

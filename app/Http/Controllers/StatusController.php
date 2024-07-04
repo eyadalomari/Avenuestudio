@@ -18,7 +18,7 @@ class StatusController extends AdminController
     
     public function index()
     {
-        $statuses = $this->statusRepository->list();
+        $statuses = $this->statusRepository->getAllStatuses();
      
         return view('cms/statuses/index', compact('statuses'));
     }
@@ -37,7 +37,7 @@ class StatusController extends AdminController
      */
     public function store(StatusRequest $request)
     {
-        $this->statusRepository->store();
+        $this->statusRepository->storeStatus();
 
         return redirect(avenue_route('statuses.index'))->with('success', 'Status saved successfully.');
     }
@@ -49,7 +49,7 @@ class StatusController extends AdminController
     {
         $languages = Language::all()->keyBy('id');
 
-        $status = $this->statusRepository->findById($id);
+        $status = $this->statusRepository->getStatusById($id);
 
         return view('cms/statuses/view', compact('status', 'languages'));
     }
@@ -60,7 +60,7 @@ class StatusController extends AdminController
     public function edit(string $id)
     {
         $languages = Language::all()->keyBy('id');
-        $status = $this->statusRepository->findById($id);
+        $status = $this->statusRepository->getStatusById($id);
 
         return view('cms/statuses/create', compact('status', 'languages'));
     }

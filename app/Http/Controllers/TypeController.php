@@ -19,7 +19,7 @@ class TypeController extends AdminController
 
     public function index()
     {
-        $types = $this->typeRepository->list();
+        $types = $this->typeRepository->getAllTypes();
 
         return view('cms/types/index', compact('types'));
     }
@@ -38,7 +38,7 @@ class TypeController extends AdminController
      */
     public function store(TypeRequest $request)
     {
-        $this->typeRepository->store();
+        $this->typeRepository->storeType();
 
         return redirect(avenue_route('types.index'))->with('success', 'Type saved successfully.');
     }
@@ -50,7 +50,7 @@ class TypeController extends AdminController
     {
         $languages = Language::all()->keyBy('id');
 
-        $type = $this->typeRepository->findById($id);
+        $type = $this->typeRepository->getTypeById($id);
 
         return view('cms/types/view', compact('type', 'languages'));
     }
@@ -62,7 +62,7 @@ class TypeController extends AdminController
     {
         $languages = Language::all()->keyBy('id');
 
-        $type = $this->typeRepository->findById($id);
+        $type = $this->typeRepository->getTypeById($id);
 
         return view('cms/types/create', compact('type', 'languages'));
     }

@@ -7,7 +7,7 @@ use App\Models\TypeI18n;
 
 class TypeRepository
 {
-    public function list($withPaginate = true)
+    public function getAllTypes($withPaginate = true)
     {
         if($withPaginate){
             return Type::paginate(env('PER_PAGE', 12));
@@ -16,7 +16,7 @@ class TypeRepository
         return Type::all();
     }
 
-    public function store()
+    public function storeType()
     {
         $type = Type::updateOrCreate(
             [
@@ -42,7 +42,7 @@ class TypeRepository
         }
     }
 
-    public function findById($type_id)
+    public function getTypeById($type_id)
     {
         $type = Type::findOrFail($type_id);
         $type->labels = $type->labels->keyBy('language_id');

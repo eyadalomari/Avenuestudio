@@ -6,7 +6,7 @@ use App\Models\Permission;
 
 class PermissionRepository
 {
-    public function all()
+    public function getAllPermissions()
     {
         return Permission::orderBy('section')->get();
     }

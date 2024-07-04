@@ -23,7 +23,7 @@ class UserController extends AdminController
 
     public function index()
     {
-        $users = $this->userRepository->list();
+        $users = $this->userRepository->getAllUsers();
 
         return view('cms/users/index', compact('users'));
     }
@@ -33,7 +33,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        $roles = $this->roleRepository->list(false);
+        $roles = $this->roleRepository->getAllRoles(false);
 
         return view('cms/users/create', compact('roles'));
     }
@@ -44,7 +44,7 @@ class UserController extends AdminController
     public function store(UserRequest $request)
     {
         $validated = $request->validated();
-        $this->userRepository->store($validated);
+        $this->userRepository->storeUser($validated);
     
         return redirect(avenue_route('users.index'))->with('success', 'User saved successfully.');
     }
@@ -54,7 +54,7 @@ class UserController extends AdminController
      */
     public function show(string $id)
     {
-        $user = $this->userRepository->findById($id);
+        $user = $this->userRepository->getUserById($id);
 
         return view('cms/users/view', compact('user'));
     }
@@ -68,9 +68,9 @@ class UserController extends AdminController
             return redirect(avenue_route('users.index'));
         }
 
-        $roles = $this->roleRepository->list(false);
+        $roles = $this->roleRepository->getAllRoles(false);
 
-        $user = $this->userRepository->findById($id);
+        $user = $this->userRepository->getUserById($id);
 
         return view('cms/users/create', compact('roles', 'user'));
     }

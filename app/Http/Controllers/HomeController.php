@@ -33,12 +33,12 @@ class HomeController extends AdminController
     public function index()
     {
         $filters = [
-            'status_id' => $this->statusRepository->findBycode('active')->id,
+            'status_id' => $this->statusRepository->getStatusBycode('active')->id,
             'from_date' => date('Y-m-d'),
             'to_date' => date('Y-m-d')
         ];
-        
-        $reservations = $this->reservationRepository->list($filters, false);
+
+        $reservations = $this->reservationRepository->getAllReservations($filters, false);
 
         return view('cms/home/home', compact('reservations'));
     }

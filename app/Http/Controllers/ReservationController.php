@@ -32,10 +32,10 @@ class ReservationController extends AdminController
     public function index(Request $request)
     {
         $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
-        $reservations = $this->reservationRepository->list($filters);
+        $reservations = $this->reservationRepository->getAllReservations($filters);
 
-        $statuses = $this->statusRepository->list(false);
-        $types = $this->typeRepository->list(false);
+        $statuses = $this->statusRepository->getAllStatuses(false);
+        $types = $this->typeRepository->getAllTypes(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/index', compact('reservations', 'statuses', 'types', 'users'));
@@ -43,8 +43,8 @@ class ReservationController extends AdminController
 
     public function create()
     {
-        $statuses = $this->statusRepository->list(false);
-        $types = $this->typeRepository->list(false);
+        $statuses = $this->statusRepository->getAllStatuses(false);
+        $types = $this->typeRepository->getAllTypes(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/create', compact('types', 'statuses', 'users'));
@@ -57,25 +57,25 @@ class ReservationController extends AdminController
             return redirect()->back()->withErrors(['overlap' => 'Time overlap detected with an existing reservation (#' . $overlap->id . ')'])->withInput();
         }
 
-        $this->reservationRepository->store();
+        $this->reservationRepository->storeReservation();
 
         return redirect(avenue_route('reservations.index'))->with('success', 'Reservation saved successfully.');
     }
 
     public function show(string $id)
     {
-        $reservation = $this->reservationRepository->findById($id);
+        $reservation = $this->reservationRepository->getReservationById($id);
 
         return view('cms/reservations/view', compact('reservation'));
     }
 
     public function edit(string $id)
     {
-        $statuses = $this->statusRepository->list(false);
-        $types = $this->typeRepository->list(false);
+        $statuses = $this->statusRepository->getAllStatuses(false);
+        $types = $this->typeRepository->getAllTypes(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
-        $reservation = $this->reservationRepository->findById($id);
+        $reservation = $this->reservationRepository->getReservationById($id);
 
         if (isset($reservation) && $reservation->status->code != 'active') {
             return redirect(avenue_route('reservations.index'));

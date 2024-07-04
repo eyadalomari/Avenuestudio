@@ -7,7 +7,7 @@ use App\Models\StatusI18n;
 
 class StatusRepository
 {
-    public function list($withPaginate = true)
+    public function getAllStatuses($withPaginate = true)
     {
         if($withPaginate){
             return Status::paginate(env('PER_PAGE', 12));
@@ -16,7 +16,7 @@ class StatusRepository
         return Status::all();
     }
     
-    public function store()
+    public function storeStatus()
     {
         $status = Status::updateOrCreate(
             [
@@ -42,7 +42,7 @@ class StatusRepository
         }
     }
 
-    public function findById($status_id)
+    public function getStatusById($status_id)
     {
         $status = Status::findOrFail($status_id);
         $status->labels = $status->labels->keyBy('language_id');
@@ -50,7 +50,7 @@ class StatusRepository
         return $status;
     }
 
-    public function findBycode($code)
+    public function getStatusBycode($code)
     {
         $status = Status::where('code', $code)->firstOrFail();
         $status->labels = $status->labels->keyBy('language_id');
