@@ -7,16 +7,15 @@ use App\Models\StatusI18n;
 
 class StatusRepository
 {
-    public function list()
+    public function list($withPaginate = true)
     {
-        return Status::paginate(env('PER_PAGE', 12));
-    }
-
-    public function getAllStatuses()
-    {
+        if($withPaginate){
+            return Status::paginate(env('PER_PAGE', 12));
+        }
+        
         return Status::all();
     }
-
+    
     public function store()
     {
         $status = Status::updateOrCreate(

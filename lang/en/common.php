@@ -91,5 +91,6 @@ return [
    'profile_picture' => 'Profile Picture',
    'permissions' => 'Permissions',
    'section' => 'Section',
+   'details'=>'Details',
    'no_reservations_scheduled_for_today' => 'No reservations scheduled for today.'
 ];

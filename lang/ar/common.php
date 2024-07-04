@@ -91,5 +91,6 @@ return [
    'profile_picture' => 'الصورة الشخصية',
    'permissions' => 'الصلاحيات',
    'section' => 'القسم',
+   'details'=>'التفاصيل',
    'no_reservations_scheduled_for_today' => 'لا توجد حجوزات لليوم.'
 ];

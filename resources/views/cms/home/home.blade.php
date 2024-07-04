@@ -8,12 +8,12 @@
                <div class="card" style="width: 18rem;">
                    <div class="card-body">
                        <h5 class="card-title">{{ $reservation->name }}</h5>
-                       <h6 class="card-text">{{ $reservation->mobile }}</h6>
+                       <h6 class="card-subtitle mb-2 text-muted">{{ $reservation->mobile }}</h6>
                        <p class="card-text">{{ timeFormatter($reservation->start) }} - {{ timeFormatter($reservation->end) }}</p>
                        <p class="card-text">{{ $reservation->thePhotographer->name }}</p>
                        <a href="#" class="btn btn-primary"
-                           onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->id]) }}'">Go
-                           to Details</a>
+                           onclick="window.location.href='{{ avenue_route('reservations.show', ['reservation' => $reservation->id]) }}'">
+                           {{ __('common.details') }}</a>
                    </div>
                </div>
            </div>

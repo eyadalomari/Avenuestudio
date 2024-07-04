@@ -8,30 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationRepository
 {
-    public function list($filters = [])
+    public function list($filters = [], $withPaginate = true)
     {
-        return Reservation::query()
+        $query = Reservation::query()
         ->filterByKeyword($filters['keyword'] ?? null)
         ->filterByStatus($filters['status_id'] ?? null)
         ->filterByType($filters['type_id'] ?? null)
         ->filterByPhotographer($filters['photographer'] ?? null)
         ->filterByDateRange($filters['from_date'] ?? null, $filters['to_date'] ?? null)
         ->orderBy('reservations.date', 'DESC')
-        ->orderBy('reservations.start', 'ASC')
-        ->paginate(env('PER_PAGE', 12));
-    }
+        ->orderBy('reservations.start', 'ASC');
 
-    public function homePage($filters = [])
-    {
-        return Reservation::query()
-        ->filterByKeyword($filters['keyword'] ?? null)
-        ->filterByStatus($filters['status_id'] ?? null)
-        ->filterByType($filters['type_id'] ?? null)
-        ->filterByPhotographer($filters['photographer'] ?? null)
-        ->filterByDateRange($filters['from_date'] ?? null, $filters['to_date'] ?? null)
-        ->orderBy('reservations.date', 'DESC')
-        ->orderBy('reservations.start', 'ASC')
-        ->get();
+        if($withPaginate){
+            return $query->paginate(env('PER_PAGE', 12));
+        }
+
+        return $query->get();
     }
 
     public function store()

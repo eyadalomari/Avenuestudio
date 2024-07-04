@@ -38,7 +38,7 @@ class HomeController extends AdminController
             'to_date' => date('Y-m-d')
         ];
         
-        $reservations = $this->reservationRepository->homePage($filters);
+        $reservations = $this->reservationRepository->list($filters, false);
 
         return view('cms/home/home', compact('reservations'));
     }

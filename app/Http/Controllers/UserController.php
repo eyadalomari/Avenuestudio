@@ -33,7 +33,7 @@ class UserController extends AdminController
      */
     public function create()
     {
-        $roles = $this->roleRepository->getAllRoles();
+        $roles = $this->roleRepository->list(false);
 
         return view('cms/users/create', compact('roles'));
     }
@@ -68,7 +68,7 @@ class UserController extends AdminController
             return redirect(avenue_route('users.index'));
         }
 
-        $roles = $this->roleRepository->getAllRoles();
+        $roles = $this->roleRepository->list(false);
 
         $user = $this->userRepository->findById($id);
 

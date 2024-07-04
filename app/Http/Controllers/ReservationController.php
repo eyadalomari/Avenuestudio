@@ -34,8 +34,8 @@ class ReservationController extends AdminController
         $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
         $reservations = $this->reservationRepository->list($filters);
 
-        $statuses = $this->statusRepository->getAllStatuses();
-        $types = $this->typeRepository->getAllTypes();
+        $statuses = $this->statusRepository->list(false);
+        $types = $this->typeRepository->list(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/index', compact('reservations', 'statuses', 'types', 'users'));
@@ -43,8 +43,8 @@ class ReservationController extends AdminController
 
     public function create()
     {
-        $statuses = $this->statusRepository->getAllStatuses();
-        $types = $this->typeRepository->getAllTypes();
+        $statuses = $this->statusRepository->list(false);
+        $types = $this->typeRepository->list(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/create', compact('types', 'statuses', 'users'));
@@ -71,8 +71,8 @@ class ReservationController extends AdminController
 
     public function edit(string $id)
     {
-        $statuses = $this->statusRepository->getAllStatuses();
-        $types = $this->typeRepository->getAllTypes();
+        $statuses = $this->statusRepository->list(false);
+        $types = $this->typeRepository->list(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         $reservation = $this->reservationRepository->findById($id);

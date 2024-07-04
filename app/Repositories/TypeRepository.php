@@ -7,13 +7,12 @@ use App\Models\TypeI18n;
 
 class TypeRepository
 {
-    public function list()
+    public function list($withPaginate = true)
     {
-        return Type::paginate(env('PER_PAGE', 12));
-    }
-
-    public function getAllTypes()
-    {
+        if($withPaginate){
+            return Type::paginate(env('PER_PAGE', 12));
+        }
+        
         return Type::all();
     }
 

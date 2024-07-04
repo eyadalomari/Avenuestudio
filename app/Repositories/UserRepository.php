@@ -7,9 +7,13 @@ use App\Models\User;
 
 class UserRepository
 {
-    public function list()
+    public function list($withPaginate = true)
     {
-        return User::paginate(env('PER_PAGE', 12));
+        if($withPaginate){
+            return User::paginate(env('PER_PAGE', 12));
+        }
+        
+        return User::all();
     }
 
     public function findById($user_id)

@@ -7,13 +7,12 @@ use App\Models\RoleI18n;
 
 class RoleRepository
 {
-    public function list()
+    public function list($withPaginate = true)
     {
-        return Role::paginate(env('PER_PAGE', 12));
-    }
+        if($withPaginate){
+            return Role::paginate(env('PER_PAGE', 12));
+        }
 
-    public function getAllRoles()
-    {
         return Role::all();
     }
 
