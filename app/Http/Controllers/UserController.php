@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
-use App\Models\User;
-use App\Models\RoleI18n;
 use App\Repositories\UserRepository;
 use App\Repositories\RoleRepository;
 
-class UserController extends Controller
+class UserController extends AdminController
 {
     private $userRepository;
     private $roleRepository;
@@ -35,8 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = $this->roleRepository->getAllByLanguage($languageId);
+        $roles = $this->roleRepository->list(false);
 
         return view('cms/users/create', compact('roles'));
     }
@@ -71,8 +68,7 @@ class UserController extends Controller
             return redirect(avenue_route('users.index'));
         }
 
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $roles = $this->roleRepository->getAllByLanguage($languageId);
+        $roles = $this->roleRepository->list(false);
 
         $user = $this->userRepository->findById($id);
 

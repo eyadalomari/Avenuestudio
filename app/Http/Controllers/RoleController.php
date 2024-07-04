@@ -7,7 +7,7 @@ use App\Models\Language;
 use App\Repositories\RoleRepository;
 use App\Repositories\PermissionRepository;
 
-class RoleController extends Controller
+class RoleController extends AdminController
 {
     private $roleRepository;
     private $permissionRepository;

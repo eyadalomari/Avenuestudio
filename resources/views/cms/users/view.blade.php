@@ -26,9 +26,11 @@
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.role') }}:</span></div>
             <div class="col-10">
-                @foreach ($user->role_names as $role_name)
-                    <li>{{ $role_name }}</li>
-                @endforeach
+                @forelse ($user->roles as $role)
+                    <li>{{ $role->label->name }}</li>
+                @empty
+                    <span>N/A</span>
+                @endforelse
 
             </div>
         </div>

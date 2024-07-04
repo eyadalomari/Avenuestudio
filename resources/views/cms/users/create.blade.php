@@ -73,7 +73,7 @@
                         @foreach ($roles as $role)
                             <option value="{{ $role->id }}"
                                 {{ in_array($role->id, old('role_ids', (isset($user) ? $user->roles->pluck('id')->toArray() : []) ?? [])) ? 'selected' : '' }}>
-                                {{ $role->name }}</option>
+                                {{ $role->label->name }}</option>
                         @endforeach
                     </select>
                     @error('role_ids')

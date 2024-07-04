@@ -9,7 +9,7 @@ use App\Repositories\StatusRepository;
 use App\Repositories\TypeRepository;
 use App\Repositories\UserRepository;
 
-class ReservationController extends Controller
+class ReservationController extends AdminController
 {
     private $reservationRepository;
     private $statusRepository;
@@ -34,9 +34,8 @@ class ReservationController extends Controller
         $filters = $request->only(['keyword', 'status_id', 'type_id', 'photographer', 'from_date', 'to_date']);
         $reservations = $this->reservationRepository->list($filters);
 
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = $this->statusRepository->getAllByLanguage($languageId);
-        $types = $this->typeRepository->getAllByLanguage($languageId);
+        $statuses = $this->statusRepository->list(false);
+        $types = $this->typeRepository->list(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/index', compact('reservations', 'statuses', 'types', 'users'));
@@ -44,9 +43,8 @@ class ReservationController extends Controller
 
     public function create()
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = $this->statusRepository->getAllByLanguage($languageId);
-        $types = $this->typeRepository->getAllByLanguage($languageId);
+        $statuses = $this->statusRepository->list(false);
+        $types = $this->typeRepository->list(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         return view('cms/reservations/create', compact('types', 'statuses', 'users'));
@@ -73,9 +71,8 @@ class ReservationController extends Controller
 
     public function edit(string $id)
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-        $statuses = $this->statusRepository->getAllByLanguage($languageId);
-        $types = $this->typeRepository->getAllByLanguage($languageId);
+        $statuses = $this->statusRepository->list(false);
+        $types = $this->typeRepository->list(false);
         $users = $this->userRepository->getUsersByRole('photographer');
 
         $reservation = $this->reservationRepository->findById($id);

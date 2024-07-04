@@ -25,7 +25,7 @@
             @foreach ($roles as $role)
                 <tr>
                     <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->label->name }}</td>
                     <td>{{ $role->code }}</td>
                     <td>{{ $role->sort }}</td>
                     <td>

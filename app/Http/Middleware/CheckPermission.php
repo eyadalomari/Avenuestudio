@@ -23,9 +23,15 @@ class CheckPermission
         dd($controller, $method, Auth::user()->checkHasPermission($controller, $method), Auth::user()->roles);
         */
 
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        if (Auth::check() && (Auth::user()->checkHasPermission($controller, $method) || Auth::user()->id == 1)) {
-            return $next($request);
+            // Check for permission based on the method
+            $hasPermission = $this->hasPermission($user, $controller, $method);
+
+            if ($hasPermission || $user->id == 1) {
+                return $next($request);
+            }
         }
 
         if ($request->ajax()) {
@@ -33,5 +39,16 @@ class CheckPermission
         } else {
             return abort('403');
         }
+    }
+
+    private function hasPermission($user, $controller, $method)
+    {
+        // If the method is 'store', check for either 'create' or 'edit' permissions
+        if ($method == 'store') {
+            return $user->checkHasPermission($controller, 'create') || $user->checkHasPermission($controller, 'edit');
+        }
+
+        // For other methods, check for specific permission
+        return $user->checkHasPermission($controller, $method);
     }
 }

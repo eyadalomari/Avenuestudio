@@ -26,7 +26,7 @@
             @foreach ($types as $type)
                 <tr>
                     <td>{{ $type->id }}</td>
-                    <td>{{ $type->name }}</td>
+                    <td>{{ $type->label->name }}</td>
                     <td>{{ $type->code }}</td>
                     <td>{{ $type->sort }}</td>
                     <td>

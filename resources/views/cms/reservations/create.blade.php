@@ -40,9 +40,9 @@
                     <select class="form-control @error('type_id') is-invalid @enderror" id="type_id" name="type_id">
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($types as $type)
-                            <option value="{{ $type->type_id }}"
-                                {{ old('type_id', $reservation->type_id ?? '') == $type->type_id ? 'selected' : '' }}>
-                                {{ $type->name }}</option>
+                            <option value="{{ $type->id }}"
+                                {{ old('type_id', $reservation->type_id ?? '') == $type->id ? 'selected' : '' }}>
+                                {{ $type->label->name }}</option>
                         @endforeach
                     </select>
                     @error('type_id')
@@ -110,9 +110,9 @@
                     <select class="form-control @error('status_id') is-invalid @enderror" id="status_id" name="status_id">
                         <option value="">--{{ __('common.select') }}--</option>
                         @foreach ($statuses as $status)
-                            <option value="{{ $status->status_id }}"
-                                {{ old('status_id', $reservation->status_id ?? '') == $status->status_id ? 'selected' : '' }}>
-                                {{  $status->name }}</option>
+                            <option value="{{ $status->id }}"
+                                {{ old('status_id', $reservation->status_id ?? '') == $status->id ? 'selected' : '' }}>
+                                {{  $status->label->name }}</option>
                         @endforeach
                     </select>
                     @error('status_id')

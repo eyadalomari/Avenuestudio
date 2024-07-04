@@ -3,7 +3,7 @@
 return [
    'dashboard' => 'لوحة التحكم',
    'reservations' => 'الحجوزات',
-   'users' => 'الموظفين',
+   'users' => 'المستخدمين',
    'roles' => 'الصلاحيات',
    'types' => 'الانواع',
    'statuses' => 'الحالات',
@@ -89,6 +89,8 @@ return [
    'login' => 'تسجيل الدخول',
    'profile' => 'الملف الشخصي',
    'profile_picture' => 'الصورة الشخصية',
-   'permissions' => 'لصلاحيات',
+   'permissions' => 'الصلاحيات',
    'section' => 'القسم',
+   'details'=>'التفاصيل',
+   'no_reservations_scheduled_for_today' => 'لا توجد حجوزات لليوم.'
 ];

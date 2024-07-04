@@ -64,4 +64,62 @@ class Reservation extends Model
     {
         $this->attributes['end'] = Carbon::createFromFormat('H:i', $value)->format('H:i:s');
     }
+
+    /* ==================================================================
+   ||                         FILTERS SECTION                          ||
+   =================================================================== */
+
+
+    public function scopeFilterByKeyword($query, $keyword)
+    {
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('reservations.name', 'like', '%' . $keyword . '%')
+                    ->orWhere('reservations.id', $keyword)
+                    ->orWhere('reservations.mobile', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterByStatus($query, $statusId)
+    {
+        if ($statusId) {
+            $query->where('reservations.status_id', $statusId);
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterByType($query, $typeId)
+    {
+        if ($typeId) {
+            $query->where('reservations.type_id', $typeId);
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterByPhotographer($query, $photographer)
+    {
+        if ($photographer) {
+            $query->where('reservations.photographer', $photographer);
+        }
+
+        return $query;
+    }
+
+    public function scopeFilterByDateRange($query, $fromDate, $toDate)
+    {
+        if ($fromDate) {
+            $query->whereDate('reservations.date', '>=', $fromDate);
+        }
+
+        if ($toDate) {
+            $query->whereDate('reservations.date', '<=', $toDate);
+        }
+
+        return $query;
+    }
 }

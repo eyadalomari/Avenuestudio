@@ -20,7 +20,7 @@
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.type') }}:</span></div>
             <div class="col-10">
-                <span>{{ $reservation->type_name }} ({{ __('common.' . $reservation->location_type) }})</span>
+                <span>{{ $reservation->type->label->name }} ({{ __('common.' . $reservation->location_type) }})</span>
             </div>
         </div>
         <div class="form-group row mt-3">
@@ -38,13 +38,13 @@
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.name') }}:</span></div>
             <div class="col-10">
-                <span>{{ $reservation->photographer }}</span>
+                <span>{{ $reservation->thePhotographer->name }}</span>
             </div>
         </div>
         <div class="form-group row mt-3">
             <div class="col-2"><span>{{ __('common.status') }}:</span></div>
             <div class="col-10">
-                <span>{{ $reservation->status_name }}</span>
+                <span>{{ $reservation->status->label->name }}</span>
             </div>
         </div>
         <div class="form-group row mt-3">

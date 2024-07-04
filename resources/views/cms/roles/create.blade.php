@@ -67,7 +67,7 @@
                                     <td>
                                         <input class="form-check-input" type="checkbox" name="permissions[]"
                                             id="permissions[{{ $permission->id }}]" value="{{ $permission->id }}"
-                                            {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
+                                            {{ isset($rolePermissions) && in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
                                     </td>
                                     <td>
                                         <label class="form-check-label" for="permissions[{{ $permission->id }}]">{{ $permission->section }}</label>

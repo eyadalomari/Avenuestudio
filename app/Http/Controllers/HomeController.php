@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Repositories\ReservationRepository;
+use App\Repositories\StatusRepository;
+use Carbon\Carbon;
 
-class HomeController extends Controller
+class HomeController extends AdminController
 {
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
+    private $reservationRepository;
+    private $statusRepository;
+
+    public function __construct(
+        ReservationRepository $reservationRepository,
+        StatusRepository $statusRepository
+    ) {
+        $this->reservationRepository = $reservationRepository;
+        $this->statusRepository = $statusRepository;
     }
 
     /**
@@ -20,8 +29,17 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
-        return view('cms/dashboard');
+        $filters = [
+            'status_id' => $this->statusRepository->findBycode('active')->id,
+            'from_date' => date('Y-m-d'),
+            'to_date' => date('Y-m-d')
+        ];
+        
+        $reservations = $this->reservationRepository->list($filters, false);
+
+        return view('cms/home/home', compact('reservations'));
     }
 }

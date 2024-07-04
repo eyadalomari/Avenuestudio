@@ -6,7 +6,9 @@
         @csrf
         @foreach ($role->labels as $row)
             <div class="form-group row mt-3">
-                <div class="col-2"><span for="name">{{ __('common.'.strtolower($languages[$row->language_id]->name).'_name') }}:</span></div>
+                <div class="col-2">
+                    <span>{{ __('common.'.strtolower($languages[$row->language_id]->name).'_name') }}:</span>
+                </div>
                 <div class="col-10">
                     <span>{{ $row->name }}</span>
                 </div>

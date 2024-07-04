@@ -6,7 +6,7 @@ use App\Http\Requests\TypeRequest;
 use App\Models\Language;
 use App\Repositories\TypeRepository;
 
-class TypeController extends Controller
+class TypeController extends AdminController
 {
 
     private $typeRepository;

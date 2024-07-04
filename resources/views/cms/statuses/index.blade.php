@@ -27,7 +27,7 @@
             @foreach ($statuses as $status)
                 <tr>
                     <td>{{ $status->id }}</td>
-                    <td>{{ $status->name }}</td>
+                    <td>{{ $status->label->name }}</td>
                     <td>{{ $status->code }}</td>
                     <td>{{ $status->sort }}</td>
                     <td>

@@ -8,52 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class ReservationRepository
 {
-    public function list($filters = [])
+    public function list($filters = [], $withPaginate = true)
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
+        $query = Reservation::query()
+        ->filterByKeyword($filters['keyword'] ?? null)
+        ->filterByStatus($filters['status_id'] ?? null)
+        ->filterByType($filters['type_id'] ?? null)
+        ->filterByPhotographer($filters['photographer'] ?? null)
+        ->filterByDateRange($filters['from_date'] ?? null, $filters['to_date'] ?? null)
+        ->orderBy('reservations.date', 'DESC')
+        ->orderBy('reservations.start', 'ASC');
 
-        $query = Reservation::select('reservations.*', 'statuses_i18n.name as status_name', 'types_i18n.name as type_name');
-        $query->join('statuses', 'reservations.status_id', '=', 'statuses.id');
-        $query->join('statuses_i18n', function ($join) use ($languageId) {
-            $join->on('statuses.id', '=', 'statuses_i18n.status_id')->where('statuses_i18n.language_id', $languageId);
-        });
-        $query->join('types', 'reservations.type_id', '=', 'types.id');
-        $query->join('types_i18n', function ($join) use ($languageId) {
-            $join->on('types.id', '=', 'types_i18n.type_id')->where('types_i18n.language_id', $languageId);
-        });
-
-        // Apply filters
-        if (!empty($filters['keyword'])) {
-            $query->where(function ($q) use ($filters) {
-                $q->where('reservations.name', 'like', '%' . $filters['keyword'] . '%')
-                    ->orWhere('reservations.id', $filters['keyword'])
-                    ->orWhere('reservations.mobile', 'like', '%' . $filters['keyword'] . '%');
-            });
+        if($withPaginate){
+            return $query->paginate(env('PER_PAGE', 12));
         }
 
-        if (!empty($filters['status_id'])) {
-            $query->where('reservations.status_id', $filters['status_id']);
-        }
-
-        if (!empty($filters['type_id'])) {
-            $query->where('reservations.type_id', $filters['type_id']);
-        }
-
-        if (!empty($filters['photographer'])) {
-            $query->where('reservations.photographer', $filters['photographer']);
-        }
-
-        if (!empty($filters['from_date'])) {
-            $query->whereDate('reservations.date', '>=', $filters['from_date']);
-        }
-
-        if (!empty($filters['to_date'])) {
-            $query->whereDate('reservations.date', '<=', $filters['to_date']);
-        }
-
-        $query->orderBy('reservations.date', 'DESC');
-
-        return $query->paginate(env('PER_PAGE', 12));
+        return $query->get();
     }
 
     public function store()
@@ -108,22 +78,6 @@ class ReservationRepository
 
     public function findById($reservation_id)
     {
-        $languageId = app()->getLocale() == 'en' ? 1 : 2;
-
-        $reservation = Reservation::findOrFail($reservation_id);
-
-        foreach ($reservation->status->labels as $row) {
-            if ($row->language_id == $languageId) {
-                $reservation->status_name = $row->name;
-            }
-        }
-
-        foreach ($reservation->type->labels as $row) {
-            if ($row->language_id == $languageId) {
-                $reservation->type_name = $row->name;
-            }
-        }
-        
-        return $reservation;
+        return Reservation::findOrFail($reservation_id);
     }
 }

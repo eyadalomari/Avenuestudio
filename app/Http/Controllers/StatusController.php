@@ -6,7 +6,7 @@ use App\Http\Requests\StatusRequest;
 use App\Models\Language;
 use App\Repositories\StatusRepository;
 
-class StatusController extends Controller
+class StatusController extends AdminController
 {
     private $statusRepository;
 
@@ -60,7 +60,6 @@ class StatusController extends Controller
     public function edit(string $id)
     {
         $languages = Language::all()->keyBy('id');
-
         $status = $this->statusRepository->findById($id);
 
         return view('cms/statuses/create', compact('status', 'languages'));
