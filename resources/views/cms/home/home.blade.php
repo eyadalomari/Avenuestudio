@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-   <div class="row">
+   <div class="row align-items-center">
        @forelse ($reservations as $reservation)
            <div class="col-md-4 mb-4">
                <div class="card" style="width: 18rem;">
@@ -18,7 +18,7 @@
                </div>
            </div>
        @empty
-           <div class="col-12">
+           <div class="col-12 d-flex justify-content-center align-items-center" style="height: 100vh;">
                <h1>{{ __('common.no_reservations_scheduled_for_today') }}</h1>
            </div>
        @endforelse

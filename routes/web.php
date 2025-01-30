@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::group(['prefix' => '{locale}', 'middleware' => ['locale']], function () {
+Route::group(['prefix' => '{locale}/cms', 'middleware' => ['locale']], function () {
     Auth::routes();
 });
 
-Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], function () {
+Route::group(['prefix' => '{locale}/cms', 'middleware' => ['locale', 'auth']], function () {
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -33,6 +33,6 @@ Route::group(['prefix' => '{locale}', 'middleware' => ['locale', 'auth']], funct
     Route::post('/profile', [App\Http\Controllers\ProfileController::class, 'store'])->name('profile.store');
 });
 
-Route::get('/', function () {
-    return redirect('/' . app()->getLocale());
+Route::get('/cms', function () {
+    return redirect('/cms' . app()->getLocale());
 });
